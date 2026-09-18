@@ -5,15 +5,16 @@ export PATH=/usr/sbin:/usr/bin:/sbin:/bin
 export LC_ALL=C
 umask 027
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
+REPO_DIR=$(cd -- "$SCRIPT_DIR/.." && pwd -P)
 # shellcheck source=lib/common.sh
 source "$SCRIPT_DIR/lib/common.sh"
-ACTION=check; CONFIG_FILE="$SCRIPT_DIR/config.env"
+ACTION=check; CONFIG_FILE="$REPO_DIR/config.env"
 CONSOLE_CONFIRMED=no; KEY_CONFIRMED=no; SKIP_UPGRADE=no
 usage() {
     cat <<'EOF'
-SecureBase 1.1  |  Ubuntu Server 26.04
-  sudo bash setup.sh --check
-  sudo bash setup.sh --apply --console-confirmed
+SecureBase 1.2  |  Ubuntu Server 26.04
+  sudo bash scripts/setup.sh --check
+  sudo bash scripts/setup.sh --apply --console-confirmed
 Valg:
   --config FIL              Alternativ literal config.env
   --skip-upgrade            Spring update/upgrade over; manglende pakker installeres

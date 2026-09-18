@@ -1,0 +1,51 @@
+SecureBase 1.2.0 - lokale tests, 18. september 2026
+Miljoe: Linux-container, root, Python 3.13, Git og Bash. Ingen server-deployment --apply.
+
+test_all_bash_syntax (test_bundle.BundleTests.test_all_bash_syntax) ... ok
+test_atomic_install_idempotence_and_backup (test_bundle.BundleTests.test_atomic_install_idempotence_and_backup) ... ok
+test_bash_literal_parser (test_bundle.BundleTests.test_bash_literal_parser) ... ok
+test_duplicate_and_unknown_keys (test_bundle.BundleTests.test_duplicate_and_unknown_keys) ... ok
+test_exact_sudo_policy (test_bundle.BundleTests.test_exact_sudo_policy) ... ok
+test_help (test_bundle.BundleTests.test_help) ... ok
+test_injection_not_executed (test_bundle.BundleTests.test_injection_not_executed) ... ok
+test_invalid_config_variants (test_bundle.BundleTests.test_invalid_config_variants) ... ok
+test_key_matches_expected_fingerprint (test_bundle.BundleTests.test_key_matches_expected_fingerprint) ... ok
+test_monitor_bad_config (test_bundle.BundleTests.test_monitor_bad_config) ... ok
+test_monitor_boundaries (test_bundle.BundleTests.test_monitor_boundaries) ... ok
+test_monitor_sample (test_bundle.BundleTests.test_monitor_sample) ... ok
+test_netplan_rejects_extra_interfaces_and_bridges (test_bundle.BundleTests.test_netplan_rejects_extra_interfaces_and_bridges) ... ok
+test_netplan_single_nic (test_bundle.BundleTests.test_netplan_single_nic) ... ok
+test_no_crlf_or_missing_final_newline (test_bundle.BundleTests.test_no_crlf_or_missing_final_newline) ... ok
+test_no_private_keys (test_bundle.BundleTests.test_no_private_keys) ... ok
+test_public_key_and_config (test_bundle.BundleTests.test_public_key_and_config) ... ok
+test_symlink_target_rejected (test_bundle.BundleTests.test_symlink_target_rejected) ... ok
+test_ufw_rule_policy (test_bundle.BundleTests.test_ufw_rule_policy) ... ok
+test_unknown_options_rejected (test_bundle.BundleTests.test_unknown_options_rejected) ... ok
+test_after_commit_second_migration_has_no_actions (test_migration.MigrationTests.test_after_commit_second_migration_has_no_actions) ... ok
+test_apply_preserves_history_config_and_extra_files (test_migration.MigrationTests.test_apply_preserves_history_config_and_extra_files) ... ok
+test_check_is_read_only (test_migration.MigrationTests.test_check_is_read_only) ... ok
+test_committed_custom_change_is_not_overwritten (test_migration.MigrationTests.test_committed_custom_change_is_not_overwritten) ... ok
+test_integrity_failure_stops (test_migration.MigrationTests.test_integrity_failure_stops) ... ok
+test_known_crlf_baseline_is_accepted (test_migration.MigrationTests.test_known_crlf_baseline_is_accepted) ... ok
+test_link_in_target_stops (test_migration.MigrationTests.test_link_in_target_stops) ... ok
+test_nested_or_same_source_is_rejected (test_migration.MigrationTests.test_nested_or_same_source_is_rejected) ... ok
+test_protected_manifest_path_is_rejected (test_migration.MigrationTests.test_protected_manifest_path_is_rejected) ... ok
+test_uncommitted_change_stops (test_migration.MigrationTests.test_uncommitted_change_stops) ... ok
+test_checksums_match_repository (test_repository.RepositoryTests.test_checksums_match_repository) ... ok
+test_evidence_count_and_hashes (test_repository.RepositoryTests.test_evidence_count_and_hashes) ... ok
+test_fenced_blocks_balanced (test_repository.RepositoryTests.test_fenced_blocks_balanced) ... ok
+test_figures_identical_to_report_media (test_repository.RepositoryTests.test_figures_identical_to_report_media) ... ok
+test_historical_and_current_monitors_are_separate (test_repository.RepositoryTests.test_historical_and_current_monitors_are_separate) ... ok
+test_html_local_links (test_repository.RepositoryTests.test_html_local_links) ... ok
+test_markdown_local_links (test_repository.RepositoryTests.test_markdown_local_links) ... ok
+test_project_paths_are_split_explicitly (test_repository.RepositoryTests.test_project_paths_are_split_explicitly) ... ok
+test_relative_assets_resolve_with_spaces (test_repository.RepositoryTests.test_relative_assets_resolve_with_spaces) ... ok
+test_report_is_unchanged (test_repository.RepositoryTests.test_report_is_unchanged) ... ok
+test_setup_help_from_another_working_directory (test_repository.RepositoryTests.test_setup_help_from_another_working_directory) ... ok
+test_six_modules_have_consistent_sections (test_repository.RepositoryTests.test_six_modules_have_consistent_sections) ... ok
+
+----------------------------------------------------------------------
+Ran 42 tests in 5.339s
+
+OK
+Public key fingerprint: SHA256:YbkaUZmrQBVRwTKYPv4SyJUG0+YHA2jlr3dzN1aV8lU

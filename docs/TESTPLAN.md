@@ -1,86 +1,76 @@
-# Modul 6 · testplan og screenshots
+# Regressionstestplan
 
-**Status 17. september 2026:** Planen er gennemført på en frisk Ubuntu Server 26.04.1 VM. Dokumentet bevares som regressionstestplan til senere genkørsler. De observerede hovedresultater er opsummeret i `VM_TEST_REPORT.md`; screenshots ligger i den samlede Word-rapport.
+[Overblik](../README.md) · [Historiske VM-resultater](VM_TEST_REPORT.md) · [Lokale strukturtests](RESTRUCTURE_TEST_REPORT.md)
 
-## A. Preflight – første trin
+**Dette er en plan for en ny kørsel.** De historiske billeder beviser den tidligere VM-test. Ikke alle supplerende testtrin nedenfor er udført på den VM, og planen er ikke mærket samlet "bestået".
 
-Som bootstrap-brugeren, fra pakkens mappe:
+## A. Pakke og preflight
+
+Fra repo-roden, på en understøttet Ubuntu-test-VM med testet bootstrap-konsol:
 
 ```bash
-whoami
-sudo bash ./setup.sh --check
+sha256sum -c SHA256SUMS
+cp -n config/config.env.example config.env
+nano config.env
+sudo bash scripts/setup.sh --check
 ```
 
-Upload outputtet. Det dokumenterer inputvalidering og forudsætninger; ingen systemkonfiguration skal være ændret. Kontrollér, om `CONFIGURE_NETWORK` bevidst er yes eller no, og om den korrekte installationsbruger er valgt.
+Kontrollér public key, konto, interface, netværksvalg og pakker. --check er en læsende forudsætningskontrol, ikke en fuld ændringssimulation.
 
 ## B. Første deployment
 
 ```bash
-sudo bash ./setup.sh --apply --console-confirmed
+sudo bash scripts/setup.sh --apply --console-confirmed
 ```
 
-Tag screenshots af resultatet pr. modul og den afsluttende oversigt, ikke alle pakkedownloadlinjer. Ved SSH-prompten: test en ny key-only forbindelse fra Windows og `whoami`, før du bekræfter. Ved Netplan try: kontrollér en ny forbindelse og bekræft på konsollen.
+Bevar konsoladgang. Test nyt SSH-login ved KEY-OK-stoppet; Netplan try bekræftes i den oprindelige konsol. Tag screenshots af konti, politik og slutresultat, ikke alle pakkedownloadlinjer.
 
-Et stop er et stop, ikke et bestået deployment. Fejl afklares før videre ændringer.
+## C. Roller og adgang
 
-## C. Sluttilstand og adskilte roller
-
-Fra en ny SSH-session som secureadmin:
+I ny secureadmin-session:
 
 ```bash
 id
 sudo -l
 sudo /usr/sbin/sshd -t
-echo "Returkode: $?"
 sudo /usr/bin/id
-echo "Returkode: $?"
 ```
 
-Forvent de tre præcise NOPASSWD-kommandoer, ingen sudo-gruppe, succes ved sshd-kontrollen og afvisning ved sudo id. Nye sessioner kræves for at undgå gamle gruppelister.
+Sidste kommando skal afvises. De tre tilladte kommandoer skal fremgå uden generel ALL-adgang.
 
-Fra bootstrap-konsollen på standardkonfigurationen:
+Fra bootstrap-konsollen, kun mod den dedikerede testfil:
 
 ```bash
-sudo -u developer1 sh -c 'printf "Modul 6 developer-test\n" > /srv/securebase/modul6-test.txt'
-sudo -u guest1 cat /srv/securebase/modul6-test.txt
-sudo -u guest1 sh -c 'printf "Skal afvises\n" >> /srv/securebase/modul6-test.txt'
-getfacl -p /srv/securebase/modul6-test.txt
+sudo -u developer1 sh -c 'printf "Test\n" > /srv/securebase/regression-test.txt'
+sudo -u guest1 cat /srv/securebase/regression-test.txt
+sudo -u guest1 sh -c 'printf "Afvis\n" >> /srv/securebase/regression-test.txt'
+getfacl -p /srv/securebase/regression-test.txt
 ```
 
-Forvent developer-oprettelse og guest-læsning tilladt; guest-skrivning afvist. Brug kun den dedikerede testfil. Der genoprettes ingen usikre chmod 777-øvelser.
+Forvent developer-oprettelse og guest-læsning tilladt, guest-skrivning afvist. Denne separate fresh-VM-nyfiltest er en supplerende kontrol, ikke et påstået historisk screenshot.
 
 ## D. Healthcheck og overvågning
 
 ```bash
-sudo bash ./healthcheck.sh
-echo "Returkode: $?"
-```
-
-Gem hele outputtet i et eller flere læsbare screenshots. En WARN beskrives; den omdøbes ikke til PASS.
-
-Efter mindst ét planlagt cron-tidspunkt:
-
-```bash
+sudo bash scripts/healthcheck.sh
+echo "Healthcheck-returkode: $?"
 sudo tail -n 5 /var/log/securebase-monitor.log
 sudo journalctl -u cron.service --since "10 minutes ago" --no-pager | grep securebase-monitor
 ```
 
-Kontrollér friske UTC-tidsstempler og den faktiske cron-hændelse. `monitor.sh --self-test` kan separat dokumentere tærsklernes logik; det er en simulation, ikke et virkeligt disk-/RAM-pres.
+Afvent mindst ét planlagt cron-tidspunkt. Beskriv WARN, og skeln mellem et cron-startsignal og et faktisk måleresultat.
 
-## E. Idempotens – anden kørsel
+## E. Genkørsel og supplerende manifestdiff
 
 ```bash
-sudo bash ./tools/evidence.sh | tee ~/securebase-before.txt
-sudo bash ./setup.sh --apply --console-confirmed --key-login-confirmed --skip-upgrade
-sudo bash ./tools/evidence.sh | tee ~/securebase-after.txt
+sudo bash scripts/tools/evidence.sh | tee ~/securebase-before.txt
+sudo bash scripts/setup.sh --apply --console-confirmed
+sudo bash scripts/tools/evidence.sh | tee ~/securebase-after.txt
 diff -u ~/securebase-before.txt ~/securebase-after.txt
-echo "Diff-returkode: $?"
 ```
 
-Forvent ingen konfigurationsforskel ved samme input. Diff-returkode 0 betyder identisk output. 1 betyder forskelle, som skal forstås; det er ikke automatisk en fejl i selve diff-værktøjet. Tidsstempler og driftslogs er bevidst udeladt af manifestet.
+Gem ændringstælleren, ny SSH-session og healthcheck. Logs må vokse. Den historiske test viste 0 ændrede administrerede filer, men omfattede ikke et uploadet evidence.sh-diffbevis.
 
-Kontrollér derefter endnu et SSH-login og kør healthcheck. Det er disse faktiske resultater, der bliver beviserne for genkørbarhed på Ubuntu, ikke de lokale unit tests i pakken.
+## F. Aflevering og udviklingshistorik
 
-## F. Aflevering
-
-Denne del er gennemført. Aflever hele pakken inklusive scripts, kommentarer, config-skabelon, public key og README – aldrig den private nøgle – sammen med den samlede Word-rapport. Den faktiske test blev udført på en frisk Ubuntu Server 26.04.1 VM med statisk Netplan aktiveret, afgrænset NOPASSWD for tre SSH-driftskommandoer og `vboxuser` bevaret som bootstrap-/gendannelseskonto. Se `VM_TEST_REPORT.md`.
+Dokumentation, scripts, tests, offentlige nøgler og evidence følger samme repo. Ingen private nøgler, passwords eller lokale config.env-filer committes. Commit nye ændringer og de tilsvarende docs sammen; lav ikke falske bagudrettede commits for tidligere arbejde.

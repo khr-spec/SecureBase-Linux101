@@ -1,9 +1,18 @@
+# Miljoevaerdier oprettes lokalt fra config/config.env.example.
 config.env
 *.log
 *.tar.gz
 *.zip
+# Kun offentlige SSH-noegler maa ligge i keys/.
 id_ed25519
+id_rsa
 *.pem
+*.key
 keys/*
 !keys/*.pub
 __pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.DS_Store
+Thumbs.db

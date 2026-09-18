@@ -14,3 +14,14 @@ Design og kildekode er skrevet til dette SecureBase-forløb. Kravgrundlag: den i
 - Ubuntu apt-get: update, upgrade og installation. https://manpages.ubuntu.com/manpages/noble/man8/apt-get.8.html
 
 Pakke- og kommandoversioner kan variere mellem Ubuntu-udgivelser. Deploymentet stopper derfor uden for 26.04 og validerer den installerede servers konfiguration med dens egne værktøjer. Et korrekt svar fra en valideringskommando er ikke i sig selv et end-to-end-loginbevis.
+
+
+## GitHub-omstrukturering (18. september 2026)
+
+De følgende referencer vedrører kun de nye Git-/Markdown-valg, ikke historiske VM-beviser:
+
+- [GitHub: README, relative links og billedstier](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)
+- [Git: .gitattributes og linjeskift](https://git-scm.com/docs/gitattributes)
+- [Git: update-index og --chmod](https://git-scm.com/docs/git-update-index)
+
+Kilde-/versionsafgrænsning og billedproveniens findes i [GRUNDLAG.md](GRUNDLAG.md).

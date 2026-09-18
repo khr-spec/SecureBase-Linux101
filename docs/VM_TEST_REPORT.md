@@ -1,10 +1,12 @@
-# SecureBase 1.1 · Verificeret VM-teststatus
+# Historisk VM-test — SecureBase-deployment
 
 **Testdato:** 17. september 2026  
 **Platform:** Oracle VirtualBox · frisk Ubuntu Server 26.04.1 LTS VM  
 **Netværk:** VirtualBox NAT · `enp0s3` · statisk `10.0.2.15/24` · gateway `10.0.2.2`  
 **Bootstrap-konto:** `vboxuser` med lokal sudo  
 **Daglig administrator:** `secureadmin` med public-key SSH og tre afgrænsede sudo-kommandoer
+
+> VM-testen vedrører den oprindelige 1.0-kode, senere dokumenteret i 1.1. Repo-omstruktureringen til 1.2 er lokalt testet separat. Det er ikke en ny fresh-install-kørsel.
 
 ## Gennemført
 
@@ -37,4 +39,4 @@ Idempotens betyder her, at den deklarerede SecureBase-konfiguration ikke blev du
 
 ## Afleveringsbevis
 
-De faktiske screenshots findes i den samlede Word-rapport `SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx`. Denne fil er en tekstlig statusopsummering og erstatter ikke screenshotsene.
+De faktiske screenshots findes nu i [evidence/06-scripting](../evidence/06-scripting/README.md) og i den [samlede Word-rapport](../reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx). Denne fil er en tekstlig statusopsummering og erstatter ikke screenshotsene.

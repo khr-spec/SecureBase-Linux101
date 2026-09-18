@@ -21,7 +21,7 @@ ssh_setup() {
     local home="/home/$ADMIN_USER" dest=/etc/ssh/sshd_config.d/00-securebase.conf existed=no
     [[ ! -L $home/.ssh ]] || die 'Admin .ssh maa ikke vaere symlink'
     install -d -m 0700 -o "$ADMIN_USER" -g "$ADMIN_USER" "$home/.ssh"
-    tr -d '\r' < "$SCRIPT_DIR/$SSH_PUBLIC_KEY_FILE" | awk 'NF {print}' > "$WORK/authorized_keys"
+    tr -d '\r' < "$REPO_DIR/$SSH_PUBLIC_KEY_FILE" | awk 'NF {print}' > "$WORK/authorized_keys"
     ssh-keygen -lf "$WORK/authorized_keys"
     warn "Deployment ejer HELE $home/.ssh/authorized_keys; andre noegler erstattes efter backup."
     install_managed "$WORK/authorized_keys" "$home/.ssh/authorized_keys" 0600 "$ADMIN_USER" "$ADMIN_USER"

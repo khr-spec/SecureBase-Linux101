@@ -8,7 +8,7 @@ preflight() {
     version=$(awk -F= '$1=="VERSION_ID" {gsub(/"/,"",$2); print $2}' /etc/os-release)
     [[ $os == ubuntu && $version == 26.04 ]] || die "Maalplatform er Ubuntu 26.04; fandt $os $version."
     [[ -d /run/systemd/system ]] || die 'Et bootet systemd-system kraeves (ikke chroot/container).'
-    python3 "$SCRIPT_DIR/tools/validate_config.py" "$CONFIG_FILE" "$SCRIPT_DIR"
+    python3 "$SCRIPT_DIR/tools/validate_config.py" "$CONFIG_FILE" "$REPO_DIR"
     ok 'Konfiguration og Ed25519-public key valideret'
     [[ -d /sys/class/net/$INTERFACE ]] || die "Netkort findes ikke: $INTERFACE"
     [[ $BOOTSTRAP_USER != "$ADMIN_USER" ]] || die 'Bootstrap og admin maa ikke vaere samme konto'
@@ -48,8 +48,8 @@ preflight() {
         bash -n "$SCRIPT_DIR/$file"
     done
     for file in "$SCRIPT_DIR"/modules/*.sh "$SCRIPT_DIR"/lib/*.sh; do bash -n "$file"; done
-    if [[ -n $(find "$SCRIPT_DIR" -type l -print -quit) ]]; then die 'Pakken indeholder symlinks; brug den originale udpakkede pakke'; fi
-    if [[ -n $(find "$SCRIPT_DIR" -perm /022 -print -quit) ]]; then die 'Pakke/mappe er gruppe- eller world-writable; ret rettigheder foer sudo-koersel'; fi
+    if [[ -n $(find "$REPO_DIR" -type l -print -quit) ]]; then die 'Pakken indeholder symlinks; brug den originale udpakkede pakke'; fi
+    if [[ -n $(find "$REPO_DIR" -perm /022 -print -quit) ]]; then die 'Pakke/mappe er gruppe- eller world-writable; ret rettigheder foer sudo-koersel'; fi
     ok 'Bash-syntaks godkendt; bootstrap bevares' 
     if command -v ufw >/dev/null; then
         check_ufw_rules || die 'Eksisterende UFW-regler passer ikke til den snævre SSH-politik. Ingen regler slettet.'

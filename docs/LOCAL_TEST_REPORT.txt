@@ -1,3 +1,6 @@
+HISTORISK LOKAL TESTRAPPORT FRA KILDEPAKKE 1.1.0
+Nye strukturtests: docs/RESTRUCTURE_TEST_REPORT.md
+
 SecureBase 1.1 - lokal enhedsteststatus, 17. september 2026
 
 Miljo: isoleret Debian 13-container med Bash og Python 3.
