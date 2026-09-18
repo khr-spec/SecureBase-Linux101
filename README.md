@@ -1,72 +1,73 @@
-# SecureBase — Linux 101
+# SecureBase · Linux 101
 
-**Ubuntu Server · sikker fjernadgang · rollebaseret administration · reproducerbart Bash-deployment**
+## [Åbn den visuelle aflevering →](https://khr-spec.github.io/SecureBase-Linux101/)
 
-SecureBase dokumenterer, hvordan en Linux-server blev opbygget, sikret og overvåget manuelt i seks moduler, og derefter genskabt på en separat Ubuntu Server 26.04.1-test-VM. Repoet er både aflevering og teknisk overdragelse til den næste administrator.
+**Seks moduler. Én dokumenteret server. Fra manuel opsætning til reproducerbart deployment.**
 
-## Dokumentation
+Afleveringen kan læses direkte på GitHub Pages: alle moduler, 103 screenshots, VM-verifikation og download af den samlede Word-rapport. Dette repo indeholder kildekoden og den Markdown-dokumentation, som websitet bygges fra.
 
-| Modul | Indhold | Beviser |
-|---|---|---|
-| [01 · VM og netværk](docs/01-vm-netvaerk.md) | Statisk IP, hostname og nøglebaseret SSH | [4 figurer](evidence/01-vm-netvaerk/README.md) |
-| [02 · Filsystem og adgang](docs/02-filsystem.md) | Permissions, SGID og midlertidig ACL | [3 figurer](evidence/02-filsystem/README.md) |
-| [03 · Brugere og grupper](docs/03-brugere-grupper.md) | Roller, projektadgang og begrænset sudo | [17 figurer](evidence/03-brugere-grupper/README.md) |
-| [04 · Firewall](docs/04-firewall.md) | UFW, kildebegrænsning og HTTP-før/efter-test | [19 figurer](evidence/04-firewall/README.md) |
-| [05 · Monitorering](docs/05-monitorering.md) | Cron, logrotation, loginanalyse og grænseværdier | [26 figurer](evidence/05-monitorering/README.md) |
-| [06 · Scripting](docs/06-scripting.md) | Fresh deployment, healthcheck og idempotens | [18 historiske](evidence/06-scripting/README.md#historiske-figurer) + [16 nye v1.2-beviser](evidence/06-scripting/v1.2-2026-09-18/README.md) |
+| Dokumentation | Fokus |
+|---|---|
+| [01 · VM og netværk](docs/01-vm-netvaerk.md) | Ubuntu Server, statisk IP og nøglebaseret SSH |
+| [02 · Filsystem og adgang](docs/02-filsystem.md) | Filrettigheder, SGID og midlertidig ACL |
+| [03 · Brugere og grupper](docs/03-brugere-grupper.md) | Adskilte roller og begrænset sudo |
+| [04 · Firewall](docs/04-firewall.md) | Default deny, kildebegrænsning og HTTP-test |
+| [05 · Monitorering](docs/05-monitorering.md) | Cron, logrotation, loginanalyse og thresholds |
+| [06 · Shell og Bash](docs/06-scripting.md) | Fresh-install-test, healthcheck og idempotens |
 
-[Samlet Word-rapport](reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx) · [Evidensgrundlag](evidence/README.md) · [Visuel startside](START_HER.html)
+## Verificeret servergrundlag
 
-## Sådan køres scripts
+Ubuntu Server 26.04.1 LTS blev testet i VirtualBox den **18. september 2026** med deployment-koden fra 1.2. Første apply rapporterede **12 ændrede administrerede filer**, anden apply **0**. Healthcheck kaldt af setup viste **19 OK / 1 WARN / 0 FAIL**. Advarslen vedrører `who`/utmp; logind viste sessionerne. Det er en vurderet WARN, ikke et ubetinget PASS.
 
-Læs først [deploymentvejledningen](docs/DEPLOYMENT.md). Brug en understøttet Ubuntu-test-VM, et snapshot og den eksisterende bootstrap-konto med fungerende lokal sudo. Kør fra **repo-roden**:
+**1.3.0 er en afleverings- og websiteudgave.** Filerne under `scripts/`, konfigurationsskabelonen og public key er byte-identiske med den afprøvede 1.2-kode. De oprindelige VM-beviser er ikke omdateret eller præsenteret som en ny 1.3-serverinstallation. [Testgrundlag](docs/VM_TEST_REPORT.md) · [Versionsafgrænsning](docs/GRUNDLAG.md).
+
+## Deployment
+
+Læs [deploymentvejledningen](docs/DEPLOYMENT.md) først. Brug en understøttet test-VM, lokal bootstrap-/sudo-adgang og et snapshot. Tilpas `config.env` og **udskift eksempel-public-key med din egen** før apply.
 
 ```bash
-# Opret kun den lokale konfiguration, hvis den ikke allerede findes.
+# Fra repo-roden; overskriv ikke en eksisterende lokal konfiguration.
 cp -n config/config.env.example config.env
 nano config.env
 sudo bash scripts/setup.sh --check
-# Kun efter gennemgang af preflight og testet konsoladgang:
+# Først efter kontrolleret konsoladgang og gennemgang af planen:
 sudo bash scripts/setup.sh --apply --console-confirmed
 sudo bash scripts/healthcheck.sh
 ```
 
-Netværksændringer er fravalgt som standard. Sæt kun `CONFIGURE_NETWORK="yes"` efter kontrol af interface/IP/gateway. Din egen public key placeres i `keys/secureadmin.pub`; den private nøgle skal blive på klienten. Pakken administrerer hele `authorized_keys` for admin-kontoen.
+Public-key-testen og en eventuel Netplan-test bekræftes i den oprindelige konsol. Ingen privat nøgle, password eller lokal `config.env` skal i Git. Bootstrap-kontoen bevarer fuld sudo; den daglige admin får kun tre eksakte SSH-driftskommandoer.
 
-## Dokumenteret teststatus
+## Kilder, drift og beviser
 
-**Repo 1.2 er afprøvet på en frisk Ubuntu Server 26.04.1 / VirtualBox NAT den 18. september 2026**, med deployment fra `scripts/` og tilvalgt statisk netværk. Git-reference fra arbejdsforløbet: `54734b9`.
+[VM-testrapport](docs/VM_TEST_REPORT.md) · [Regressionstestplan](docs/TESTPLAN.md) · [103 billedbeviser](evidence/README.md) · [Word-rapport](reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx) · [Tekniske kilder](docs/SOURCES.md)
 
-| Kontrol | Observeret resultat |
-|---|---|
-| Preflight | `scripts/setup.sh --check` accepterer den valgte konfiguration |
-| Første deployment | **12 ændrede administrerede filer** |
-| Anden fulde kørsel | **0 ændrede administrerede filer**; Netplan genindlæses ikke |
-| Healthcheck kaldt af setup | **19 OK / 1 WARN / 0 FAIL** i begge kørsler |
-| SSH-adgang | Login fra Windows virker ved sikkerhedsstop; effektiv konfiguration kræver public key |
-| Afsluttende adminrolle | `secureadmin` på `securebase-server`, tre eksakte `NOPASSWD`-kommandoer |
+Word-rapporten er den uændrede historiske rapport på 87 sider fra 17. september. Verifikationen fra 18. september står i Modul 6, VM-testrapporten og de 16 supplerende billeder.
 
-WARN skyldes tomt `who`/utmp-output, mens systemd-logind viser sessioner. Resultatet er ikke omskrevet til PASS. Slutbilledet viser identitet/sudo; det daterede SSH-login er fra under anden kørsel.
-
-Se [aktuel VM-testrapport](docs/VM_TEST_REPORT.md), [16 nye screenshots](evidence/06-scripting/v1.2-2026-09-18/README.md), [historisk test fra 17. september](docs/VM_TEST_REPORT_2026-09-17.md) og [lokale strukturtests](docs/RESTRUCTURE_TEST_REPORT.md).
-
-De oprindelige **87 Word-figurer er bevaret**; der er nu **103 billedbeviser i alt**. Word-rapporten under `reports/` er den uændrede historiske rapport. Det nye v1.2-tillæg læses i Markdown og evidence. Denne opdatering ændrer ikke deployment-scripts eller konfigurationsstandarder.
-
-## Struktur
+## Repository
 
 ```text
-docs/       Én fil pr. modul samt deployment- og testvejledninger
-evidence/   Originale dokumentationsfigurer fordelt på moduler
-scripts/    Setup, healthcheck, monitor, moduler og hjælpefunktioner
-config/     Versioneret skabelon; config.env i roden er lokal og ignoreret
-keys/       Offentlig SSH-nøgle — aldrig privat nøgle
-tests/      Isolerede kode-, sti- og repositorytests
-tools/      Repo-migration og checksumværktøj
-reports/    Den oprindelige samlede Word-rapport
+docs/       Faglig dokumentation og vejledninger — websitets indholdskilde
+evidence/   87 oprindelige figurer + 16 supplerende v1.2-beviser
+scripts/    Den testede Bash-deployment, monitor og healthcheck
+config/     Versioneret skabelon; config.env oprettes lokalt
+keys/       Eksempel på offentlig SSH-nøgle — ingen private nøgler
+reports/    Samlet historisk Word-rapport
+tests/      Isolerede kode-, dokumentations- og websitetests
+site/       Layout, CSS og JavaScript — ikke en kopi af moduldokumentationen
+tools/      Websitebygning, checksums og publiceringskontrol
 ```
 
-## Vedligeholdelse og aflevering
+## Website og vedligeholdelse
 
-[Opdatér det eksisterende Git-repo uden ny historik](docs/MIGRERING.md) · [Regressionstestplan](docs/TESTPLAN.md) · [Kilder og versionsafgrænsning](docs/GRUNDLAG.md)
+GitHub Actions bygger alle sider fra Markdown og publicerer kun det genererede `_site/`. Dokumentationsændringer og nye screenshots kommer dermed med på websitet ved næste push. `START_HER.html` henviser til den publicerede aflevering.
 
-Repoets privatlivsindstilling ændres ikke af disse filer. Del det private repo gennem eksplicit GitHub-adgang. Udviklingshistorikken bevares; der fremstilles ikke bagudrettede commits for de tidligere moduler.
+Brug et isoleret Python-miljø som beskrevet i websitevejledningen. Derefter:
+
+```bash
+python -m pip install -r requirements-site.txt
+python tools/build_site.py
+python tools/check_site.py
+python -m http.server 8000 --directory _site
+```
+
+[Websitevejledning](docs/WEBSITE.md) · [Publicering og privatliv](docs/PUBLICERING.md) · [Lokale testresultater](docs/TESTRESULTATER.md) · [Ændringslog](CHANGELOG.md)

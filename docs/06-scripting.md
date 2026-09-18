@@ -25,9 +25,11 @@ Idempotent filinstallation sammenligner indhold og metadata frem for blind appen
 
 Dokumentationen består nu af to adskilte testforløb: [16 nye screenshots fra v1.2-testen](../evidence/06-scripting/v1.2-2026-09-18/README.md) og de [18 oprindelige Modul 6-figurer fra Word-rapporten](../evidence/06-scripting/README.md#historiske-figurer). De nye billeder ændrer ikke dato eller betydning af de tidligere beviser. Se [kilde- og versionsgrundlaget](GRUNDLAG.md).
 
+**Afleveringsudgave 1.3:** Præsentation og repo er ryddet op; den testede serverkode under `scripts/` er uændret. Websitet gengiver denne Markdown-fil, så det ikke er en separat kopi af modulet. [Kildegrundlag](GRUNDLAG.md).
+
 [Ny v1.2-verifikation](#vm-test-v12) · [Kort VM-testrapport](VM_TEST_REPORT.md) · [Historisk forløb](#historisk-forloeb)
 
-### Aktuelle kommandoer i repo-udgave 1.2
+### Aktuelle kommandoer i afleveringsudgave 1.3
 
 Kør fra repo-roden som bootstrap-kontoen. Opret kun den lokale konfiguration, hvis den ikke allerede findes; tilpas værdier og public key før apply.
 
@@ -799,7 +801,7 @@ sudo /usr/local/sbin/securebase-healthcheck
 
 Healthcheck: 0 = PASS, 1 = WARN, 2 = FAIL. I denne test er WARN vurderet ud fra who/utmp-linjen og logind-outputtet. Private nøgler/passwords må ikke lægges i konfigurationen.
 
-Pakkens README.md, START_HER.html og docs/LOCAL_TEST_REPORT.txt beskriver status ved udleveringen, hvor Ubuntu-testen endnu afventede. Dette modul dokumenterer den efterfølgende faktiske VM-test og erstatter den historiske afventer-status for de her viste kontroller.
+Dette historiske afsnit beskriver den oprindelige test fra 17. september. Den nyere verifikation fra 18. september står i afsnittet om v1.2 ovenfor. Aktuelle website- og kodetests står i [TESTRESULTATER.md](TESTRESULTATER.md).
 
 ### 17. Kildekode og scriptoversigt
 
@@ -893,7 +895,7 @@ ISO-installation og VirtualBox-forwarding ligger uden for serverens Bash-script.
 - [`scripts/modules/00-preflight.sh`](../scripts/modules/00-preflight.sh)
 
 - [Orkestrator](../scripts/setup.sh) · [Healthcheck](../scripts/healthcheck.sh) · [Monitor](../scripts/monitor.sh)
-- [Kørselsvejledning](DEPLOYMENT.md) · [Testplan](TESTPLAN.md) · [Historisk VM-test](VM_TEST_REPORT.md) · [Nye lokale strukturtests](RESTRUCTURE_TEST_REPORT.md)
+- [Kørselsvejledning](DEPLOYMENT.md) · [Testplan](TESTPLAN.md) · [Historisk VM-test](VM_TEST_REPORT.md) · [Lokale tests](TESTRESULTATER.md)
 
 ### Kildegrundlag
 

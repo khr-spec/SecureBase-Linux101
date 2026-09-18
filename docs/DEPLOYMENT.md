@@ -1,8 +1,8 @@
-# Deployment — aktuel repo-udgave 1.2
+# Deployment — SecureBase 1.3
 
 [Overblik](../README.md) · [Modul 6 og VM-beviser](06-scripting.md) · [Testplan](TESTPLAN.md)
 
-Denne vejledning bruger **repo 1.2-strukturen**, som blev afprøvet på en frisk Ubuntu Server 26.04.1-VM den 18. september 2026. Programmerne ligger under scripts/, mens lokal config.env og keys/ ligger i repo-roden. De [nye testbeviser](VM_TEST_REPORT.md) er adskilt fra de historiske Modul 6-billeder med setup.sh i roden.
+Afleveringsudgave **1.3** bevarer den testede **repo 1.2-scriptstruktur**, som blev afprøvet på en frisk Ubuntu Server 26.04.1-VM den 18. september 2026. Programmerne ligger under scripts/, mens lokal config.env og keys/ ligger i repo-roden. De [nye testbeviser](VM_TEST_REPORT.md) er adskilt fra de historiske Modul 6-billeder med setup.sh i roden.
 
 ## 1. Forudsætninger og ansvar
 
@@ -29,41 +29,37 @@ Setup administrerer hele admin-kontoens authorized_keys. Eksisterende indhold si
 
 ## 3. Hent og udpak uden eksisterende SSH
 
-Begge dokumenterede testforløb brugte midlertidig HTTP fra Windows. V1.2-testen brugte et ZIP-arkiv lavet med `git archive` fra den committede kode. Til en ny overførsel bruges en **dedikeret mappe med kun arkivet** — ikke Desktop eller en hjemmemappe med andre filer. Denne snævrere publiceringsmappe er vejledning; den påstås ikke dokumenteret af et nyt screenshot.
-
-I PowerShell, efter at arkivet er hentet til Downloads:
-
-```powershell
-New-Item -ItemType Directory -Force "$env:USERPROFILE\Downloads\SecureBase-transfer"
-Copy-Item "$env:USERPROFILE\Downloads\SecureBase_Linux101_v1.2.0.tar.gz" "$env:USERPROFILE\Downloads\SecureBase-transfer\"
-python -m http.server 8000 --bind 0.0.0.0 --directory "$env:USERPROFILE\Downloads\SecureBase-transfer"
-```
-
-Tjenesten kan være tilgængelig på værtens andre netværksinterfaces. Brug kun det kontrollerede lokale lab, begræns med værtens firewall, og stop processen med Ctrl+C straks efter overførsel. HTTP giver ikke i sig selv autentificering/integritetsbeskyttelse.
-
-På Ubuntu-konsollen:
+Websitets downloadsektion tilbyder en komplet kildepakke uden `.git` eller lokal `config.env`. På en frisk Ubuntu-konsol med internet kan den hentes uden eksisterende SSH:
 
 ```bash
-wget http://10.0.2.2:8000/SecureBase_Linux101_v1.2.0.tar.gz
-tar -xzf SecureBase_Linux101_v1.2.0.tar.gz
+wget https://khr-spec.github.io/SecureBase-Linux101/downloads/SecureBase-1.3.0.zip
+# Installer unzip, hvis det ikke allerede findes:
+sudo apt-get update
+sudo apt-get install -y unzip
+unzip SecureBase-1.3.0.zip
 cd SecureBase-Linux101
 sha256sum -c SHA256SUMS
 ```
 
-10.0.2.2 er valgt for netop VirtualBox NAT-modellen. En checksum i samme pakke afslører utilsigtet korruption, men er ikke en uafhængig signatur på en utroværdig HTTP-overførsel.
+Downloadadressen bliver først aktiv, når 1.3-websitet er publiceret. Dette er en ny overførselsvejledning, ikke et ekstra historisk VM-testbevis. De dokumenterede tests brugte midlertidig HTTP fra Windows. Indholdet i source-arkivet vælges eksplicit af websitebyggeren; lokal konfiguration og `.git` følger ikke med.
 
-### Git-arkiv og rettigheder efter ZIP-udpakning
-
-I det nye testforløb hed ZIP-filen `SecureBase-Linux101-v1.2-test.zip`. Et Git-arkiv indeholder ikke den ignorerede lokale `config.env`; den skal oprettes fra skabelonen. `.git` følger heller ikke med.
+En alternativ vej er at klone repoet, når det er offentligt, med Git installeret:
 
 ```bash
-unzip SecureBase-Linux101-v1.2-test.zip -d SecureBase-Linux101
+git clone https://github.com/khr-spec/SecureBase-Linux101.git
 cd SecureBase-Linux101
-# Kun i den udpakkede projektmappe — ikke fra / eller hjemmemappens rod:
+```
+
+### Rettigheder efter udpakning
+
+Preflight kræver, at kode og projektmappe ikke kan ændres af gruppe/andre. I den **udpakkede repo-rod** kan det kontrolleres og om nødvendigt rettes med:
+
+```bash
+pwd
 chmod -R go-w .
 ```
 
-ZIP-udpakning i testmiljøet gav gruppe-skriveret på pakkefiler. Preflight afviste denne tilstand. `go-w` fjerner skriveadgang for gruppe og andre uden at ændre filindhold. Brug `bash scripts/setup.sh`, så kørsel ikke afhænger af, om Git/Windows har bevaret scriptets executable-bit.
+Kør ikke denne rettelse fra `/` eller fra hjemmemappens rod. Brug `bash scripts/setup.sh`, så start ikke afhænger af et bevaret executable-bit. En checksum i pakken er integritetskontrol, ikke en uafhængig digital signatur.
 
 ## 4. Gennemgå konfigurationen
 
@@ -155,7 +151,7 @@ Denne manifestdiff er en foreslået test, ikke en påstået historisk VM-kørsel
 
 ## 7. Monitor og lokale tests
 
-Kør nedenstående tests på Linux med Bash, Python 3 og Git. Migrationsværktøjet er beregnet til Windows, men server-testsuiten kræver Linux-værktøjerne.
+Kør nedenstående tests på Linux med Bash og Python 3. Websitekontroller kræver desuden pakkerne i requirements-site.txt. Windows kan køre dokumentationskontrollerne; Linux-/root-specifikke tests kan blive sprunget over.
 
 ```bash
 # Læsende måling; ingen produktionslog eller warning:
@@ -163,10 +159,11 @@ bash scripts/monitor.sh --sample
 # Isolerede grænseværdier:
 bash scripts/monitor.sh --self-test
 # Tests af kode, stier og repo (ingen apply mod /etc):
+python3 -m pip install -r requirements-site.txt
 python3 -m unittest discover -s tests -v
 ```
 
-To af de eksisterende filmetadata-tests kræver root på Linux og bliver ellers sprunget over. Kørslen med root er kun til et kontrolleret testmiljø; den udfører ikke deploymentet. De øvrige tests skal stadig bestå. Den nye testsuite indeholder også migrationstests i midlertidige Git-repositories.
+To af de eksisterende filmetadata-tests kræver root på Linux og bliver ellers sprunget over. Kørslen med root er kun til et kontrolleret testmiljø; den udfører ikke deploymentet. De øvrige tests skal stadig bestå. Websitetests udfører ingen ændring af den installerede server.
 
 Den aktive monitor bruger /proc/stat-delta over cirka ét sekund, MemAvailable fra /proc/meminfo og df på /. Den manuelle top/free-version fra Modul 5 ligger kun som historik og installeres ikke.
 
@@ -176,4 +173,4 @@ Fejlstop er ikke en fuld transaktion. Tidligere moduler kan være udført, hvis 
 
 UFW bevarer sine indbyggede regler og accepterer kun den specificerede SSH-brugerregel; ukendte regler stoppes til manuel vurdering. Eksisterende projektfiler omskrives ikke rekursivt. Logrotate gælder monitorloggen, ikke en ny størrelsespolitik for hele journalen.
 
-[Aktuelle v1.2-VM-resultater](VM_TEST_REPORT.md), [historisk VM-test](VM_TEST_REPORT_2026-09-17.md) og [lokale strukturtests](RESTRUCTURE_TEST_REPORT.md) holdes adskilt. Brug regressionstestplanen efter fremtidige kodeændringer.
+[Aktuelle v1.2-VM-resultater](VM_TEST_REPORT.md), [historisk VM-test](VM_TEST_REPORT_2026-09-17.md) og [lokale tests](TESTRESULTATER.md) holdes adskilt. Brug regressionstestplanen efter fremtidige kodeændringer.

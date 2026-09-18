@@ -1,0 +1,23 @@
+{
+  "scripts/healthcheck.sh": "4c97d772d3acc74748ef0fe0aa78a848aa5e1c490338efe040208b9b6ece062e",
+  "scripts/history/README.md": "e376c9d79ee56f81c96b42207fbcf5d75772ffe4b13d61c94d4c200df49faca3",
+  "scripts/history/monitor-modul5.sh": "6f7b6a3c26cda77828128afb8d6e3ec0d28f4b976a2fa61c0066683597a99335",
+  "scripts/lib/common.sh": "18d4a6017f1c38692b876f0d6a39a9dd88c6556d63ccef0ef970da130b22c827",
+  "scripts/modules/00-preflight.sh": "dcd0542f630c53ccb7adb8aa743f3281a8c6ea73b4b5ca327c0b66d6f22b0f76",
+  "scripts/modules/01-system.sh": "d0ef85190acec15b190b3d157fe81e9a968c0467f4953892740974a2d355a039",
+  "scripts/modules/02-network.sh": "b4a1cf7c5d15a1d03800efa8f7199a396556a1e8b1469493b54688d4fd21f4a5",
+  "scripts/modules/03-users.sh": "758a608397b490b07e0d1728556a6fd8ec95be07b03fd78797ea0b6a1a0c98be",
+  "scripts/modules/04-storage-acl.sh": "aeabf05eaa514e0d493a6a5e2a2c5e475a9c47460e6f086a90c39a36d5700b73",
+  "scripts/modules/05-ssh.sh": "c155732453d52ac3534f4eaf538d4d01274f411ccdf5f8e256c0f850560b4719",
+  "scripts/modules/06-sudo.sh": "dd9fa9e4355904f982360e3a12617523a23dadeaa29c4b58b39d2eb2480b797b",
+  "scripts/modules/07-firewall.sh": "b3f1095433996e40f35123b6397137a004aa2268f624dd2d1af0de8f7443ea56",
+  "scripts/modules/08-monitoring.sh": "efd8c87cdf2fb08bbd4c4d7427e2455f51147430fcd85acd1963012ced6da0e5",
+  "scripts/monitor.sh": "b72b8484f12249f72a8ba92dc2cd1cee4c7aa691d32df7db4e221765c2432ad2",
+  "scripts/setup.sh": "7b46612c77896d229800e02d4e84b686dd6d5e799deccd1c8b1c891152dd71bb",
+  "scripts/tools/check_sudo_listing.py": "336ddee397a719fcea613e0a86618a5035c1c1ca2633bd919c9078ba716360f0",
+  "scripts/tools/evidence.sh": "9d06b747917a2b0ba7e339cdbe97425e48d3faa652ee1652c2f988f95ea76a6d",
+  "scripts/tools/netplan_scope.py": "526fa9d0fcf15373a1036c6e057b4072ba42a2328d21f1f298f3ebda0db05ae1",
+  "scripts/tools/validate_config.py": "b91bb67f1c7f01a502944bd70e31bbf39e94028f1fcdd37a1a13a858cc9d7058",
+  "config/config.env.example": "4368ea8481707d251acfb2145479c22c26ca3e854cf8bf05d4d8c2253fba42e9",
+  "keys/secureadmin.pub": "e7cb304ef98c337df932c0c63029f5da1c43a12b76ce04b3bafa57452cda922b"
+}

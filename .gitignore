@@ -16,3 +16,12 @@ __pycache__/
 .pytest_cache/
 .DS_Store
 Thumbs.db
+
+# Genereret website, lokale browserresultater og Python-cache
+_site/
+site-preview/
+.venv-site/
+playwright-report/
+node_modules/
+.env
+.env.*

@@ -1,6 +1,6 @@
 # Regressionstestplan
 
-[Overblik](../README.md) · [Aktuelle VM-resultater](VM_TEST_REPORT.md) · [Lokale strukturtests](RESTRUCTURE_TEST_REPORT.md)
+[Overblik](../README.md) · [Aktuelle VM-resultater](VM_TEST_REPORT.md) · [Lokale tests](TESTRESULTATER.md)
 
 **Dette er fortsat en regressionstestplan, ikke et ubetinget PASS for alle testtrin.** V1.2 blev afprøvet den 18. september 2026. Tabellen angiver, hvad de nye billeder faktisk dækker; de supplerende trin nedenfor står fortsat som anvisninger til en senere kørsel.
 

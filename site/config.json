@@ -1,0 +1,10 @@
+{
+  "name": "SecureBase",
+  "version": "1.3.0",
+  "author": "Kasper",
+  "repository_url": "https://github.com/khr-spec/SecureBase-Linux101",
+  "pages_url": "https://khr-spec.github.io/SecureBase-Linux101/",
+  "branch": "main",
+  "test_date": "18. september 2026",
+  "tested_code_version": "1.2.0"
+}
