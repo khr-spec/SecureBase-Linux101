@@ -79,6 +79,6 @@ GitHubs faktiske rendering er ikke besøgt i brugerens private repo. Kontrollér
 
 ## Hvad er ikke testet her?
 
-**Ingen ny fuld Ubuntu-`--apply` er kørt med repo 1.2.0.** De historiske resultater 19 OK / 1 WARN / 0 FAIL og 0 ændrede administrerede filer kommer fra den tidligere VM-test, ikke fra denne omstrukturering. En ny deployment-/regressionstest kan udføres efter [testplanen](TESTPLAN.md).
+**Denne lokale testrapport er ikke en Ubuntu-deploymenttest.** Efter denne strukturkontrol blev repo 1.2 faktisk afprøvet på en frisk Ubuntu Server 26.04.1-VM den 18. september 2026. Første apply rapporterede 12 ændrede administrerede filer, genkørslen 0, og healthcheck gav 19 OK / 1 WARN / 0 FAIL. Den separate [VM-testrapport](VM_TEST_REPORT.md) og [de nye screenshots](../evidence/06-scripting/v1.2-2026-09-18/README.md) dokumenterer dette. De ovenstående lokale resultater er ikke omdøbt til VM-resultater.
 
 Denne rapport dokumenterer ikke en sikkerhedscertificering, en fuld analyse af alle brugerfiler eller at andre operativsystemer/netværk understøttes.

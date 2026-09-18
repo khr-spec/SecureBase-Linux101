@@ -2,7 +2,7 @@
 
 [Overblik](../README.md) · [Modul 6 og VM-beviser](06-scripting.md) · [Testplan](TESTPLAN.md)
 
-Denne vejledning bruger **den nye repos struktur**. De historiske billeder i Modul 6 viser den oprindelige mappe med setup.sh i roden. Nu ligger programmerne under scripts/, mens den lokale config.env og keys/ ligger i repo-roden.
+Denne vejledning bruger **repo 1.2-strukturen**, som blev afprøvet på en frisk Ubuntu Server 26.04.1-VM den 18. september 2026. Programmerne ligger under scripts/, mens lokal config.env og keys/ ligger i repo-roden. De [nye testbeviser](VM_TEST_REPORT.md) er adskilt fra de historiske Modul 6-billeder med setup.sh i roden.
 
 ## 1. Forudsætninger og ansvar
 
@@ -29,7 +29,7 @@ Setup administrerer hele admin-kontoens authorized_keys. Eksisterende indhold si
 
 ## 3. Hent og udpak uden eksisterende SSH
 
-Den historiske test brugte midlertidig HTTP fra Windows. Til en ny overførsel bruges en **dedikeret mappe med kun arkivet** — ikke Desktop eller en hjemmemappe med andre filer. Dette er en afgrænsning af bootstrap-vejledningen, ikke en ny udført VM-test.
+Begge dokumenterede testforløb brugte midlertidig HTTP fra Windows. V1.2-testen brugte et ZIP-arkiv lavet med `git archive` fra den committede kode. Til en ny overførsel bruges en **dedikeret mappe med kun arkivet** — ikke Desktop eller en hjemmemappe med andre filer. Denne snævrere publiceringsmappe er vejledning; den påstås ikke dokumenteret af et nyt screenshot.
 
 I PowerShell, efter at arkivet er hentet til Downloads:
 
@@ -51,6 +51,19 @@ sha256sum -c SHA256SUMS
 ```
 
 10.0.2.2 er valgt for netop VirtualBox NAT-modellen. En checksum i samme pakke afslører utilsigtet korruption, men er ikke en uafhængig signatur på en utroværdig HTTP-overførsel.
+
+### Git-arkiv og rettigheder efter ZIP-udpakning
+
+I det nye testforløb hed ZIP-filen `SecureBase-Linux101-v1.2-test.zip`. Et Git-arkiv indeholder ikke den ignorerede lokale `config.env`; den skal oprettes fra skabelonen. `.git` følger heller ikke med.
+
+```bash
+unzip SecureBase-Linux101-v1.2-test.zip -d SecureBase-Linux101
+cd SecureBase-Linux101
+# Kun i den udpakkede projektmappe — ikke fra / eller hjemmemappens rod:
+chmod -R go-w .
+```
+
+ZIP-udpakning i testmiljøet gav gruppe-skriveret på pakkefiler. Preflight afviste denne tilstand. `go-w` fjerner skriveadgang for gruppe og andre uden at ændre filindhold. Brug `bash scripts/setup.sh`, så kørsel ikke afhænger af, om Git/Windows har bevaret scriptets executable-bit.
 
 ## 4. Gennemgå konfigurationen
 
@@ -121,7 +134,7 @@ sudo bash scripts/healthcheck.sh
 sudo /usr/local/sbin/securebase-healthcheck
 ```
 
-Returkode 0 = PASS, 1 = WARN, 2 = FAIL. Den historiske VM-test havde én who/utmp-advarsel og 0 FAIL. Gennemgå en ny advarsel; antag ikke, at den er identisk med den gamle.
+Returkode 0 = PASS, 1 = WARN, 2 = FAIL. Både den historiske test og v1.2-testen viste én who/utmp-advarsel og 0 FAIL. I den nye test er healthcheck-outputtet vist som del af setup; en separat manuel kørsel er ikke vist. Gennemgå altid en ny advarsel; antag ikke, at den er identisk med den gamle.
 
 Genkørsel på samme VM og samme input:
 
@@ -163,4 +176,4 @@ Fejlstop er ikke en fuld transaktion. Tidligere moduler kan være udført, hvis 
 
 UFW bevarer sine indbyggede regler og accepterer kun den specificerede SSH-brugerregel; ukendte regler stoppes til manuel vurdering. Eksisterende projektfiler omskrives ikke rekursivt. Logrotate gælder monitorloggen, ikke en ny størrelsespolitik for hele journalen.
 
-[Historiske VM-resultater](VM_TEST_REPORT.md) og [nye lokale strukturtests](RESTRUCTURE_TEST_REPORT.md) holdes adskilt. Brug regressionstestplanen efter fremtidige kodeændringer.
+[Aktuelle v1.2-VM-resultater](VM_TEST_REPORT.md), [historisk VM-test](VM_TEST_REPORT_2026-09-17.md) og [lokale strukturtests](RESTRUCTURE_TEST_REPORT.md) holdes adskilt. Brug regressionstestplanen efter fremtidige kodeændringer.

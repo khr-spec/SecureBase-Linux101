@@ -1,6 +1,6 @@
 # Primære tekniske referencer
 
-Design og kildekode er skrevet til dette SecureBase-forløb. Kravgrundlag: den i samtalen udleverede Linux 101-opgave, Modul 6, side 7–8. De følgende offentlige manualer blev konsulteret ved implementeringen; de dokumenterer værktøjernes mekanismer. Den faktiske fresh-install teststatus dokumenteres separat i `VM_TEST_REPORT.md` og i Word-rapportens Modul 6.
+Design og kildekode er skrevet til dette SecureBase-forløb. Kravgrundlag: den i samtalen udleverede Linux 101-opgave, Modul 6, side 7–8. De følgende offentlige manualer blev konsulteret ved implementeringen; de dokumenterer værktøjernes mekanismer. Den aktuelle v1.2-teststatus fra 18. september 2026 dokumenteres i [VM_TEST_REPORT.md](VM_TEST_REPORT.md) med [nye screenshots](../evidence/06-scripting/v1.2-2026-09-18/README.md). Word-rapportens Modul 6 og [den historiske testrapport](VM_TEST_REPORT_2026-09-17.md) dokumenterer det oprindelige forløb fra 17. september.
 
 - OpenSSH sshd: konfigurationstest, effektiv konfiguration og hostnøgler. https://man.openbsd.org/sshd
 - OpenSSH sshd_config: public key, UsePAM, direktivernes prioritet og Includes. https://man.openbsd.org/sshd_config

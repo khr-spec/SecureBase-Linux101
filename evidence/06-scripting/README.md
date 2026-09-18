@@ -2,7 +2,17 @@
 
 [Til dokumentationen](../../docs/06-scripting.md) · [Samlet evidensoversigt](../README.md)
 
-Billederne er udtrukket fra den samlede Word-rapport. De viser de oprindelige terminalresultater; de er ikke nye kørsler af den omstrukturerede kode. Eventuelle udsnit fremgår af billedteksterne.
+Modulet har nu **34 billedbeviser**: de 18 oprindelige Word-figurer nedenfor og [16 nye v1.2-screenshots fra 18. september 2026](v1.2-2026-09-18/README.md). De to forløb har hver sit kildeindeks og omdateres ikke.
+
+## Aktuel v1.2-test
+
+Se [nye billeder og deres beskrivelser](v1.2-2026-09-18/README.md), [kildehash](v1.2-2026-09-18/index.json) og [VM-testrapporten](../../docs/VM_TEST_REPORT.md). Første apply rapporterer 12 ændrede administrerede filer; anden apply 0; begge healthchecks 19 OK / 1 WARN / 0 FAIL.
+
+<a id="historiske-figurer"></a>
+
+## Historiske figurer — 17. september 2026
+
+Billederne nedenfor er udtrukket fra den samlede Word-rapport. De viser de oprindelige terminalresultater, ikke v1.2-kørslen. Eventuelle udsnit fremgår af billedteksterne.
 
 | Figur | Indhold |
 |---|---|

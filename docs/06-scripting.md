@@ -2,7 +2,7 @@
 
 [← Overblik](../README.md) · [Forrige modul](05-monitorering.md)
 
-> **Tidsmæssig afgrænsning:** VM-beviserne er fra 17. september 2026 og den oprindelige deploymentstruktur (1.0; dokumentationsudgave 1.1). Denne repo-udgave 1.2 flytter kildekode til scripts/ og tilpasser stier. De nye stier testes lokalt; en ny fuld Ubuntu-deployment af 1.2 er ikke udført her. Screenshots er historiske beviser, ikke et nyt testresultat.
+> **Verificeret v1.2-status — 18. september 2026:** Den aktuelle `scripts/`-struktur er afprøvet på en frisk Ubuntu Server 26.04.1-test-VM. Første apply rapporterede **12 ændrede administrerede filer**; anden fulde kørsel rapporterede **0**. Healthchecket, som setup kalder, viste **19 OK / 1 WARN / 0 FAIL**. Statisk netværk, SSH-adgang og afsluttende adminrolle er dokumenteret nedenfor. Den kendte `who`/utmp-advarsel er bevaret. De oprindelige beviser fra 17. september er fortsat mærket som historik.
 
 ## Formål
 
@@ -12,7 +12,8 @@ At automatisere den ønskede sluttilstand fra Modul 1–5 med modulopdelte, genk
 
 - Bygget setup, moduler, literal konfiguration, public-key-installation og uafhængige driftsværktøjer.
 - Kørt preflight og første deployment på en separat Ubuntu-test-VM med statisk Netplan og eksternt SSH-sikkerhedsstop.
-- Genkørt deploymentet med 0 ændrede administrerede filer og dokumenteret nyt SSH-login, tre konkrete sudo-tilladelser og healthcheck 19 OK / 1 WARN / 0 FAIL.
+- Genkørt deploymentet med 0 ændrede administrerede filer og dokumenteret SSH-login, tre konkrete sudo-tilladelser og healthcheck 19 OK / 1 WARN / 0 FAIL.
+- Gentaget fresh-install- og genkørselstesten den 18. september 2026 med repo 1.2, hvor setup ligger under `scripts/`. De nye VM-beviser supplerer det oprindelige forløb fra 17. september.
 
 ## Sikkerhedsmæssig begrundelse
 
@@ -22,7 +23,9 @@ Idempotent filinstallation sammenligner indhold og metadata frem for blind appen
 
 ## Dokumentation / bevis
 
-Detaljerne nedenfor er konverteret fra den samlede rapport. [Alle 18 screenshots for dette modul](../evidence/06-scripting/README.md) er udtrukket fra rapporten uden ændring af billedindhold. [Kilde- og versionsgrundlag](GRUNDLAG.md).
+Dokumentationen består nu af to adskilte testforløb: [16 nye screenshots fra v1.2-testen](../evidence/06-scripting/v1.2-2026-09-18/README.md) og de [18 oprindelige Modul 6-figurer fra Word-rapporten](../evidence/06-scripting/README.md#historiske-figurer). De nye billeder ændrer ikke dato eller betydning af de tidligere beviser. Se [kilde- og versionsgrundlaget](GRUNDLAG.md).
+
+[Ny v1.2-verifikation](#vm-test-v12) · [Kort VM-testrapport](VM_TEST_REPORT.md) · [Historisk forløb](#historisk-forloeb)
 
 ### Aktuelle kommandoer i repo-udgave 1.2
 
@@ -37,7 +40,221 @@ sudo bash scripts/setup.sh --apply --console-confirmed
 sudo bash scripts/healthcheck.sh
 ```
 
-**De efterfølgende kommandoer og screenshots er det historiske testforløb.** I dem lå setup.sh i roden; brug stierne ovenfor eller [deploymentvejledningen](DEPLOYMENT.md) ved en ny kørsel.
+<a id="vm-test-v12"></a>
+
+### Ny VM-verifikation af repo 1.2 — 18. september 2026
+
+Denne test retter den tidligere begrænsning: det er nu **den nye repos mappe-/scriptstruktur**, der er kørt på Ubuntu, ikke kun den gamle deploymentpakke. Der blev ikke ændret scripts for at udarbejde denne dokumentationsopdatering.
+
+| Felt | Dokumenteret testgrundlag |
+|---|---|
+| Platform | Frisk Ubuntu Server 26.04.1 LTS test-VM i VirtualBox; single-NIC NAT |
+| Kode/reference | Repo 1.2.0; Git-reference `54734b9` fra arbejdsforløbet |
+| Arkiv på VM | `SecureBase-Linux101-v1.2-test.zip`, 6.340.751 bytes i downloadbilledet |
+| Bootstrap / admin | `vboxuser` med lokal sudo / `secureadmin` med public-key-adgang |
+| Netværksvalg | `CONFIGURE_NETWORK="yes"`, `NETWORK_APPLY="try"` |
+| Slut-IP / route | `10.0.2.15/24` på `enp0s3`; default via `10.0.2.2`, `proto static` |
+| Første / anden apply | 12 / 0 ændrede administrerede filer |
+| Healthcheck i begge apply-kørsler | 19 OK / 1 WARN / 0 FAIL |
+
+**Versionspræcision:** Git-referencen kommer fra det foregående commit-/arkivforløb. VM'en fik ZIP-arkivet uden `.git`; der er ikke vist en uafhængig commit-/arkivhash-kontrol på VM'en. Screenshots dokumenterer de angivne stier, konfigurationer og kørsler.
+
+#### A. Frisk udgangstilstand og overførsel
+
+Før-beviset viser `Ubuntu-Server1` og en default route med `proto dhcp`. Efter download og udpakning findes den nye struktur med `scripts/`, `config/`, `docs/` og `evidence/`.
+
+<a id="v12-01"></a>
+
+![V12-01: Før deployment: hostname Ubuntu-Server1, enp0s3 med 10.0.2.15/24 og default route via 10.0.2.2 med proto dhcp.](../evidence/06-scripting/v1.2-2026-09-18/01-foer-hostname-dhcp.png)
+
+*V12-01. Før deployment: hostname Ubuntu-Server1, enp0s3 med 10.0.2.15/24 og default route via 10.0.2.2 med proto dhcp.*
+
+<a id="v12-02"></a>
+
+![V12-02: 18. september 2026 kl. 08:46:33 UTC: SecureBase-Linux101-v1.2-test.zip hentes med HTTP 200 og 6.340.751 bytes.](../evidence/06-scripting/v1.2-2026-09-18/02-hentet-git-arkiv.png)
+
+*V12-02. 18. september 2026 kl. 08:46:33 UTC: SecureBase-Linux101-v1.2-test.zip hentes med HTTP 200 og 6.340.751 bytes.*
+
+<a id="v12-03"></a>
+
+![V12-03: Den udpakkede repo-rod indeholder config/, docs/, evidence/, reports/, scripts/, tests/ og tools/.](../evidence/06-scripting/v1.2-2026-09-18/03-udpakket-repostruktur.png)
+
+*V12-03. Den udpakkede repo-rod indeholder config/, docs/, evidence/, reports/, scripts/, tests/ og tools/.*
+
+Arkivet blev overført over labbets midlertidige HTTP-forbindelse. Det er en bootstrap-metode; HTTP-overførslen alene autentificerer ikke pakkens oprindelse.
+
+#### B. Valgt konfiguration og preflight
+
+Den lokale `config.env` blev oprettet fra `config/config.env.example`, og netværksændring blev tilvalgt i nano. Efter udpakning blev gruppe-/others-skriveret fjernet i projektmappen før sudo-kørslen. Det er en rettighedsforudsætning, ikke en kodeændring.
+
+```bash
+# I den udpakkede repo-rod:
+chmod -R go-w .
+sudo bash ./scripts/setup.sh --check
+```
+
+Den gemte konfiguration blev efterfølgende indlæst af preflight, som viser Netplan tilvalgt og accepteret single-NIC-scope. `sshd` og `setfacl` mangler på dette tidspunkt og skal installeres ved apply.
+
+<a id="v12-04"></a>
+
+![V12-04: Editorvisning af v1.2-konfigurationen med CONFIGURE_NETWORK="yes", STATIC_IP="10.0.2.15/24" og NETWORK_APPLY="try". Den efterfølgende preflight viser den indlæste netværksplan.](../evidence/06-scripting/v1.2-2026-09-18/04-valgt-labkonfiguration.png)
+
+*V12-04. Editorvisning af v1.2-konfigurationen med CONFIGURE_NETWORK="yes", STATIC_IP="10.0.2.15/24" og NETWORK_APPLY="try". Den efterfølgende preflight viser den indlæste netværksplan.*
+
+<a id="v12-05"></a>
+
+![V12-05: sudo bash ./scripts/setup.sh --check: konfiguration, public key, syntaks og single-NIC-scope accepteres. sshd og setfacl skal installeres ved apply; Netplan er tilvalgt.](../evidence/06-scripting/v1.2-2026-09-18/05-preflight-scripts-sti.png)
+
+*V12-05. sudo bash ./scripts/setup.sh --check: konfiguration, public key, syntaks og single-NIC-scope accepteres. sshd og setfacl skal installeres ved apply; Netplan er tilvalgt.*
+
+#### C. Første apply og eksternt SSH-sikkerhedsstop
+
+```bash
+sudo bash ./scripts/setup.sh --apply --console-confirmed
+```
+
+Setup opretter de manglende konti og rollegrupper, konfigurerer projekt-ACL og installerer admin-nøglen. Den oprindelige konsol bliver stående ved `KEY-OK`, mens forbindelsen afprøves fra Windows.
+
+<a id="v12-06"></a>
+
+![V12-06: Første deployment startes fra den nye scripts/-struktur med sudo bash ./scripts/setup.sh --apply --console-confirmed.](../evidence/06-scripting/v1.2-2026-09-18/06-foerste-apply-kommando.png)
+
+*V12-06. Første deployment startes fra den nye scripts/-struktur med sudo bash ./scripts/setup.sh --apply --console-confirmed.*
+
+<a id="v12-07"></a>
+
+![V12-07: Første apply opretter konti og grupper, sætter projekt-ACL og installerer authorized_keys. ssh.service er aktiv, og forløbet venter på den eksterne SSH-test ved KEY-OK.](../evidence/06-scripting/v1.2-2026-09-18/07-foerste-apply-roller-noegle.png)
+
+*V12-07. Første apply opretter konti og grupper, sætter projekt-ACL og installerer authorized_keys. ssh.service er aktiv, og forløbet venter på den eksterne SSH-test ved KEY-OK.*
+
+```powershell
+ssh -o PasswordAuthentication=no -p 2222 secureadmin@127.0.0.1
+```
+
+<a id="v12-08"></a>
+
+![V12-08: 18. september kl. 09:07:52 UTC: ny SSH-forbindelse fra Windows med PasswordAuthentication=no på klienten lykkes som secureadmin@securebase-server.](../evidence/06-scripting/v1.2-2026-09-18/08-ssh-ved-bootstrap.png)
+
+*V12-08. 18. september kl. 09:07:52 UTC: ny SSH-forbindelse fra Windows med PasswordAuthentication=no på klienten lykkes som secureadmin@securebase-server.*
+
+Klientbilledet dokumenterer et vellykket login med password-metoden fravalgt på klienten. Det efterfølgende healthcheck dokumenterer særskilt serverens `authenticationmethods publickey` og deaktiveret password-/keyboard-interactive-login. VirtualBox-forwarden er værtens `127.0.0.1:2222` til gæstens `10.0.2.15:22`.
+
+Efter SSH-kontrollen blev `KEY-OK` bekræftet i deployment-konsollen. Første kørsel nåede `DEPLOYMENT AFSLUTTET`, med følgende viste resultat:
+
+```text
+19 OK   1 WARN   0 FAIL
+RESULTAT: WARN - gennemgaa bemaerkningerne
+[OK] Aendrede administrerede filer i denne koersel: 12
+```
+
+<a id="v12-09"></a>
+
+![V12-09: Første apply afsluttes med 12 ændrede administrerede filer og healthcheck 19 OK / 1 WARN / 0 FAIL. Monitor-linjen er tidsstemplet 09:10:02Z.](../evidence/06-scripting/v1.2-2026-09-18/09-foerste-apply-resultat.png)
+
+*V12-09. Første apply afsluttes med 12 ændrede administrerede filer og healthcheck 19 OK / 1 WARN / 0 FAIL. Monitor-linjen er tidsstemplet 09:10:02Z.*
+
+#### D. Netværkets faktiske sluttilstand
+
+```bash
+ip -br a
+ip route
+sudo cat /etc/netplan/99-securebase.yaml
+```
+
+<a id="v12-10"></a>
+
+![V12-10: Netværkskontrol efter første apply: 10.0.2.15/24, default via 10.0.2.2 med proto static, dhcp4/dhcp6 false og DNS 10.0.2.3 samt 1.1.1.1.](../evidence/06-scripting/v1.2-2026-09-18/10-netplan-sluttilstand.png)
+
+*V12-10. Netværkskontrol efter første apply: 10.0.2.15/24, default via 10.0.2.2 med proto static, dhcp4/dhcp6 false og DNS 10.0.2.3 samt 1.1.1.1.*
+
+Den viste default route er statisk. YAML-filen viser `dhcp4: false`, `dhcp6: false`, adressen `10.0.2.15/24` og DNS `10.0.2.3`/`1.1.1.1`. IPv6-adresser er stadig synlige på interfacet; `dhcp6: false` er ikke det samme som deaktiveret IPv6. Kontrollen her er af adresser, route og konfigurationsfil — ikke en særskilt DNS-opslagstest.
+
+#### E. Anden fulde kørsel — idempotens
+
+Den samme apply-kommando blev kørt igen med samme konfiguration. Pakker krævede ingen opgradering, brugerne blev bevaret, og projekt-ACL samt `authorized_keys` var allerede korrekte. Et SSH-login blev afprøvet ved sikkerhedsstoppet under anden kørsel.
+
+<a id="v12-11"></a>
+
+![V12-11: Anden apply fra scripts/setup.sh: ingen pakkeopgraderinger, eksisterende konti bevares, ACL er allerede korrekt, authorized_keys er uændret, og KEY-OK bekræftes.](../evidence/06-scripting/v1.2-2026-09-18/11-genkoersel-roller-noegle.png)
+
+*V12-11. Anden apply fra scripts/setup.sh: ingen pakkeopgraderinger, eksisterende konti bevares, ACL er allerede korrekt, authorized_keys er uændret, og KEY-OK bekræftes.*
+
+<a id="v12-12"></a>
+
+![V12-12: 18. september kl. 09:14:25 UTC: SSH-login som secureadmin lykkes under anden kørsel. Klientkommandoen er ssh -p 2222; den tvinger ikke selv en autentifikationsmetode.](../evidence/06-scripting/v1.2-2026-09-18/12-ssh-under-genkoersel.png)
+
+*V12-12. 18. september kl. 09:14:25 UTC: SSH-login som secureadmin lykkes under anden kørsel. Klientkommandoen er ssh -p 2222; den tvinger ikke selv en autentifikationsmetode.*
+
+Sudoers, UFW, monitor og Logrotate genkendes som uændrede. UFW har fortsat den ene eksplicitte SSH-tilladelse fra `10.0.2.2`. Netplan genindlæses ikke, fordi den kontrollerede tilstand allerede passer.
+
+<a id="v12-13"></a>
+
+![V12-13: Anden apply: effektiv SSH-hærdning, uændret sudoers med tre afgrænsede NOPASSWD-kommandoer og eksisterende UFW-regel for TCP/22 fra 10.0.2.2. Nederst vises Logrotate-debug.](../evidence/06-scripting/v1.2-2026-09-18/13-genkoersel-sudo-firewall.png)
+
+*V12-13. Anden apply: effektiv SSH-hærdning, uændret sudoers med tre afgrænsede NOPASSWD-kommandoer og eksisterende UFW-regel for TCP/22 fra 10.0.2.2. Nederst vises Logrotate-debug.*
+
+<a id="v12-14"></a>
+
+![V12-14: Anden apply kl. 09:14:38Z: Netplan genindlæses ikke; healthcheck og konfiguration er uændrede. UFW er aktiv, disken er 17 % brugt, og who/utmp-advarslen ses sammen med logind-sessioner.](../evidence/06-scripting/v1.2-2026-09-18/14-genkoersel-netplan-healthcheck.png)
+
+*V12-14. Anden apply kl. 09:14:38Z: Netplan genindlæses ikke; healthcheck og konfiguration er uændrede. UFW er aktiv, disken er 17 % brugt, og who/utmp-advarslen ses sammen med logind-sessioner.*
+
+Det afgørende slutresultat er:
+
+```text
+19 OK   1 WARN   0 FAIL
+RESULTAT: WARN - gennemgaa bemaerkningerne
+[OK] Aendrede administrerede filer i denne koersel: 0
+```
+
+<a id="v12-15"></a>
+
+![V12-15: Anden apply afsluttes med 0 ændrede administrerede filer, 19 OK / 1 WARN / 0 FAIL, publickey påkrævet, ingen ekstra UID 0-konti i opslaget og en frisk monitor-linje.](../evidence/06-scripting/v1.2-2026-09-18/15-genkoersel-nul-aendringer.png)
+
+*V12-15. Anden apply afsluttes med 0 ændrede administrerede filer, 19 OK / 1 WARN / 0 FAIL, publickey påkrævet, ingen ekstra UID 0-konti i opslaget og en frisk monitor-linje.*
+
+**Hvad idempotensbeviset dækker:** De administrerede filer behøvede ingen ændring på denne VM med samme input. Konti, ACL og UFW-reglen blev genkendt; netværket blev ikke genindlæst. En ny monitorlinje og en ny deploymentlog er forventet driftsoutput. Der er ikke vist en hash-diff af hele systemet eller en særskilt før/efter-kørsel af `scripts/tools/evidence.sh`.
+
+#### F. Afsluttende identitet og begrænset sudo
+
+```bash
+whoami
+hostname
+sudo -l
+```
+
+<a id="v12-16"></a>
+
+![V12-16: Afsluttende sessionskontrol: whoami viser secureadmin, hostname viser securebase-server, og sudo -l viser kun de tre forventede NOPASSWD-kommandoer.](../evidence/06-scripting/v1.2-2026-09-18/16-afsluttende-identitet-sudo.png)
+
+*V12-16. Afsluttende sessionskontrol: whoami viser secureadmin, hostname viser securebase-server, og sudo -l viser kun de tre forventede NOPASSWD-kommandoer.*
+
+Den afsluttende sessionskontrol viser `secureadmin` på `securebase-server` og præcis disse tilladelser:
+
+```text
+(root) NOPASSWD: /usr/sbin/sshd -t
+(root) NOPASSWD: /usr/bin/systemctl reload ssh.service
+(root) NOPASSWD: /usr/bin/journalctl --no-pager -u ssh.service -n 30
+```
+
+Billedet viser identitet og sudo-politik, men ikke selve forbindelseskommandoen. Det daterede SSH-login kl. 09:14:25 er fra stoppet under anden apply. Beviserne bliver derfor ikke beskrevet som en separat dokumenteret ny forbindelsesstart efter, at anden apply var helt afsluttet.
+
+#### G. Healthcheckets advarsel og testens rækkevidde
+
+Den konkrete WARN i v1.2-testen er, at `who` ikke viser utmp-login; `systemd-logind` viser samtidig sessioner. Resultatet er **WARN**, ikke et omskrevet rent PASS. UFW, diskplads, UID 0-opslag, SSH/sudo og monitorering fremgår af V12-14 og V12-15.
+
+Det selvstændige healthcheck-program blev her kaldt af setup. Der er ikke vist en separat manuel start af `scripts/healthcheck.sh` i det nye testforløb; den oprindelige selvstændige kørsel fra 17. september findes nedenfor. En fuld genstartstest og de supplerende kontroller i regressionstestplanen er ikke automatisk dækket af denne genkørsel.
+
+Den tidligere formulering om **ingen Ubuntu-deployment af 1.2** gælder ikke længere. Den erstattes af det dokumenterede v1.2-forløb ovenfor; de historiske figurer bliver ikke omdateret. Se også [VM-testrapporten](VM_TEST_REPORT.md), [nyt evidensindeks](../evidence/06-scripting/v1.2-2026-09-18/README.md) og [testplanens status pr. kontrol](TESTPLAN.md).
+
+---
+
+<a id="historisk-forloeb"></a>
+
+### Historisk testforløb — 17. september 2026
+
+**De efterfølgende kommandoer og figurer 6.1–6.18 er det oprindelige testforløb.** I dem lå setup.sh i roden; brug de aktuelle kommandoer ovenfor eller [deploymentvejledningen](DEPLOYMENT.md) ved en ny kørsel. Dette materiale bevares for at vise den oprindelige implementering og dens relation til Modul 1–5.
+
 
 ### 1. Deployment-pakkens opbygning
 

@@ -13,7 +13,7 @@ SecureBase dokumenterer, hvordan en Linux-server blev opbygget, sikret og overv�
 | [03 · Brugere og grupper](docs/03-brugere-grupper.md) | Roller, projektadgang og begrænset sudo | [17 figurer](evidence/03-brugere-grupper/README.md) |
 | [04 · Firewall](docs/04-firewall.md) | UFW, kildebegrænsning og HTTP-før/efter-test | [19 figurer](evidence/04-firewall/README.md) |
 | [05 · Monitorering](docs/05-monitorering.md) | Cron, logrotation, loginanalyse og grænseværdier | [26 figurer](evidence/05-monitorering/README.md) |
-| [06 · Scripting](docs/06-scripting.md) | Fresh deployment, healthcheck og idempotens | [18 figurer](evidence/06-scripting/README.md) |
+| [06 · Scripting](docs/06-scripting.md) | Fresh deployment, healthcheck og idempotens | [18 historiske](evidence/06-scripting/README.md#historiske-figurer) + [16 nye v1.2-beviser](evidence/06-scripting/v1.2-2026-09-18/README.md) |
 
 [Samlet Word-rapport](reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx) · [Evidensgrundlag](evidence/README.md) · [Visuel startside](START_HER.html)
 
@@ -35,19 +35,22 @@ Netværksændringer er fravalgt som standard. Sæt kun `CONFIGURE_NETWORK="yes"`
 
 ## Dokumenteret teststatus
 
-Den tidligere deploymentudgave blev afprøvet **17. september 2026** på Ubuntu Server 26.04.1 / VirtualBox NAT:
+**Repo 1.2 er afprøvet på en frisk Ubuntu Server 26.04.1 / VirtualBox NAT den 18. september 2026**, med deployment fra `scripts/` og tilvalgt statisk netværk. Git-reference fra arbejdsforløbet: `54734b9`.
 
 | Kontrol | Observeret resultat |
 |---|---|
-| Første deployment | 12 ændrede administrerede filer |
-| Gentagen kørsel | **0 ændrede administrerede filer** |
-| Selvstændigt healthcheck | **19 OK / 1 WARN / 0 FAIL** |
-| Afsluttende SSH | Ny forbindelse virker som `secureadmin` |
-| Adminrolle | Tre eksakte `NOPASSWD`-kommandoer, ikke generel sudo |
+| Preflight | `scripts/setup.sh --check` accepterer den valgte konfiguration |
+| Første deployment | **12 ændrede administrerede filer** |
+| Anden fulde kørsel | **0 ændrede administrerede filer**; Netplan genindlæses ikke |
+| Healthcheck kaldt af setup | **19 OK / 1 WARN / 0 FAIL** i begge kørsler |
+| SSH-adgang | Login fra Windows virker ved sikkerhedsstop; effektiv konfiguration kræver public key |
+| Afsluttende adminrolle | `secureadmin` på `securebase-server`, tre eksakte `NOPASSWD`-kommandoer |
 
-Advarslen skyldes tomt `who`/utmp-output, mens systemd-logind viser sessioner. Den er ikke omdøbt til PASS.
+WARN skyldes tomt `who`/utmp-output, mens systemd-logind viser sessioner. Resultatet er ikke omskrevet til PASS. Slutbilledet viser identitet/sudo; det daterede SSH-login er fra under anden kørsel.
 
-**Version 1.2.0 er en repo-/dokumentationsomstrukturering.** Scriptstierne er tilpasset og testet lokalt; den nye struktur er ikke blevet deployet på en ny Ubuntu-VM her. Se [historisk VM-test](docs/VM_TEST_REPORT.md), [nye lokale kontroller](docs/RESTRUCTURE_TEST_REPORT.md) og [ændringsloggen](CHANGELOG.md).
+Se [aktuel VM-testrapport](docs/VM_TEST_REPORT.md), [16 nye screenshots](evidence/06-scripting/v1.2-2026-09-18/README.md), [historisk test fra 17. september](docs/VM_TEST_REPORT_2026-09-17.md) og [lokale strukturtests](docs/RESTRUCTURE_TEST_REPORT.md).
+
+De oprindelige **87 Word-figurer er bevaret**; der er nu **103 billedbeviser i alt**. Word-rapporten under `reports/` er den uændrede historiske rapport. Det nye v1.2-tillæg læses i Markdown og evidence. Denne opdatering ændrer ikke deployment-scripts eller konfigurationsstandarder.
 
 ## Struktur
 

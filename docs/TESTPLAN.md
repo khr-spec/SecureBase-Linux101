@@ -1,8 +1,20 @@
 # Regressionstestplan
 
-[Overblik](../README.md) · [Historiske VM-resultater](VM_TEST_REPORT.md) · [Lokale strukturtests](RESTRUCTURE_TEST_REPORT.md)
+[Overblik](../README.md) · [Aktuelle VM-resultater](VM_TEST_REPORT.md) · [Lokale strukturtests](RESTRUCTURE_TEST_REPORT.md)
 
-**Dette er en plan for en ny kørsel.** De historiske billeder beviser den tidligere VM-test. Ikke alle supplerende testtrin nedenfor er udført på den VM, og planen er ikke mærket samlet "bestået".
+**Dette er fortsat en regressionstestplan, ikke et ubetinget PASS for alle testtrin.** V1.2 blev afprøvet den 18. september 2026. Tabellen angiver, hvad de nye billeder faktisk dækker; de supplerende trin nedenfor står fortsat som anvisninger til en senere kørsel.
+
+| Kontrol | Status i v1.2-testen | Bevis |
+|---|---|---|
+| Bootstrap, ny struktur og preflight | Dokumenteret | [V12-01–07](../evidence/06-scripting/v1.2-2026-09-18/README.md) |
+| Første apply og statisk IP/route | Dokumenteret; 12 ændrede administrerede filer | [V12-09](../evidence/06-scripting/v1.2-2026-09-18/09-foerste-apply-resultat.png), [V12-10](../evidence/06-scripting/v1.2-2026-09-18/10-netplan-sluttilstand.png) |
+| SSH og afsluttende identitet/sudo | Login ved sikkerhedsstop og slutrolle dokumenteret | [V12-08/12/16](../evidence/06-scripting/v1.2-2026-09-18/README.md) |
+| Healthcheck kaldt af setup | Dokumenteret; 19 OK / 1 WARN / 0 FAIL | [V12-14](../evidence/06-scripting/v1.2-2026-09-18/14-genkoersel-netplan-healthcheck.png), [V12-15](../evidence/06-scripting/v1.2-2026-09-18/15-genkoersel-nul-aendringer.png) |
+| Anden fulde apply | Dokumenteret; 0 ændrede administrerede filer | [V12-15](../evidence/06-scripting/v1.2-2026-09-18/15-genkoersel-nul-aendringer.png) |
+| Separat healthcheck-start / planlagt cron-start efter deployment | Ikke vist som separate kontroller i det nye screenshotforløb | Supplerende trin D |
+| Nye developer/guest-funktionstests på v1.2-VM | Ikke særskilt vist | Supplerende trin C |
+| Manifestdiff, arkivhash og genstartstest | Ikke særskilt dokumenteret i de nye billeder | Supplerende kontrol; ingen PASS-påstand |
+
 
 ## A. Pakke og preflight
 
@@ -69,7 +81,7 @@ sudo bash scripts/tools/evidence.sh | tee ~/securebase-after.txt
 diff -u ~/securebase-before.txt ~/securebase-after.txt
 ```
 
-Gem ændringstælleren, ny SSH-session og healthcheck. Logs må vokse. Den historiske test viste 0 ændrede administrerede filer, men omfattede ikke et uploadet evidence.sh-diffbevis.
+Gem ændringstælleren, ny SSH-session og healthcheck. Logs må vokse. Både den historiske og den nye v1.2-test viste 0 ændrede administrerede filer. Ingen af billedserierne indeholder et særskilt evidence.sh-diffbevis.
 
 ## F. Aflevering og udviklingshistorik
 

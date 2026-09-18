@@ -1,0 +1,185 @@
+{
+  "test_date": "2026-09-18",
+  "code_version": "1.2.0",
+  "git_revision_reference": "54734b9",
+  "revision_basis": "Reference fra det dokumenterede Git-forløb og det efterfølgende git archive-forløb; ingen separat hash-sammenligning på VM-en er vist.",
+  "description": "Nye v1.2-VM-beviser. Ikke billeder fra den historiske Word-rapport.",
+  "items": [
+    {
+      "id": "V12-01",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/01-foer-hostname-dhcp.png",
+      "source_filename": "b4389d47-f166-4a20-a562-772a51c6f186.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "Før deployment: hostname Ubuntu-Server1, enp0s3 med 10.0.2.15/24 og default route via 10.0.2.2 med proto dhcp.",
+      "width": 983,
+      "height": 184,
+      "sha256": "b8925781e768dc63bd7843bf661abc626e2ae83899f56821ef94581d6ef03a74",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    },
+    {
+      "id": "V12-02",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/02-hentet-git-arkiv.png",
+      "source_filename": "2ad28cf5-41f3-4918-941a-59c1c5baf1aa.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "18. september 2026 kl. 08:46:33 UTC: SecureBase-Linux101-v1.2-test.zip hentes med HTTP 200 og 6.340.751 bytes.",
+      "width": 1256,
+      "height": 203,
+      "sha256": "7623abfa01c6909d88eb7c0d2fcfd627b8fc8df7d901ee91f5f6e69c1f36cc6f",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    },
+    {
+      "id": "V12-03",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/03-udpakket-repostruktur.png",
+      "source_filename": "7ae9f982-a932-4919-9ecf-ec746a138514.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "Den udpakkede repo-rod indeholder config/, docs/, evidence/, reports/, scripts/, tests/ og tools/.",
+      "width": 525,
+      "height": 336,
+      "sha256": "3fa55d63cd792f34176930a18861cedee7f6281b7d1efbd53ccb97fbe5754bf1",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    },
+    {
+      "id": "V12-04",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/04-valgt-labkonfiguration.png",
+      "source_filename": "01d05bf5-938c-47dd-be2c-a1cc0be5fffd.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "Editorvisning af v1.2-konfigurationen med CONFIGURE_NETWORK=\"yes\", STATIC_IP=\"10.0.2.15/24\" og NETWORK_APPLY=\"try\". Den efterfølgende preflight viser den indlæste netværksplan.",
+      "width": 791,
+      "height": 472,
+      "sha256": "ef39947bcdbfd0ffd5a883d852aa4c84917c31bfb84a888551b34f38c2688937",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    },
+    {
+      "id": "V12-05",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/05-preflight-scripts-sti.png",
+      "source_filename": "68f06ba6-3da1-4252-aec6-22843b8dfc27.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "sudo bash ./scripts/setup.sh --check: konfiguration, public key, syntaks og single-NIC-scope accepteres. sshd og setfacl skal installeres ved apply; Netplan er tilvalgt.",
+      "width": 1000,
+      "height": 428,
+      "sha256": "6cec6c0a5cb6e2025630aef0bd96801f336a546ca3c6342d0550d22ceb369e86",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    },
+    {
+      "id": "V12-06",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/06-foerste-apply-kommando.png",
+      "source_filename": "b9353c7a-148d-4ff1-8114-18c157ddcd30.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "Første deployment startes fra den nye scripts/-struktur med sudo bash ./scripts/setup.sh --apply --console-confirmed.",
+      "width": 846,
+      "height": 16,
+      "sha256": "fc42b0d0a0807436aad8403aa6ac753c1dee6cc69fc9406a3a239740a8f29f7f",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    },
+    {
+      "id": "V12-07",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/07-foerste-apply-roller-noegle.png",
+      "source_filename": "c016100c-183d-4261-b40c-18c47eed5965.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "Første apply opretter konti og grupper, sætter projekt-ACL og installerer authorized_keys. ssh.service er aktiv, og forløbet venter på den eksterne SSH-test ved KEY-OK.",
+      "width": 934,
+      "height": 804,
+      "sha256": "4a0110d3a9c3baa612e7438275d8e9e134d4d7677b1511ba66becf3241fd491c",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    },
+    {
+      "id": "V12-08",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/08-ssh-ved-bootstrap.png",
+      "source_filename": "8856d1cc-f36b-4db6-aa69-cb0a7a8fd5b3.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "18. september kl. 09:07:52 UTC: ny SSH-forbindelse fra Windows med PasswordAuthentication=no på klienten lykkes som secureadmin@securebase-server.",
+      "width": 749,
+      "height": 689,
+      "sha256": "1c15b543eefba7cf8d6f425f5b94904e92bdb9037dd84660d1e53d913a400495",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    },
+    {
+      "id": "V12-09",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/09-foerste-apply-resultat.png",
+      "source_filename": "20524c9e-f938-4a24-ac9d-875d567c7a5f.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "Første apply afsluttes med 12 ændrede administrerede filer og healthcheck 19 OK / 1 WARN / 0 FAIL. Monitor-linjen er tidsstemplet 09:10:02Z.",
+      "width": 1013,
+      "height": 806,
+      "sha256": "18d44e792ff0fbe22a8335dc18ff96f20d3eb0f429ade4f68e8bbb170904eeff",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    },
+    {
+      "id": "V12-10",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/10-netplan-sluttilstand.png",
+      "source_filename": "ce0aa3fe-8188-4aed-b58b-1be612475ce2.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "Netværkskontrol efter første apply: 10.0.2.15/24, default via 10.0.2.2 med proto static, dhcp4/dhcp6 false og DNS 10.0.2.3 samt 1.1.1.1.",
+      "width": 1025,
+      "height": 438,
+      "sha256": "b33f42279894a8dbb6beca70e9ef7dc9ec45ca933cde722083e78859832cf2ac",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    },
+    {
+      "id": "V12-11",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/11-genkoersel-roller-noegle.png",
+      "source_filename": "683366c7-0b18-4b5f-a76e-dc39574cca3f.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "Anden apply fra scripts/setup.sh: ingen pakkeopgraderinger, eksisterende konti bevares, ACL er allerede korrekt, authorized_keys er uændret, og KEY-OK bekræftes.",
+      "width": 1075,
+      "height": 1276,
+      "sha256": "f8056caf3129e7b57f38ea45e5c7fe48b1fba8fff3dbf2b985b47c3302f26ee7",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    },
+    {
+      "id": "V12-12",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/12-ssh-under-genkoersel.png",
+      "source_filename": "4bafe40a-c81d-4a01-ba15-dd2d69ab2a05.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "18. september kl. 09:14:25 UTC: SSH-login som secureadmin lykkes under anden kørsel. Klientkommandoen er ssh -p 2222; den tvinger ikke selv en autentifikationsmetode.",
+      "width": 785,
+      "height": 554,
+      "sha256": "d893ffc46c027a11003f8241fb31876d59d88c3d5056780f3a3b33adcc721cfc",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    },
+    {
+      "id": "V12-13",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/13-genkoersel-sudo-firewall.png",
+      "source_filename": "c4a83766-b9d5-4fb0-824f-c1138bbbf007.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "Anden apply: effektiv SSH-hærdning, uændret sudoers med tre afgrænsede NOPASSWD-kommandoer og eksisterende UFW-regel for TCP/22 fra 10.0.2.2. Nederst vises Logrotate-debug.",
+      "width": 1097,
+      "height": 1314,
+      "sha256": "aa28346bbae6f1d924b9e3fd9f53097952d3b23841e91a8be518d7f62ee85633",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    },
+    {
+      "id": "V12-14",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/14-genkoersel-netplan-healthcheck.png",
+      "source_filename": "293eb6c8-1078-4050-b0ae-6d59c4cf5799.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "Anden apply kl. 09:14:38Z: Netplan genindlæses ikke; healthcheck og konfiguration er uændrede. UFW er aktiv, disken er 17 % brugt, og who/utmp-advarslen ses sammen med logind-sessioner.",
+      "width": 1107,
+      "height": 1334,
+      "sha256": "e5a98008bedad90164949612bbbcf23c4a55d65ad5419c23d4d23d6cb0a0cc78",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    },
+    {
+      "id": "V12-15",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/15-genkoersel-nul-aendringer.png",
+      "source_filename": "71644d55-ccc0-4c76-a198-2a912a183e95.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "Anden apply afsluttes med 0 ændrede administrerede filer, 19 OK / 1 WARN / 0 FAIL, publickey påkrævet, ingen ekstra UID 0-konti i opslaget og en frisk monitor-linje.",
+      "width": 849,
+      "height": 778,
+      "sha256": "f2605e10840718e2d9f9491f1347c44ecd1b84162f6a2412ff129b7fd4bb6f09",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    },
+    {
+      "id": "V12-16",
+      "file": "evidence/06-scripting/v1.2-2026-09-18/16-afsluttende-identitet-sudo.png",
+      "source_filename": "9fbf210b-57f7-4cfd-b4b0-cbea34304d02.png",
+      "source_type": "Brugerens uploadede terminal-screenshot",
+      "caption": "Afsluttende sessionskontrol: whoami viser secureadmin, hostname viser securebase-server, og sudo -l viser kun de tre forventede NOPASSWD-kommandoer.",
+      "width": 662,
+      "height": 184,
+      "sha256": "9e2f6f4f754ef964e41f55e233625ce2c66840499ff7d2262bd7af7b03d4a0b8",
+      "image_edit": "Ingen: originalfil bevaret byte-for-byte"
+    }
+  ]
+}
