@@ -1,5 +1,13 @@
 # Ændringslog
 
+## 1.3.1 · 18. september 2026 — eksplicit Modul 6-scriptdokumentation
+
+- Alle 18 scriptfiler under `scripts/` har eksplicit topkommentar med formål og dokumenteret kørsel.
+- `scripts/README.md` samler fil-for-fil-vejledning og markerer tydeligt, hvilke moduler der ikke køres direkte.
+- Modul 6 indeholder den samme komplette kørselsmatrix og et forkortet faktisk `healthcheck.sh`-output fra den færdige VM: 19 OK / 1 WARN / 0 FAIL.
+- Kun fulde kommentarlinjer er tilføjet til den verificerede deploymentkode; en normaliseret logik-hash-test bekræfter, at de eksekverbare linjer svarer til v1.2-referencen.
+- Ingen ny Ubuntu-deployment påstås for 1.3.1; VM-beviserne fra 18. september 2026 er fortsat den testede serverreference.
+
 ## 1.3.0 · 18. september 2026 — samlet aflevering
 
 - GitHub Pages bliver den primære læseindgang: seks modulsider, VM-verifikation, søgning, evidensgalleri og download af Word-rapport og kildekode.

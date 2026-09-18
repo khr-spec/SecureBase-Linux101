@@ -1,4 +1,8 @@
 #!/bin/bash
+# FORMÅL: Installerer og validerer præcis tre afgrænsede sudo-kommandoer for admins-rollen.
+# KØRSEL: Køres ikke direkte. Sources af scripts/setup.sh og kaldes som sudo_setup() ved --apply.
+# DIREKTE: Nej. Modulet udfører både positiv og negativ kontrol af den effektive sudo-politik.
+
 sudo_setup() {
     local tag='' dest=/etc/sudoers.d/securebase-admins existed=no
     [[ $ADMIN_SUDO_NOPASSWD != yes ]] || tag='NOPASSWD: '

@@ -1,4 +1,8 @@
 #!/bin/bash
+# FORMÅL: Opretter/bevarer rollegrupper og konti og sikrer de ønskede gruppemedlemskaber.
+# KØRSEL: Køres ikke direkte. Sources af scripts/setup.sh og kaldes som users_setup() ved --apply.
+# DIREKTE: Nej. Bootstrap-kontoen bevares som separat recovery-/installationskonto.
+
 ensure_group() {
     if getent group "$1" >/dev/null; then
         [[ $(getent group "$1" | cut -d: -f3) -ge 1000 ]] || die "Rolle-/brugergruppe $1 har system-GID; afklar manuelt"

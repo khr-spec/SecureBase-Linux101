@@ -1,5 +1,8 @@
 #!/bin/bash
-# Kaldes SIDST, efter pakkeinstallation og efter SSH/firewall er paa plads.
+# FORMÅL: Etablerer den valgte single-NIC Netplan-konfiguration og anvender den sikkert til sidst.
+# KØRSEL: Køres ikke direkte. Sources af scripts/setup.sh og kaldes som network_setup() efter SSH/firewall.
+# DIREKTE: Nej. Aktiveres kun når CONFIGURE_NETWORK="yes".
+
 network_setup() {
     [[ $CONFIGURE_NETWORK == yes ]] || { info 'Netplan ikke aendret (CONFIGURE_NETWORK=no).'; return 0; }
     python3 "$SCRIPT_DIR/tools/netplan_scope.py" "$INTERFACE"

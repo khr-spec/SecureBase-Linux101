@@ -1,4 +1,8 @@
 #!/bin/bash
+# FORMÅL: Håndhæver UFW default-deny og én kildebegrænset IPv4-undtagelse til SSH.
+# KØRSEL: Køres ikke direkte. Sources af scripts/setup.sh og kaldes som firewall_setup() ved --apply.
+# DIREKTE: Nej. Uventede brugerregler stopper deploymentet i stedet for at blive nulstillet automatisk.
+
 firewall_setup() {
     local output
     check_ufw_rules || die 'Uventede UFW-regler. Ingen ufw reset eller automatisk sletning.'

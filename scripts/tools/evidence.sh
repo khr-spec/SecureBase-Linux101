@@ -1,6 +1,10 @@
 #!/bin/bash
+# FORMÅL: Udskriver et læsende manifest over centrale SecureBase-konfigurationer, metadata, UFW og ACL.
+# KØRSEL: sudo bash scripts/tools/evidence.sh  |  tee securebase-evidence.txt
+# DIREKTE: Valgfrit. Scriptet ændrer ikke konfiguration; output kan gemmes som ekstra regressionsevidence.
 # Print kun konfiguration til stdout. Brug tee som bootstrap til at gemme.
 # Logfiler/mtime medtages ikke i hash-manifestet: de aendrer sig normalt i drift.
+
 set -euo pipefail
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin LC_ALL=C
 [[ $EUID == 0 ]] || { echo 'Koer med sudo' >&2; exit 2; }

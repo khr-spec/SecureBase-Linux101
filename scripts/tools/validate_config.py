@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """Valider literal config og Ed25519-public key. Ingen systemaendringer."""
+# KØRSEL: Kaldes automatisk af preflight med config og repo-rod som argumenter.
+# EKSEMPEL: python3 scripts/tools/validate_config.py config.env .
+
 import base64, hashlib, ipaddress, re, struct, sys
 from pathlib import Path
 

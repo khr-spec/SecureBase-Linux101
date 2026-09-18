@@ -1,6 +1,8 @@
 #!/bin/bash
-# SecureBase monitor v2. /proc-delta erstatter top -bn1-parseren fra Modul 5.
-# Standalone: --sample skriver kun stdout; --self-test bruger kun simulerede tal.
+# FORMÅL: Måler CPU, RAM og disk, logger status og sender user.warning ved valgte grænser.
+# KØRSEL: bash scripts/monitor.sh --sample | --self-test; i drift kaldes den installerede kopi af cron som root.
+# DIREKTE: Ja til sample/self-test. Normal drift installeres af setup.sh og køres via /etc/cron.d/securebase-monitor.
+
 set -Eeuo pipefail
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin LC_ALL=C
 umask 027

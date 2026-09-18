@@ -1,4 +1,7 @@
 #!/bin/bash
+# FORMÅL: Historisk Modul 5-monitor baseret på top/free; bevaret som dokumentation af udviklingsforløbet.
+# KØRSEL: bash -n scripts/history/monitor-modul5.sh til syntakskontrol. Normal kørsel anbefales ikke i slutdeploymentet.
+# DIREKTE: Historisk reference. Den aktive version er scripts/monitor.sh.
 
 set -euo pipefail
 

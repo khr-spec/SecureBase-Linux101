@@ -54,6 +54,7 @@ DOC_MAP = {
     'docs/TESTPLAN.md': 'testplan.html', 'docs/GRUNDLAG.md': 'grundlag.html',
     'docs/SOURCES.md': 'kilder.html', 'docs/WEBSITE.md': 'website.html',
     'docs/PUBLICERING.md': 'publicering.html', 'docs/TESTRESULTATER.md': 'tests.html',
+    'scripts/README.md': 'scriptvejledning.html',
     'scripts/history/README.md': 'historik/monitor-modul5.html',
     'evidence/README.md': 'beviser/grundlag.html',
     'evidence/06-scripting/v1.2-2026-09-18/README.md': 'beviser/v1.2-2026-09-18.html',
@@ -98,7 +99,7 @@ def page(title: str, content: str, current: str, description='', active=''):
     def u(p): return esc(href(p, current))
     nav = ''.join(f'<a href="{u(dest)}"' + (' aria-current="page"' if active == key else '') + f'>{label}</a>' for key, label, dest in [
         ('modules', 'Moduler', 'index.html#moduler'), ('validation', 'Verifikation', 'verifikation.html'),
-        ('evidence', 'Beviser', 'beviser.html'), ('downloads', 'Downloads', 'downloads.html')])
+        ('evidence', 'Beviser', 'beviser.html'), ('scripts', 'Scripts', 'scriptvejledning.html'), ('downloads', 'Downloads', 'downloads.html')])
     canonical = CONFIG['pages_url'].rstrip('/') + '/' + current
     return f'''<!doctype html>
 <html lang="da" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -111,7 +112,7 @@ def page(title: str, content: str, current: str, description='', active=''):
 <nav class="top-links" aria-label="Hovednavigation" id="top-links">{nav}<a href="{esc(REPO)}" rel="noopener">GitHub ↗</a></nav>
 <div class="nav-tools"><button class="icon-button search-button" data-search aria-label="Søg i afleveringen"><span>Søg</span>⌕<kbd>Ctrl K</kbd></button><button class="icon-button theme-button" data-theme-toggle aria-label="Skift mellem lyst og mørkt tema">◐</button><button class="icon-button menu-button" data-menu aria-label="Åbn navigation" aria-expanded="false" aria-controls="top-links">☰</button></div></div><div class="reading-progress" aria-hidden="true"></div></header>
 {content}
-<footer class="footer"><div class="container"><div class="footer-inner"><div><strong>SecureBase</strong> · Kasper · Linux 101 · {esc(VERSION)}</div><div><a href="{u('grundlag.html')}">Kildegrundlag</a><a href="{u('kilder.html')}">Referencer</a><a href="{u('changelog.html')}">Versionshistorik</a><a href="{esc(REPO)}">GitHub ↗</a></div></div><p class="footer-note">Dokumenteret labforløb — ikke en sikkerhedscertificering. Ubuntu-verifikation: 18. september 2026 · Præsentationsudgave 1.3, uændret deployment-kode fra 1.2. Ingen eksterne fonte, analyseværktøjer eller JavaScript-CDN'er.</p></div></footer>
+<footer class="footer"><div class="container"><div class="footer-inner"><div><strong>SecureBase</strong> · Kasper · Linux 101 · {esc(VERSION)}</div><div><a href="{u('grundlag.html')}">Kildegrundlag</a><a href="{u('kilder.html')}">Referencer</a><a href="{u('changelog.html')}">Versionshistorik</a><a href="{esc(REPO)}">GitHub ↗</a></div></div><p class="footer-note">Dokumenteret labforløb — ikke en sikkerhedscertificering. Ubuntu-verifikation: 18. september 2026 · Præsentationsudgave 1.3.1; deploymentets eksekverbare logik matcher den verificerede 1.2-reference, mens scriptkommentarer er udbygget. Ingen eksterne fonte, analyseværktøjer eller JavaScript-CDN'er.</p></div></footer>
 <a class="back-top" href="#top" aria-label="Til toppen">↑</a>
 <dialog id="search-dialog" class="search-dialog" aria-labelledby="search-title"><div class="dialog-head"><h2 id="search-title">Søg i SecureBase</h2><button class="dialog-close" data-close aria-label="Luk søgning">×</button></div><input class="search-input" type="search" placeholder="SSH, rettigheder, Netplan…" aria-label="Søgetekst" autocomplete="off"><p class="search-status" aria-live="polite">Søg i dokumentationen.</p><div class="search-results"></div></dialog>
 <dialog id="lightbox" class="lightbox" aria-labelledby="image-title"><div class="dialog-head"><h2 id="image-title">Dokumentationsbevis</h2><button class="dialog-close" data-close aria-label="Luk billede">×</button></div><div class="lightbox-body"><img alt=""></div><div class="lightbox-caption"></div><div class="lightbox-controls"><button class="icon-button" data-previous aria-label="Forrige billede">←</button><button class="icon-button" data-next aria-label="Næste billede">→</button><a data-image-download download>Åbn originalfil</a></div></dialog>
@@ -124,7 +125,7 @@ def nav_links(current):
         target = f'moduler/{slug}.html'
         links += f'<a class="{"current" if current == target else ""}" href="{esc(href(target,current))}">{index:02d} &nbsp; {esc(title)}</a>'
     links += '</div><div class="nav-group"><div class="nav-label">Overtag projektet</div>'
-    for title, target in [('Deployment', 'deployment.html'), ('VM-verifikation', 'verifikation.html'), ('Alle billedbeviser', 'beviser.html'), ('Kildekode', 'kildekode.html'), ('Downloads', 'downloads.html'), ('Testplan', 'testplan.html'), ('Lokale testresultater','tests.html')]:
+    for title, target in [('Deployment', 'deployment.html'), ('VM-verifikation', 'verifikation.html'), ('Alle billedbeviser', 'beviser.html'), ('Scriptvejledning', 'scriptvejledning.html'), ('Kildekode', 'kildekode.html'), ('Downloads', 'downloads.html'), ('Testplan', 'testplan.html'), ('Lokale testresultater','tests.html')]:
         links += f'<a class="{"current" if current == target else ""}" href="{esc(href(target,current))}">{title}</a>'
     return links + '</div>'
 

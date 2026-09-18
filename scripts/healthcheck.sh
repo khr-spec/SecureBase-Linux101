@@ -1,6 +1,8 @@
 #!/bin/bash
-# Selvstaendigt Modul 6-healthcheck. Ingen source, installation eller reparation.
-# Exit: 0=bestaaet, 1=advarsler, 2=fejl. "PASS" er ikke en fuld sikkerhedsaudit.
+# FORMÅL: Selvstændig, læsende kontrol af firewall, disk, sessioner, UID 0, SSH og monitorering.
+# KØRSEL: sudo bash scripts/healthcheck.sh  (eller installeret: sudo /usr/local/sbin/securebase-healthcheck)
+# DIREKTE: Ja. Exit 0=OK, 1=WARN, 2=FAIL; scriptet ændrer ikke systemkonfigurationen.
+
 set -Eeuo pipefail
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin LC_ALL=C
 ADMIN_USER=secureadmin DEVELOPER_USER=developer1 GUEST_USER=guest1

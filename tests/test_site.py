@@ -49,12 +49,39 @@ class SiteTests(unittest.TestCase):
         for i in items:
             self.assertEqual(hashlib.sha256((ROOT/i['file']).read_bytes()).hexdigest(),i['sha256'])
 
-    def test_deployment_baseline_unchanged(self):
-        baseline=json.loads(text(ROOT/'tests/deployment-baseline.json'))
+    def test_deployment_executable_logic_matches_verified_baseline(self):
+        # 1.3.1 adds full-line documentation comments only. Strip blank/full-line comments
+        # before hashing so documentation can improve without claiming a new VM-tested implementation.
+        baseline=json.loads(text(ROOT/'tests/deployment-logic-baseline.json'))
+        def logic_digest(path):
+            rows=[]
+            for line in text(path).splitlines():
+                stripped=line.lstrip()
+                if not stripped or stripped.startswith('#'):
+                    continue
+                rows.append(line.rstrip())
+            return hashlib.sha256(('\n'.join(rows)+'\n').encode()).hexdigest()
         for filename,digest in baseline.items():
-            self.assertEqual(hashlib.sha256((ROOT/filename).read_bytes()).hexdigest(),digest,filename)
-        actual={p.relative_to(ROOT).as_posix() for p in (ROOT/'scripts').rglob('*') if p.is_file() and '__pycache__' not in p.parts}
-        self.assertEqual(actual,{p for p in baseline if p.startswith('scripts/')})
+            self.assertEqual(logic_digest(ROOT/filename),digest,filename)
+        actual={p.relative_to(ROOT).as_posix() for p in (ROOT/'scripts').rglob('*') if p.is_file() and p.suffix in {'.sh','.py'} and '__pycache__' not in p.parts}
+        self.assertEqual(actual,set(baseline))
+        exact=json.loads(text(ROOT/'tests/deployment-baseline.json'))
+        for filename in ('config/config.env.example','keys/secureadmin.pub'):
+            self.assertEqual(hashlib.sha256((ROOT/filename).read_bytes()).hexdigest(),exact[filename],filename)
+
+    def test_module6_script_documentation_is_explicit(self):
+        scripts=sorted(p for p in (ROOT/'scripts').rglob('*') if p.is_file() and p.suffix in {'.sh','.py'})
+        self.assertEqual(len(scripts),18)
+        guide=text(ROOT/'scripts/README.md')
+        module=text(ROOT/'docs/06-scripting.md')
+        for p in scripts:
+            rel=p.relative_to(ROOT).as_posix()
+            source=text(p)
+            self.assertIn('KØRSEL:',source,rel)
+            self.assertIn(f'`{rel}`',guide,rel)
+            self.assertIn(f'`{rel}`',module,rel)
+        self.assertIn('19 OK   1 WARN   0 FAIL',module)
+        self.assertIn('19 OK   1 WARN   0 FAIL',guide)
 
     def test_word_download_is_original(self):
         original=ROOT/'reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx'
@@ -104,7 +131,7 @@ class SiteTests(unittest.TestCase):
         self.assertIn('ikke en sikkerhedscertificering',text(self.output/'index.html'))
 
     def test_version_and_source_date_are_distinct(self):
-        self.assertEqual(text(ROOT/'VERSION').strip(),'1.3.0')
+        self.assertEqual(text(ROOT/'VERSION').strip(),'1.3.1')
         self.assertIn('SecureBase 1.2',text(ROOT/'scripts/setup.sh'))
         self.assertIn('1.3',text(ROOT/'docs/GRUNDLAG.md'))
 

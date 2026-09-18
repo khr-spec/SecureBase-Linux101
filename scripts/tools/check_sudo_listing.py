@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """Fail closed, hvis sudo -l viser andre admin-kommandoer end de tre valgte."""
+# KØRSEL: Kaldes automatisk af scripts/modules/06-sudo.sh med output fra `sudo -l` på stdin.
+# MANUEL TEST: sudo -l -U secureadmin | python3 scripts/tools/check_sudo_listing.py
+
 import re, sys
 EXPECTED={
     '/usr/sbin/sshd -t',

@@ -1,23 +1,25 @@
-# Lokale tests af afleveringsudgave 1.3
+# Lokale tests af afleveringsudgave 1.3.1
 
 [Overblik](../README.md) · [VM-testgrundlag](VM_TEST_REPORT.md)
 
-**Udgave:** 1.3.0 · **Kontroldato:** 18. september 2026
+**Udgave:** 1.3.1 · **Kontroldato:** 18. september 2026
 
 ## Faktiske lokale resultater
 
 | Kontrol | Resultat | Afgrænsning |
 |---|---|---|
-| Samlet Python-testsuite, isoleret Linux-container med root | 46 tests bestået; ingen fejl eller skips | Kører ikke setup mod værtens serverkonfiguration. Filmetadata-tests bruger midlertidige filer. |
-| Samme tests uden root, separat kopi af repoet | 44 bestået, 2 sprunget over, 0 fejl | De to root-afhængige filmetadata-tests springes over; skipped er ikke bestået. |
-| Genereret website | 50 HTML-sider bygget; lokale links og ankre kontrolleret | Ikke en måling af det publicerede GitHub Pages-site. |
+| Samlet Python-testsuite, isoleret Linux-container med root | 47 tests bestået; ingen fejl eller skips | Kører ikke setup mod værtens serverkonfiguration. Filmetadata-tests bruger midlertidige filer. |
+| Samme tests uden root, separat kopi af repoet | 45 bestået, 2 sprunget over, 0 fejl | De to root-afhængige filmetadata-tests springes over; skipped er ikke bestået. |
+| Genereret website | 51 HTML-sider bygget; lokale links og ankre kontrolleret | Ikke en måling af det publicerede GitHub Pages-site. |
 | Billedintegritet | Alle 103 PNG-filer matcher de dokumenterede hashes | 87 fra den oprindelige Word-rapport og 16 supplerende v1.2-beviser. |
 | Word-download | Byte-identisk med den oprindelige 87-siders rapport | Rapporten er historisk; dens testdato og indhold er ikke ændret. |
-| Deployment-kode og skabelon | Matcher v1.2-referencehashes | Ingen ny 1.3-Ubuntu-installation påstås. |
+| Deployment-scripts | Normaliseret eksekverbar logik matcher v1.2-reference; kun fulde kommentarlinjer er tilføjet | Ingen ny 1.3.1-Ubuntu-installation påstås. |
+| Konfigurationsskabelon og public key | Byte-identiske med v1.2-referencehashes | Miljøværdier og key-materiale er ikke ændret. |
+| Modul 6-dokumentationskrav | 18/18 scripts har topkommentar; alle 18 står i kørselsmatrix; healthcheck-eksempel er indsat | Kontrollerer dokumentationens tilstedeværelse, ikke en ny VM-kørsel. |
 | Source-download | ZIP-indhold og det medfølgende checksum-manifest kontrolleret | Indeholder ikke .git, lokal config.env, miljøfiler eller genereret website. |
 | Udvalgte secret-mønstre i aktuelle tekstfiler | Ingen match i kontrollen | Ikke en fuldstændig hemmeligheds-, billed- eller historikaudit. |
 
-De 46 tests er fordelt på **20 kodetests**, **12 repository-tests** og **14 website-/publiceringstests**. Testen af den samlede suite blev også gentaget uden root for at kontrollere de forudsætninger, en almindelig build-runner bruger. GitHub Actions-kørslen efter push er stadig en særskilt kontrol.
+De 47 tests er fordelt på **20 kodetests**, **12 repository-tests** og **15 website-/publiceringstests**. Testen af den samlede suite blev også gentaget uden root for at kontrollere de forudsætninger, en almindelig build-runner bruger. GitHub Actions-kørslen efter push er stadig en særskilt kontrol.
 
 ## Visuel kontrol og brugerfunktioner
 
@@ -42,10 +44,10 @@ python tools/check_site.py
 python tools/audit_publication.py
 ```
 
-Linux-/root-afhængige tests kan springes over på Windows eller i en ikke-privilegeret runner. De tidligere Windows-rettelser er bevaret, men den nye samlede 1.3-suite er ikke kørt på en faktisk Windows-maskine her.
+Linux-/root-afhængige tests kan springes over på Windows eller i en ikke-privilegeret runner. De tidligere Windows-rettelser er bevaret, men den samlede 1.3.1-suite er ikke kørt på en faktisk Windows-maskine her.
 
 ## Hvad resultatet ikke siger
 
-Dette er test af kode, dokumentation og websitebygning. Det ændrer ikke /etc, brugere, UFW eller Netplan. VM-beviserne fra den 17. og 18. september er fortsat deres egne testfaser. Der er ikke gennemført en ny fuld Ubuntu-deployment eller GitHub Actions-publicering af 1.3 ved pakningen.
+Dette er test af kode, dokumentation og websitebygning. Det ændrer ikke /etc, brugere, UFW eller Netplan. VM-beviserne fra den 17. og 18. september er fortsat deres egne testfaser. Der er ikke gennemført en ny fuld Ubuntu-deployment eller GitHub Actions-publicering af 1.3.1 ved pakningen.
 
-Den aktuelle pakke indeholder ingen .git-mappe. Derfor er den faktiske Git-historik ikke scannet her. Før et privat repo gøres offentligt, bør ejerens lokale historik og alle billeder/rapporter gennemgås som beskrevet under [Publicering og privatliv](PUBLICERING.md).
+Afleveringsudgave 1.3.1 ændrer kun scriptkommentarer og dokumentation i forhold til 1.3.0. Den aktuelle pakke indeholder ingen .git-mappe. Derfor er den faktiske Git-historik ikke scannet her. Før et privat repo gøres offentligt, bør ejerens lokale historik og alle billeder/rapporter gennemgås som beskrevet under [Publicering og privatliv](PUBLICERING.md).

@@ -1,4 +1,8 @@
 #!/bin/bash
+# FORMÅL: Opdaterer/installérer nødvendige pakker og sætter hostname samt den administrerede /etc/hosts-linje.
+# KØRSEL: Køres ikke direkte. Sources af scripts/setup.sh og kaldes som system_setup() ved --apply.
+# DIREKTE: Nej. Afhænger af valideret config og fælles funktioner fra lib/common.sh.
+
 system_setup() {
     local apt_opts=(-o DPkg::Lock::Timeout=120 -o Acquire::Retries=3
                     -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold)

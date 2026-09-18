@@ -25,11 +25,11 @@ Idempotent filinstallation sammenligner indhold og metadata frem for blind appen
 
 Dokumentationen består nu af to adskilte testforløb: [16 nye screenshots fra v1.2-testen](../evidence/06-scripting/v1.2-2026-09-18/README.md) og de [18 oprindelige Modul 6-figurer fra Word-rapporten](../evidence/06-scripting/README.md#historiske-figurer). De nye billeder ændrer ikke dato eller betydning af de tidligere beviser. Se [kilde- og versionsgrundlaget](GRUNDLAG.md).
 
-**Afleveringsudgave 1.3:** Præsentation og repo er ryddet op; den testede serverkode under `scripts/` er uændret. Websitet gengiver denne Markdown-fil, så det ikke er en separat kopi af modulet. [Kildegrundlag](GRUNDLAG.md).
+**Afleveringsudgave 1.3.1:** Præsentation og repo er ryddet op. De 18 Modul 6-scriptfiler har nu eksplicitte topkommentarer med formål og kørsel. Kun dokumentationskommentarer er tilføjet til de verificerede deployment-scripts; den eksekverbare logik svarer fortsat til den v1.2-kode, der blev afprøvet på Ubuntu. Websitet gengiver denne Markdown-fil, så det ikke er en separat kopi af modulet. [Kildegrundlag](GRUNDLAG.md).
 
 [Ny v1.2-verifikation](#vm-test-v12) · [Kort VM-testrapport](VM_TEST_REPORT.md) · [Historisk forløb](#historisk-forloeb)
 
-### Aktuelle kommandoer i afleveringsudgave 1.3
+### Aktuelle kommandoer i afleveringsudgave 1.3.1
 
 Kør fra repo-roden som bootstrap-kontoen. Opret kun den lokale konfiguration, hvis den ikke allerede findes; tilpas værdier og public key før apply.
 
@@ -41,6 +41,64 @@ sudo bash scripts/setup.sh --check
 sudo bash scripts/setup.sh --apply --console-confirmed
 sudo bash scripts/healthcheck.sh
 ```
+
+### Dokumentationskrav: alle scripts er kommenteret og har en kørselsvejledning
+
+Modul 6-leverancen indeholder **18 scriptfiler** under `scripts/`. Hver scriptfil har en topkommentar, der forklarer dens formål og dokumenterede kørsel. Interne moduler og biblioteket køres ikke direkte; deres korrekte kørsel er gennem `scripts/setup.sh`. Den samlede fil-for-fil-vejledning findes også i [scripts/README.md](../scripts/README.md).
+
+| Script | Hvordan det køres |
+|---|---|
+| `scripts/setup.sh` | Direkte: `sudo bash scripts/setup.sh --check` eller `sudo bash scripts/setup.sh --apply --console-confirmed`. |
+| `scripts/healthcheck.sh` | Direkte: `sudo bash scripts/healthcheck.sh`; installeret kopi: `sudo /usr/local/sbin/securebase-healthcheck`. |
+| `scripts/monitor.sh` | Test direkte med `--sample`/`--self-test`; normal drift køres automatisk af cron efter installation. |
+| `scripts/lib/common.sh` | **Ikke direkte**; sources af `scripts/setup.sh`. |
+| `scripts/modules/00-preflight.sh` | **Ikke direkte**; kaldes af setup som `preflight()`. |
+| `scripts/modules/01-system.sh` | **Ikke direkte**; kaldes af setup som `system_setup()`. |
+| `scripts/modules/02-network.sh` | **Ikke direkte**; kaldes af setup som `network_setup()` og kun ved `CONFIGURE_NETWORK="yes"`. |
+| `scripts/modules/03-users.sh` | **Ikke direkte**; kaldes af setup som `users_setup()`. |
+| `scripts/modules/04-storage-acl.sh` | **Ikke direkte**; kaldes af setup som `storage_setup()`. |
+| `scripts/modules/05-ssh.sh` | **Ikke direkte**; kaldes af setup som `ssh_setup()` og indeholder det eksterne `KEY-OK`-stop. |
+| `scripts/modules/06-sudo.sh` | **Ikke direkte**; kaldes af setup som `sudo_setup()`. |
+| `scripts/modules/07-firewall.sh` | **Ikke direkte**; kaldes af setup som `firewall_setup()`. |
+| `scripts/modules/08-monitoring.sh` | **Ikke direkte**; kaldes af setup som `monitoring_setup()`. |
+| `scripts/tools/validate_config.py` | Automatisk i preflight; manuel kontrol: `python3 scripts/tools/validate_config.py config.env .`. |
+| `scripts/tools/netplan_scope.py` | Automatisk i preflight/netværk; manuel læsekontrol: `python3 scripts/tools/netplan_scope.py enp0s3`. |
+| `scripts/tools/check_sudo_listing.py` | Automatisk fra sudo-modulet med `sudo -l`-output på stdin. |
+| `scripts/tools/evidence.sh` | Valgfrit direkte: `sudo bash scripts/tools/evidence.sh | tee securebase-evidence.txt`. |
+| `scripts/history/monitor-modul5.sh` | Historisk reference; kun syntakskontrol anbefales: `bash -n scripts/history/monitor-modul5.sh`. |
+
+#### Eksempeloutput fra `healthcheck.sh` på det færdige system
+
+Nedenstående er et forkortet, faktisk observeret slutuddrag fra den færdige VM. Resultatet var **19 OK / 1 WARN / 0 FAIL**; WARN vedrører den kendte `who`/utmp-observation, mens `systemd-logind` viste sessionerne.
+
+```text
+── 4 / UID 0-audit ──
+  UID 0-konti: root
+  [OK]   Kun root har UID 0 i den tilgaengelige NSS-opslagning
+
+── 5 / SSH og administratorrolle ──
+  [OK]   SSH service/socket aktiv
+  [OK]   permitrootlogin no
+  [OK]   passwordauthentication no
+  [OK]   kbdinteractiveauthentication no
+  [OK]   pubkeyauthentication yes
+  [OK]   authenticationmethods publickey
+  [OK]   Admin er ikke i sudo-gruppen
+
+── 6 / Monitorering og rotation ──
+  [OK]   cron.service aktiv
+  [OK]   logrotate.timer aktiv
+  [OK]   Forventet cron-job findes
+  [OK]   Logrotate-regel findes
+  [OK]   Monitorlog indeholder en frisk maaling
+  [OK]   Seneste ressourcestatus OK
+
+── RESULTAT ──
+19 OK   1 WARN   0 FAIL
+RESULTAT: WARN - gennemgaa bemaerkningerne
+```
+
+Det fulde visuelle bevis findes i v1.2-evidensen og healthcheck-figurerne nedenfor. Healthchecket er læsende; exitkode `1` betyder WARN og exitkode `2` betyder FAIL.
 
 <a id="vm-test-v12"></a>
 
@@ -805,32 +863,11 @@ Dette historiske afsnit beskriver den oprindelige test fra 17. september. Den ny
 
 ### 17. Kildekode og scriptoversigt
 
-Alle scripts afleveres som filer i SecureBase_Modul6.tar.gz eller SecureBase_Modul6.zip. Arkiverne indeholder samme deployment-projekt. Rapportens uddrag erstatter ikke kildefilerne; hele mappestrukturen skal følge med ved aflevering.
+Alle Modul 6-scripts afleveres som kildefiler under `scripts/`. De er kommenteret i selve kildekoden, og den eksplicitte kørselsvejledning står både i afsnittet ovenfor og i [scripts/README.md](../scripts/README.md). Rapportens kodeudsnit erstatter ikke kildefilerne.
 
-| Fil / placering | Ansvar |
-| --- | --- |
-| setup.sh | Argumenter, preflight, lås, logging, eksplicit kørselsrækkefølge og slutstatus. |
-| healthcheck.sh | Selvstændige læsekontroller; ingen installation eller reparation. |
-| monitor.sh | CPU/RAM/disk, thresholds, logning; --sample og --self-test. |
-| lib/common.sh | Literal konfiguration, statusfunktioner, backup, filinstallation og medlemskab. |
-| modules/00-preflight.sh | Forudsætninger og konflikter før ændringer. |
-| modules/01-system.sh | Opdatering, nødvendige pakker, hostname og /etc/hosts. |
-| modules/02-network.sh | Valgfrit single-NIC Netplan; køres sidst. |
-| modules/03-users.sh | Rollegrupper, konti og gruppemedlemskaber. |
-| modules/04-storage-acl.sh | Projektrodens ejerskab, SGID og access/default ACL. |
-| modules/05-ssh.sh | Public key, eksternt teststop og SSH-hærdning. |
-| modules/06-sudo.sh | Tre afgrænsede regler; validering og negativ sudo-test. |
-| modules/07-firewall.sh | Én SSH-kilderegel; UFW-politik og IPv6-håndtering. |
-| modules/08-monitoring.sh | Installer monitor, cron, logrotate og aktivér tjenester. |
-| tools/validate_config.py | Semantisk validering af konfiguration og nøgleformat. |
-| tools/netplan_scope.py | Afgrænsning til understøttet Netplan-model. |
-| tools/check_sudo_listing.py | Kontrol af den faktiske liste over sudo-tilladelser. |
-| tools/evidence.sh | Valgfrit konfigurationsmanifest; ingen særskilt VM-diff vist. |
-| tests/test_bundle.py | Isoleret lokal testsuite; ikke det samme som VM-deployment. |
-| config.env(.example) / keys/ | Miljøværdier og public key; ingen private credentials. |
-| README.md / docs/ / START_HER.html | Vejledning, testplan, kildehenvisninger og historisk lokal teststatus. |
+Leverancen omfatter orkestrator, healthcheck, monitor, fælles bibliotek, ni moduler, fire hjælpeværktøjer og den historiske Modul 5-monitor. Interne moduler er bevidst dokumenteret som **ikke-direkte**: de får konfiguration, fejlhåndtering og rækkefølge fra `scripts/setup.sh`.
 
-Kildehenvisninger i Modul 6 angiver disse filnavne og funktioner. Figurer 6.1–6.18 henviser til brugerens uploadede terminalbilleder fra fresh-install-testen og slutkontrollerne.
+Kildehenvisninger i Modul 6 angiver filnavne og funktioner. Figurer 6.1–6.18 og de 16 v1.2-beviser henviser til faktiske terminalkørsler og slutkontroller.
 
 ### 18. Samlet test- og afleveringsstatus
 
@@ -844,8 +881,8 @@ Kildehenvisninger i Modul 6 angiver disse filnavne og funktioner. Figurer 6.1–
 | Fejlhåndtering | set -Eeuo pipefail, kontrol før aktivering og fejlstatus. | Afsnit 12; kildepakke |
 | Idempotent genkørsel | Konti/regler bevares; 0 ændrede administrerede filer. | Fig. 6.11–6.16 |
 | SSH efter genkørsel | Ny forbindelse lykkes; identitet og sudo-rolle kontrolleret. | Fig. 6.17–6.18 |
-| Kommenteret kode og vejledning | Komplette scripts i pakken; kort kørselsvejledning i rapporten. | Afsnit 16–17 |
-| Eksempeloutput | Faktisk output fra healthcheck: 19 OK, 1 WARN, 0 FAIL. | Fig. 6.9–6.10, 6.16 |
+| Kommenteret kode og vejledning | Alle 18 scriptfiler har topkommentar med formål/kørsel; fil-for-fil-vejledning angiver direkte eller indirekte brug. | Afsnittet “Dokumentationskrav” og `scripts/README.md` |
+| Eksempeloutput | Forkortet faktisk `healthcheck.sh`-output er indsat som tekst; fuldt visuelt bevis viser 19 OK, 1 WARN, 0 FAIL. | Afsnittet “Eksempeloutput” samt Fig. 6.9–6.10, 6.16 |
 
 #### Dokumentationsmæssig afgrænsning
 

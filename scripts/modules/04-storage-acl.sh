@@ -1,4 +1,8 @@
 #!/bin/bash
+# FORMÅL: Konfigurerer /srv/securebase med root:securebase, SGID samt access/default ACL.
+# KØRSEL: Køres ikke direkte. Sources af scripts/setup.sh og kaldes som storage_setup() ved --apply.
+# DIREKTE: Nej. Eksisterende projektfiler omskrives ikke rekursivt.
+
 storage_setup() {
     [[ ! -L $PROJECT_DIR ]] || die 'Projektmappen er symlink'
     mkdir -p "$PROJECT_DIR"

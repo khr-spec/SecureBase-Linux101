@@ -28,7 +28,8 @@ Billedrelationer og billedhash for Word-figurer findes i [evidence/index.json](.
 | Deployment-test 17. september 2026 | Frisk test-VM med tre NOPASSWD-kommandoer, /proc-baseret monitor, Netplan og idempotent genkørsel. Resultat 19 OK / 1 WARN / 0 FAIL. |
 | Repo 1.2.0, 18. september 2026 | Dokumentation/evidence struktureret, kode flyttet til scripts/, stier og tests tilpasset. Efterfølgende afprøvet på ny Ubuntu-test-VM: første apply 12 ændrede administrerede filer, anden apply 0, healthcheck 19 OK / 1 WARN / 0 FAIL. |
 
-| Afleveringsudgave 1.3.0 | Website, dokumentationsindgange og publiceringsværktøjer opdateret. `scripts/`, skabelon og public key bevares byte-identisk med 1.2. Lokale tests er ikke en ny fuld Ubuntu-installation. |
+| Afleveringsudgave 1.3.0 | Website, dokumentationsindgange og publiceringsværktøjer opdateret. Deploymentkode, skabelon og public key var byte-identiske med 1.2. |
+| Afleveringsudgave 1.3.1 | Dokumentationskommentarer og kørselsforklaringer tilføjet til alle Modul 6-scripts. En normaliseret logik-hash sammenlignes med den tidligere v1.2-reference, så fulde kommentarlinjer ikke forveksles med en ny serverimplementering. Ingen ny fuld Ubuntu-installation påstås. |
 
 Den fulde historiske monitor ligger i [scripts/history/monitor-modul5.sh](../scripts/history/monitor-modul5.sh). Den nye deployment-monitor ligger i [scripts/monitor.sh](../scripts/monitor.sh).
 

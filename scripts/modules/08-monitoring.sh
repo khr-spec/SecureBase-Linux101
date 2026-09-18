@@ -1,4 +1,8 @@
 #!/bin/bash
+# FORMÅL: Installerer monitor, monitor.conf, cron-job og logrotate-regel og aktiverer relevante services.
+# KØRSEL: Køres ikke direkte. Sources af scripts/setup.sh og kaldes som monitoring_setup() ved --apply.
+# DIREKTE: Nej. Den installerede monitor køres efterfølgende automatisk af cron.
+
 monitoring_setup() {
     local logfile=/var/log/securebase-monitor.log
     bash -n "$SCRIPT_DIR/monitor.sh"

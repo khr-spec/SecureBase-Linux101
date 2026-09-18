@@ -1,5 +1,8 @@
 #!/bin/bash
-# Read-only: afgraens support til en enkel Ubuntu Server 26.04-labserver.
+# FORMÅL: Læsende preflight af platform, konfiguration, bootstrap-konto, netværksscope og konflikter.
+# KØRSEL: Køres ikke direkte. Sources af scripts/setup.sh og kaldes som preflight().
+# DIREKTE: Nej. --check i setup.sh er den dokumenterede indgang.
+
 preflight() {
     section 'PREFLIGHT / laesende kontrol'
     local os version u entry home uid cmd file group members

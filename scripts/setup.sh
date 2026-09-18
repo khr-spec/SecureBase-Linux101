@@ -1,5 +1,8 @@
 #!/bin/bash
-# SecureBase orchestrator: --check er laesende; --apply aendrer serveren.
+# FORMÅL: Orkestrerer preflight og den fulde SecureBase-deployment i fast rækkefølge.
+# KØRSEL: sudo bash scripts/setup.sh --check  |  sudo bash scripts/setup.sh --apply --console-confirmed
+# DIREKTE: Ja. Modul-filerne nedenfor sources og kaldes herfra; de køres ikke enkeltvis.
+
 set -Eeuo pipefail
 export PATH=/usr/sbin:/usr/bin:/sbin:/bin
 export LC_ALL=C

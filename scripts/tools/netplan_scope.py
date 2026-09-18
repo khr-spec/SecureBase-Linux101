@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """Fail closed ved komplekst netvaerk. Læser kun; ingen filsletning her."""
+# KØRSEL: Kaldes automatisk af preflight/network-modulet: python3 scripts/tools/netplan_scope.py enp0s3
+# DIREKTE: Kun som læsende validering; ændrer ikke Netplan-filer.
+
 import pathlib, subprocess, sys
 
 def check(data, interface):

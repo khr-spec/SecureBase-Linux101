@@ -1,8 +1,8 @@
-# Deployment — SecureBase 1.3
+# Deployment — SecureBase 1.3.1
 
 [Overblik](../README.md) · [Modul 6 og VM-beviser](06-scripting.md) · [Testplan](TESTPLAN.md)
 
-Afleveringsudgave **1.3** bevarer den testede **repo 1.2-scriptstruktur**, som blev afprøvet på en frisk Ubuntu Server 26.04.1-VM den 18. september 2026. Programmerne ligger under scripts/, mens lokal config.env og keys/ ligger i repo-roden. De [nye testbeviser](VM_TEST_REPORT.md) er adskilt fra de historiske Modul 6-billeder med setup.sh i roden.
+Afleveringsudgave **1.3.1** bevarer den testede **repo 1.2-scriptstruktur**, som blev afprøvet på en frisk Ubuntu Server 26.04.1-VM den 18. september 2026. Programmerne ligger under scripts/, mens lokal config.env og keys/ ligger i repo-roden. De [nye testbeviser](VM_TEST_REPORT.md) er adskilt fra de historiske Modul 6-billeder med setup.sh i roden.
 
 ## 1. Forudsætninger og ansvar
 
@@ -32,16 +32,16 @@ Setup administrerer hele admin-kontoens authorized_keys. Eksisterende indhold si
 Websitets downloadsektion tilbyder en komplet kildepakke uden `.git` eller lokal `config.env`. På en frisk Ubuntu-konsol med internet kan den hentes uden eksisterende SSH:
 
 ```bash
-wget https://khr-spec.github.io/SecureBase-Linux101/downloads/SecureBase-1.3.0.zip
+wget https://khr-spec.github.io/SecureBase-Linux101/downloads/SecureBase-1.3.1.zip
 # Installer unzip, hvis det ikke allerede findes:
 sudo apt-get update
 sudo apt-get install -y unzip
-unzip SecureBase-1.3.0.zip
+unzip SecureBase-1.3.1.zip
 cd SecureBase-Linux101
 sha256sum -c SHA256SUMS
 ```
 
-Downloadadressen bliver først aktiv, når 1.3-websitet er publiceret. Dette er en ny overførselsvejledning, ikke et ekstra historisk VM-testbevis. De dokumenterede tests brugte midlertidig HTTP fra Windows. Indholdet i source-arkivet vælges eksplicit af websitebyggeren; lokal konfiguration og `.git` følger ikke med.
+Downloadadressen bliver først aktiv, når 1.3.1-websitet er publiceret. Dette er en ny overførselsvejledning, ikke et ekstra historisk VM-testbevis. De dokumenterede tests brugte midlertidig HTTP fra Windows. Indholdet i source-arkivet vælges eksplicit af websitebyggeren; lokal konfiguration og `.git` følger ikke med.
 
 En alternativ vej er at klone repoet, når det er offentligt, med Git installeret:
 

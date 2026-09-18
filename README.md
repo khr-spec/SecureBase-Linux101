@@ -19,7 +19,7 @@ Afleveringen kan læses direkte på GitHub Pages: alle moduler, 103 screenshots,
 
 Ubuntu Server 26.04.1 LTS blev testet i VirtualBox den **18. september 2026** med deployment-koden fra 1.2. Første apply rapporterede **12 ændrede administrerede filer**, anden apply **0**. Healthcheck kaldt af setup viste **19 OK / 1 WARN / 0 FAIL**. Advarslen vedrører `who`/utmp; logind viste sessionerne. Det er en vurderet WARN, ikke et ubetinget PASS.
 
-**1.3.0 er en afleverings- og websiteudgave.** Filerne under `scripts/`, konfigurationsskabelonen og public key er byte-identiske med den afprøvede 1.2-kode. De oprindelige VM-beviser er ikke omdateret eller præsenteret som en ny 1.3-serverinstallation. [Testgrundlag](docs/VM_TEST_REPORT.md) · [Versionsafgrænsning](docs/GRUNDLAG.md).
+**1.3.1 er afleveringsudgaven med eksplicit Modul 6-scriptdokumentation.** Alle 18 scriptfiler under `scripts/` har nu topkommentarer med formål og kørsel, og Modul 6 indeholder en fil-for-fil-kørselsoversigt samt faktisk eksempeloutput fra `healthcheck.sh`. Kun kommentarlinjer er tilføjet til de verificerede deployment-scripts; den eksekverbare logik matcher fortsat den afprøvede 1.2-reference. [Scriptvejledning](scripts/README.md) · [Testgrundlag](docs/VM_TEST_REPORT.md) · [Versionsafgrænsning](docs/GRUNDLAG.md).
 
 ## Deployment
 

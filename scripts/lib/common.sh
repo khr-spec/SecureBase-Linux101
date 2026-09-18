@@ -1,6 +1,8 @@
 #!/bin/bash
-# Faelles funktioner. Source kun fra den gennemgaaede deployment-pakke.
-# Ingen funktion her udfoerer systemaendringer blot ved indlaesning.
+# FORMÅL: Fælles funktioner til validering, status, backup, filinstallation og medlemskab.
+# KØRSEL: Køres ikke direkte. Sources af scripts/setup.sh før modul-funktionerne kaldes.
+# DIREKTE: Nej. Indlæsning alene udfører ingen systemændringer.
+
 C_RESET='' C_OK='' C_WARN='' C_ERR='' C_INFO=''
 if [[ -t 1 && -z ${NO_COLOR:-} && ${TERM:-dumb} != dumb ]]; then
     C_RESET=$'\033[0m'; C_OK=$'\033[32m'; C_WARN=$'\033[33m'

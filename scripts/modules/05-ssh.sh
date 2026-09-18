@@ -1,4 +1,8 @@
 #!/bin/bash
+# FORMÅL: Installerer admin-public-key, kræver ekstern key-test og håndhæver SSH-hardening.
+# KØRSEL: Køres ikke direkte. Sources af scripts/setup.sh og kaldes som ssh_setup() ved --apply.
+# DIREKTE: Nej. Det planlagte KEY-OK-stop skal bekræftes fra en faktisk ekstern SSH-session.
+
 ssh_effective_ok() {
     local config=$1 field value actual
     /usr/sbin/sshd -T -f "$config" > "$WORK/sshd.effective" || return 1
