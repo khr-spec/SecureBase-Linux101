@@ -1,0 +1,9 @@
+config.env
+*.log
+*.tar.gz
+*.zip
+id_ed25519
+*.pem
+keys/*
+!keys/*.pub
+__pycache__/

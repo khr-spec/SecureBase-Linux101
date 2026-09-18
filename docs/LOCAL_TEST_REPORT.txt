@@ -1,0 +1,51 @@
+SecureBase 1.1 - lokal enhedsteststatus, 17. september 2026
+
+Miljo: isoleret Debian 13-container med Bash og Python 3.
+IKKE et Ubuntu 26.04-deployment eller bevis fra brugerens VM.
+
+Valideret:
+- Bash-syntaks for alle leverede .sh-filer.
+- Literal konfigurationsparser, public-key-format og fingerprint.
+- Afvisning af kodeinjektion, dobbelt/ukendt config og ugyldige vaerdier.
+- Idempotent atomisk filinstallation/backup paa midlertidige testfiler.
+- Symlink-afvisning paa filinstallation.
+- UFW-regelklassifikation med kontrollerede tekstfixtures.
+- Netplan scope-validering med kontrollerede datafixtures.
+- Afvisning af ekstra sudo-tilladelser i kontrollerede listing-fixtures.
+- Monitorens graensevaerdier og en virkelig, laesende /proc-maaling.
+- Help/ukendte optioner, linjeskift og fravaer af private SSH-noegler.
+
+Derudover er setup --check koert her og har korrekt afvist Debian 13.
+Ingen apt-installation, brugeroprettelse, live UFW-aendring eller Netplan-aendring
+blev udfoert af deployment-pakken i testsuiten.
+
+Den efterfoelgende fresh-install test paa Ubuntu Server 26.04.1 er gennemfoert og dokumenteret separat i docs/VM_TEST_REPORT.md og Word-rapporten. Denne fil beskriver fortsat kun de isolerede lokale tests.
+ShellCheck er ikke koert; vaerktoejet var ikke tilgaengeligt i testmiljoeet.
+
+--- Testoutput ---
+test_all_bash_syntax (__main__.BundleTests.test_all_bash_syntax) ... ok
+test_atomic_install_idempotence_and_backup (__main__.BundleTests.test_atomic_install_idempotence_and_backup) ... ok
+test_bash_literal_parser (__main__.BundleTests.test_bash_literal_parser) ... ok
+test_duplicate_and_unknown_keys (__main__.BundleTests.test_duplicate_and_unknown_keys) ... ok
+test_exact_sudo_policy (__main__.BundleTests.test_exact_sudo_policy) ... ok
+test_help (__main__.BundleTests.test_help) ... ok
+test_injection_not_executed (__main__.BundleTests.test_injection_not_executed) ... ok
+test_invalid_config_variants (__main__.BundleTests.test_invalid_config_variants) ... ok
+test_key_matches_expected_fingerprint (__main__.BundleTests.test_key_matches_expected_fingerprint) ... ok
+test_monitor_bad_config (__main__.BundleTests.test_monitor_bad_config) ... ok
+test_monitor_boundaries (__main__.BundleTests.test_monitor_boundaries) ... ok
+test_monitor_sample (__main__.BundleTests.test_monitor_sample) ... ok
+test_netplan_rejects_extra_interfaces_and_bridges (__main__.BundleTests.test_netplan_rejects_extra_interfaces_and_bridges) ... ok
+test_netplan_single_nic (__main__.BundleTests.test_netplan_single_nic) ... ok
+test_no_crlf_or_missing_final_newline (__main__.BundleTests.test_no_crlf_or_missing_final_newline) ... ok
+test_no_private_keys (__main__.BundleTests.test_no_private_keys) ... ok
+test_public_key_and_config (__main__.BundleTests.test_public_key_and_config) ... ok
+test_symlink_target_rejected (__main__.BundleTests.test_symlink_target_rejected) ... ok
+test_ufw_rule_policy (__main__.BundleTests.test_ufw_rule_policy) ... ok
+test_unknown_options_rejected (__main__.BundleTests.test_unknown_options_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 2.949s
+
+OK
+Public key fingerprint: SHA256:YbkaUZmrQBVRwTKYPv4SyJUG0+YHA2jlr3dzN1aV8lU
