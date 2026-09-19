@@ -1,48 +1,34 @@
-# Kildegrundlag og versionsafgrænsning
+# Kilde- og testgrundlag
 
-[Til overblikket](../README.md)
+[Overblik](../README.md) · [VM-testrapport](VM_TEST_REPORT.md) · [Tekniske referencer](SOURCES.md)
 
-## Dokumentationen bygger på
+## Grundlag
 
-1. Den godkendte [Word-rapport](../reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx) fra det manuelle Modul 1–5-forløb og den særskilte Modul 6-test (87 sider).
-2. Kildepakken `SecureBase_Modul6_v1.1.0.zip`, herunder README, kommenterede scripts og lokal teststatus.
-3. De 16 nye screenshots fra v1.2-testen den 18. september 2026, registreret i [det nye evidensindeks](../evidence/06-scripting/v1.2-2026-09-18/index.json).
-4. Brugerens indsatte GitHub-guide: én Markdown-fil pr. modul, relative links, scripts adskilt fra dokumentation og et kort root-README. Guidens mappestruktur er en anbefaling, ikke en påstået ny obligatorisk bedømmelsesregel.
+Projektet følger den udleverede **Linux 101-opgave, Modul 1–6**. Dokumentationen bygger på de gennemførte terminalkørsler, konfigurationsfilerne og den kommenterede kode under `scripts/`.
 
-Rapporten er kopieret uændret. De seks Markdown-filer genbruger dens terminologi, kommandoer, resultater og begrænsninger og samler dem under den aftalte modultemplate. Præsentationslag og lokale tests beskrives særskilt fra VM-beviserne.
+[Word-rapporten](../reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx) samler det manuelle forløb og den oprindelige deployment-test. Den er sprogligt redigeret den 19. september 2026 og suppleret med aktuelle kørselsoplysninger. Testdatoer og de 87 indlejrede billedbeviser er bevaret. Den separate [billedserie fra 18. september](../evidence/06-scripting/v1.2-2026-09-18/README.md) dokumenterer testen af den nuværende scriptstruktur.
 
-## Proveniens
+## Testforløb
 
-```text
-Word SHA-256: 000aae50a0b68a76568091704d73fc4bd9c9b466de074e94bcda9bea8cc49512
-Kildearkiv 1.1.0 ZIP SHA-256: ccf910597d1ab7306244e1b73b9839c99bb8ac4916f6c478740441911d2d60e3
-```
-
-Billedrelationer og billedhash for Word-figurer findes i [evidence/index.json](../evidence/index.json). Det [nye v1.2-indeks](../evidence/06-scripting/v1.2-2026-09-18/index.json) henviser til direkte screenshot-uploads, ikke Word-medier. De nye filer er byte-identiske med disse uploads. Git-reference `54734b9` kommer fra arbejdsforløbet; den er ikke genlæst fra en `.git`-mappe på VM'en. Billedteksterne angiver eksisterende udsnit. En indledende kapitelnummerering er tilpasset Markdown; det ændrer ikke de observerede resultater.
-
-## Test- og udgivelsestilstande må ikke blandes sammen
-
-| Tilstand | Hvad den omfatter |
+| Forløb | Hvad der er dokumenteret |
 |---|---|
-| Manuel VM, Modul 1–5 | Konto-/fil-/netværksopsætning udført og dokumenteret undervejs. Modul 3 bruger passwordkrævende, begrænset sudo. Modul 5 bruger den historiske top/free-monitor. |
-| Deployment-test 17. september 2026 | Frisk test-VM med tre NOPASSWD-kommandoer, /proc-baseret monitor, Netplan og idempotent genkørsel. Resultat 19 OK / 1 WARN / 0 FAIL. |
-| Repo 1.2.0, 18. september 2026 | Dokumentation/evidence struktureret, kode flyttet til scripts/, stier og tests tilpasset. Efterfølgende afprøvet på ny Ubuntu-test-VM: første apply 12 ændrede administrerede filer, anden apply 0, healthcheck 19 OK / 1 WARN / 0 FAIL. |
+| Manuel opsætning · Modul 1–5 | Netværk, SSH, filrettigheder, roller, firewall og monitorering. Modul 3 bruger passwordkrævende sudo; Modul 5 bruger `top`/`free`-monitoren. |
+| Deployment · 17. september 2026 | Frisk VM, tre afgrænsede `NOPASSWD`-kommandoer, `/proc`-baseret monitor og genkørsel. |
+| Scriptstruktur 1.2 · 18. september 2026 | Frisk VM med kode under `scripts/`: første apply 12 ændrede administrerede filer; anden apply 0; healthcheck 19 OK / 1 WARN / 0 FAIL. |
+| Dokumentationsudgave 1.3.2 | Redaktionel oprydning. De 18 scripts er uændrede fra 1.3.1; den eksekverbare logik svarer fortsat til 1.2-referencen. Ingen ny fuld VM-installation er udført for denne udgave. |
 
-| Afleveringsudgave 1.3.0 | Website, dokumentationsindgange og publiceringsværktøjer opdateret. Deploymentkode, skabelon og public key var byte-identiske med 1.2. |
-| Afleveringsudgave 1.3.1 | Dokumentationskommentarer og kørselsforklaringer tilføjet til alle Modul 6-scripts. En normaliseret logik-hash sammenlignes med den tidligere v1.2-reference, så fulde kommentarlinjer ikke forveksles med en ny serverimplementering. Ingen ny fuld Ubuntu-installation påstås. |
+Den tidligere monitor bevares i [scripts/history/monitor-modul5.sh](../scripts/history/monitor-modul5.sh). Det aktuelle deployment bruger [scripts/monitor.sh](../scripts/monitor.sh).
 
-Den fulde historiske monitor ligger i [scripts/history/monitor-modul5.sh](../scripts/history/monitor-modul5.sh). Den nye deployment-monitor ligger i [scripts/monitor.sh](../scripts/monitor.sh).
+## Billedbeviser
 
-## Afgrænsninger beholdt fra rapporten
+Der er **103 screenshots**: 87 figurer fra rapporten og 16 fra den efterfølgende VM-test. Indeksene angiver billedtekst, modul, filsti og SHA-256. Udsnit er markeret; billedfilerne er ikke retoucheret.
 
-- Tomt `who`-output er ikke bevis for, at der ikke er SSH-sessioner. Healthcheckets WARN er bevaret.
-- 0 ændrede administrerede filer gælder genkørslen med samme input. Logs må vokse, og pakkearkiver kan ændre sig.
-- En før/efter-manifestdiff med evidence.sh er foreslået til fremtidig regression; den er ikke vist i VM-beviserne.
-- Den midlertidige webservices UFW-regel og proces blev fjernet. Sletning af VirtualBox-forwarden er ikke vist.
-- Threshold-logikken og journal-kanalen i Modul 5 blev testet hver for sig. Ingen faktisk 85/90-belastning blev fremprovokeret.
+[Indeks over rapportfigurer](../evidence/index.json) · [Indeks over v1.2-testen](../evidence/06-scripting/v1.2-2026-09-18/index.json)
 
-## Redaktionelle tilpasninger
+## Afgrænsning
 
-Modulerne har fået faste topoverskrifter, navigationslinks og billedstier. Word-henvisninger til næste side er omskrevet til næste afsnit. Word-specifikke gentagelser og en sætning om en fejlslagen mellemkommando er udeladt; konfigurationer, planlagte negative tests og observerede slutresultater er bevaret. Historiske kommandoer i Modul 6 beholder de gamle stier; den aktuelle [deploymentvejledning](DEPLOYMENT.md) bruger scripts/.
-
-Tekniske referencer fra den oprindelige pakke findes i [SOURCES.md](SOURCES.md). Henvisninger om den nye Git-/Markdown-struktur står i en særskilt sektion dér.
+- Healthcheckets `who`/utmp-advarsel bevares. Tomt `who`-output er ikke bevis for, at der ingen sessioner er.
+- Idempotens gælder administrerede filer ved samme input. Logfiler kan vokse; der er ikke vist en særskilt `evidence.sh`-hashdiff af systemet.
+- Modul 5's threshold-logik og journal-kanal blev testet hver for sig, uden at fylde disk eller RAM til driftsgrænserne.
+- Webtestens proces og UFW-regel blev fjernet; sletning af den midlertidige VirtualBox-forward er ikke dokumenteret.
+- Beviserne dækker de angivne VM'er og testtidspunkter, ikke en sikkerhedscertificering eller drift på alle Ubuntu-netværksmodeller.

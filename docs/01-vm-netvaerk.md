@@ -395,6 +395,6 @@ NAT med loopback-forward blev valgt frem for direkte LAN-eksponering. SSH bruger
 
 ### Kildegrundlag
 
-[Samlet Word-rapport, uændret kopi](../reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx). Figurnumrene svarer til rapporten; i Modul 1–2 er modulnummeret tilføjet for entydighed. Kommandoer er dokumentation af det viste forløb, ikke en opfordring til at genkøre alle historiske trin på den færdige server.
+[Samlet Word-rapport](../reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx). Figurnumrene svarer til rapporten; i Modul 1–2 er modulnummeret tilføjet for entydighed. Kommandoerne dokumenterer de viste testtrin; ved en ny installation bruges deploymentvejledningen.
 
 [← Overblik](../README.md) · [Næste modul](02-filsystem.md)

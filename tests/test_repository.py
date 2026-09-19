@@ -83,9 +83,11 @@ class RepositoryTests(unittest.TestCase):
             for i in items:
                 self.assertEqual(report.read(i['word_media'].lstrip('/')),(ROOT/i['file']).read_bytes(),i['file'])
 
-    def test_report_is_unchanged(self):
-        report=ROOT/'reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx'
-        self.assertEqual(hashlib.sha256(report.read_bytes()).hexdigest(),'000aae50a0b68a76568091704d73fc4bd9c9b466de074e94bcda9bea8cc49512')
+    def test_report_matches_documented_release(self):
+        release=json.loads(text(ROOT/'tests/report-release.json'))
+        report=ROOT/release['file']
+        self.assertEqual(hashlib.sha256(report.read_bytes()).hexdigest(),release['sha256'])
+        self.assertEqual(release['version'],text(ROOT/'VERSION').strip())
 
     def test_markdown_local_links(self):
         for p in ROOT.rglob('*.md'):

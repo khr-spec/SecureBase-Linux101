@@ -7,7 +7,7 @@ ROOT_FILES = {'README.md', 'CHANGELOG.md', 'START_HER.html', 'VERSION',
 EXTENSIONS = {
     'docs': {'.md', '.txt'}, 'evidence': {'.md', '.json', '.png'},
     'scripts': {'.sh', '.py', '.md'}, 'tests': {'.py', '.json'},
-    'tools': {'.py'}, 'site': {'.css', '.js', '.html', '.json', '.svg'},
+    'tools': {'.py'}, 'site': {'.css', '.js', '.html', '.json', '.svg', '.md'},
     'reports': {'.docx'},
 }
 SKIP_PARTS = {'.git', '__pycache__', '.pytest_cache', '.venv', '.venv-site', '_site',

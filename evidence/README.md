@@ -13,13 +13,13 @@ Her ligger **87 oprindelige figurer** udtrukket fra [den afsluttede Word-rapport
 | 5 | [Monitorering](05-monitorering/README.md) |
 | 6 | [Scripting og deployment](06-scripting/README.md) |
 
-[index.json](index.json) angiver original billedrelation i Word, modul, figur, billedtekst, dimensioner og SHA-256. `SHA256SUMS` i repo-roden beskytter leverancens filindhold mod utilsigtede ændringer; det er ikke en digital signatur fra serveren.
+[index.json](index.json) angiver original billedrelation i Word, modul, figur, billedtekst, dimensioner og SHA-256. `SHA256SUMS` i repo-roden beskytter de versionerede filers indhold mod utilsigtede ændringer; det er ikke en digital signatur fra serveren.
 
 ## Nyt tillæg: v1.2 på Ubuntu den 18. september 2026
 
 [16 nye screenshots](06-scripting/v1.2-2026-09-18/README.md) dokumenterer den nye repos `scripts/`-struktur: fresh-install, preflight, første apply, statisk netværk, SSH/sudo og anden apply med 0 ændrede administrerede filer. Det giver **103 billeder i alt**, uden at nogen af de oprindelige 87 billeder ændres.
 
-Det oprindelige [index.json](index.json) er fortsat kun indekset over Word-figurerne. De nye uploads har et [særskilt kilde-/hashindeks](06-scripting/v1.2-2026-09-18/index.json). De er ikke indlejret i den uændrede Word-rapport.
+Det oprindelige [index.json](index.json) er fortsat kun indekset over Word-figurerne. De nye screenshots har et [særskilt kilde-/hashindeks](06-scripting/v1.2-2026-09-18/index.json). De 16 billeder er et separat tillæg til rapportens oprindelige billedserie.
 
 ## Hvad materialet ikke er
 

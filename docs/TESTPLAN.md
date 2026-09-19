@@ -1,6 +1,6 @@
 # Regressionstestplan
 
-[Overblik](../README.md) · [Aktuelle VM-resultater](VM_TEST_REPORT.md) · [Lokale tests](TESTRESULTATER.md)
+[Overblik](../README.md) · [Aktuelle VM-resultater](VM_TEST_REPORT.md)
 
 **Dette er fortsat en regressionstestplan, ikke et ubetinget PASS for alle testtrin.** V1.2 blev afprøvet den 18. september 2026. Tabellen angiver, hvad de nye billeder faktisk dækker; de supplerende trin nedenfor står fortsat som anvisninger til en senere kørsel.
 
@@ -83,6 +83,14 @@ diff -u ~/securebase-before.txt ~/securebase-after.txt
 
 Gem ændringstælleren, ny SSH-session og healthcheck. Logs må vokse. Både den historiske og den nye v1.2-test viste 0 ændrede administrerede filer. Ingen af billedserierne indeholder et særskilt evidence.sh-diffbevis.
 
-## F. Aflevering og udviklingshistorik
+## F. Automatiske kode- og dokumentationskontroller
 
-Dokumentation, scripts, tests, offentlige nøgler og evidence følger samme repo. Ingen private nøgler, passwords eller lokale config.env-filer committes. Commit nye ændringer og de tilsvarende docs sammen; lav ikke falske bagudrettede commits for tidligere arbejde.
+Fra repo-roden, i et aktiveret Python-miljø med afhængighederne fra `requirements-site.txt`:
+
+```bash
+python -m unittest discover -s tests -v
+```
+
+Kontrollerne omfatter Bash-syntaks, konfigurationsvalidering, filinstallation, scriptvejledning, billedintegritet og lokale links. De starter ikke et deployment mod serveren. Linux-/root-specifikke tests kan blive markeret `skipped` på Windows eller uden de krævede rettigheder; fravalg er ikke beståede funktionstests.
+
+De dokumenterede VM-resultater er **19 OK / 1 WARN / 0 FAIL** og **0 ændrede administrerede filer ved genkørsel**. Den kendte `who`/utmp-advarsel skal fortsat vurderes ud fra logind-sessionerne. Nye testkørsler registreres med dato og version og erstatter ikke de oprindelige billedbeviser.

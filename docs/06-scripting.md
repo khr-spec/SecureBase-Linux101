@@ -25,11 +25,11 @@ Idempotent filinstallation sammenligner indhold og metadata frem for blind appen
 
 Dokumentationen består nu af to adskilte testforløb: [16 nye screenshots fra v1.2-testen](../evidence/06-scripting/v1.2-2026-09-18/README.md) og de [18 oprindelige Modul 6-figurer fra Word-rapporten](../evidence/06-scripting/README.md#historiske-figurer). De nye billeder ændrer ikke dato eller betydning af de tidligere beviser. Se [kilde- og versionsgrundlaget](GRUNDLAG.md).
 
-**Afleveringsudgave 1.3.1:** Præsentation og repo er ryddet op. De 18 Modul 6-scriptfiler har nu eksplicitte topkommentarer med formål og kørsel. Kun dokumentationskommentarer er tilføjet til de verificerede deployment-scripts; den eksekverbare logik svarer fortsat til den v1.2-kode, der blev afprøvet på Ubuntu. Websitet gengiver denne Markdown-fil, så det ikke er en separat kopi af modulet. [Kildegrundlag](GRUNDLAG.md).
+De 18 scriptfiler er kommenteret med formål og kørsel. Den eksekverbare logik svarer til den v1.2-kode, som er afprøvet på Ubuntu. [Kilde- og testgrundlag](GRUNDLAG.md).
 
 [Ny v1.2-verifikation](#vm-test-v12) · [Kort VM-testrapport](VM_TEST_REPORT.md) · [Historisk forløb](#historisk-forloeb)
 
-### Aktuelle kommandoer i afleveringsudgave 1.3.1
+### Kørsel fra repo-roden
 
 Kør fra repo-roden som bootstrap-kontoen. Opret kun den lokale konfiguration, hvis den ikke allerede findes; tilpas værdier og public key før apply.
 
@@ -44,7 +44,7 @@ sudo bash scripts/healthcheck.sh
 
 ### Dokumentationskrav: alle scripts er kommenteret og har en kørselsvejledning
 
-Modul 6-leverancen indeholder **18 scriptfiler** under `scripts/`. Hver scriptfil har en topkommentar, der forklarer dens formål og dokumenterede kørsel. Interne moduler og biblioteket køres ikke direkte; deres korrekte kørsel er gennem `scripts/setup.sh`. Den samlede fil-for-fil-vejledning findes også i [scripts/README.md](../scripts/README.md).
+Modul 6 indeholder **18 scriptfiler** under `scripts/`. Hver scriptfil har en topkommentar, der forklarer dens formål og dokumenterede kørsel. Interne moduler og biblioteket køres ikke direkte; deres korrekte kørsel er gennem `scripts/setup.sh`. Den samlede fil-for-fil-vejledning findes også i [scripts/README.md](../scripts/README.md).
 
 | Script | Hvordan det køres |
 |---|---|
@@ -64,7 +64,7 @@ Modul 6-leverancen indeholder **18 scriptfiler** under `scripts/`. Hver scriptfi
 | `scripts/tools/validate_config.py` | Automatisk i preflight; manuel kontrol: `python3 scripts/tools/validate_config.py config.env .`. |
 | `scripts/tools/netplan_scope.py` | Automatisk i preflight/netværk; manuel læsekontrol: `python3 scripts/tools/netplan_scope.py enp0s3`. |
 | `scripts/tools/check_sudo_listing.py` | Automatisk fra sudo-modulet med `sudo -l`-output på stdin. |
-| `scripts/tools/evidence.sh` | Valgfrit direkte: `sudo bash scripts/tools/evidence.sh | tee securebase-evidence.txt`. |
+| `scripts/tools/evidence.sh` | Valgfrit direkte: `sudo bash scripts/tools/evidence.sh \| tee securebase-evidence.txt`. |
 | `scripts/history/monitor-modul5.sh` | Historisk reference; kun syntakskontrol anbefales: `bash -n scripts/history/monitor-modul5.sh`. |
 
 #### Eksempeloutput fra `healthcheck.sh` på det færdige system
@@ -104,7 +104,7 @@ Det fulde visuelle bevis findes i v1.2-evidensen og healthcheck-figurerne nedenf
 
 ### Ny VM-verifikation af repo 1.2 — 18. september 2026
 
-Denne test retter den tidligere begrænsning: det er nu **den nye repos mappe-/scriptstruktur**, der er kørt på Ubuntu, ikke kun den gamle deploymentpakke. Der blev ikke ændret scripts for at udarbejde denne dokumentationsopdatering.
+Testen blev udført fra den nuværende `scripts/`-struktur på en frisk Ubuntu-VM. Første installation, genkørsel og ny SSH-adgang blev kontrolleret.
 
 | Felt | Dokumenteret testgrundlag |
 |---|---|
@@ -365,9 +365,9 @@ ls -la
 
 <a id="figur-6-1"></a>
 
-![Figur 6.1: Arkivet hentes med HTTP 200, gemmes med 38.017 bytes og udpakkes. Mappen indeholder blandt andet setup.sh, healthcheck.sh, config.env, keys og modules. (Udsnit af uploadet screenshot.)](../evidence/06-scripting/figur-6-01.png)
+![Figur 6.1: Arkivet hentes med HTTP 200, gemmes med 38.017 bytes og udpakkes. Mappen indeholder blandt andet setup.sh, healthcheck.sh, config.env, keys og modules. (Udsnit af terminal-screenshot.)](../evidence/06-scripting/figur-6-01.png)
 
-*Figur 6.1. Arkivet hentes med HTTP 200, gemmes med 38.017 bytes og udpakkes. Mappen indeholder blandt andet setup.sh, healthcheck.sh, config.env, keys og modules. (Udsnit af uploadet screenshot.)*
+*Figur 6.1. Arkivet hentes med HTTP 200, gemmes med 38.017 bytes og udpakkes. Mappen indeholder blandt andet setup.sh, healthcheck.sh, config.env, keys og modules. (Udsnit af terminal-screenshot.)*
 
 ### 2.1 Første preflight med standardvalg
 
@@ -465,9 +465,9 @@ Det første apply opretter de manglende rollegrupper og konti, bevarer bootstrap
 
 <a id="figur-6-6"></a>
 
-![Figur 6.6: Første kørsel opretter roller og brugere, konfigurerer ACL og installerer authorized_keys. Derefter stopper scriptet ved den planlagte eksterne SSH-test. (Udsnit af uploadet screenshot.)](../evidence/06-scripting/figur-6-06.png)
+![Figur 6.6: Første kørsel opretter roller og brugere, konfigurerer ACL og installerer authorized_keys. Derefter stopper scriptet ved den planlagte eksterne SSH-test. (Udsnit af terminal-screenshot.)](../evidence/06-scripting/figur-6-06.png)
 
-*Figur 6.6. Første kørsel opretter roller og brugere, konfigurerer ACL og installerer authorized_keys. Derefter stopper scriptet ved den planlagte eksterne SSH-test. (Udsnit af uploadet screenshot.)*
+*Figur 6.6. Første kørsel opretter roller og brugere, konfigurerer ACL og installerer authorized_keys. Derefter stopper scriptet ved den planlagte eksterne SSH-test. (Udsnit af terminal-screenshot.)*
 
 #### Sikkerhedsstop før SSH-hærdning
 
@@ -536,9 +536,9 @@ DNS-adresserne i den viste fil er 10.0.2.3 og 1.1.1.1. IPv6-adresser fremgår st
 
 <a id="figur-6-8"></a>
 
-![Figur 6.8: Første apply afsluttes med 12 ændrede administrerede filer og healthcheck-resultatet 19 OK, 1 WARN, 0 FAIL. Log- og backupplacering oplyses. (Udsnit af uploadet screenshot.)](../evidence/06-scripting/figur-6-08.png)
+![Figur 6.8: Første apply afsluttes med 12 ændrede administrerede filer og healthcheck-resultatet 19 OK, 1 WARN, 0 FAIL. Log- og backupplacering oplyses. (Udsnit af terminal-screenshot.)](../evidence/06-scripting/figur-6-08.png)
 
-*Figur 6.8. Første apply afsluttes med 12 ændrede administrerede filer og healthcheck-resultatet 19 OK, 1 WARN, 0 FAIL. Log- og backupplacering oplyses. (Udsnit af uploadet screenshot.)*
+*Figur 6.8. Første apply afsluttes med 12 ændrede administrerede filer og healthcheck-resultatet 19 OK, 1 WARN, 0 FAIL. Log- og backupplacering oplyses. (Udsnit af terminal-screenshot.)*
 
 Den første gennemførte kørsel bruges som reference. Det selvstændige healthcheck og den efterfølgende genkørsel dokumenteres i de næste afsnit.
 
@@ -748,9 +748,9 @@ De efterfølgende sider viser bevarelse af nøgler, sudoers, firewall og driftsf
 
 <a id="figur-6-12"></a>
 
-![Figur 6.12: Projekt-ACL er allerede korrekt; authorized_keys, SSH-konfiguration og sudoers er uændrede. KEY-OK er indtastet ved sikkerhedsstoppet, og sudo-politikken er de tre forventede kommandoer. (Udsnit af uploadet screenshot.)](../evidence/06-scripting/figur-6-12.png)
+![Figur 6.12: Projekt-ACL er allerede korrekt; authorized_keys, SSH-konfiguration og sudoers er uændrede. KEY-OK er indtastet ved sikkerhedsstoppet, og sudo-politikken er de tre forventede kommandoer. (Udsnit af terminal-screenshot.)](../evidence/06-scripting/figur-6-12.png)
 
-*Figur 6.12. Projekt-ACL er allerede korrekt; authorized_keys, SSH-konfiguration og sudoers er uændrede. KEY-OK er indtastet ved sikkerhedsstoppet, og sudo-politikken er de tre forventede kommandoer. (Udsnit af uploadet screenshot.)*
+*Figur 6.12. Projekt-ACL er allerede korrekt; authorized_keys, SSH-konfiguration og sudoers er uændrede. KEY-OK er indtastet ved sikkerhedsstoppet, og sudo-politikken er de tre forventede kommandoer. (Udsnit af terminal-screenshot.)*
 
 #### Hvad viser denne del af genkørslen?
 
@@ -770,21 +770,21 @@ Pakkens advarsel om hele authorized_keys er et designvilkår, ikke en fejl i den
 
 <a id="figur-6-13"></a>
 
-![Figur 6.13: UFW-kildereglen findes allerede; kun TCP/22 fra 10.0.2.2 står som eksplicit brugerregel. Monitor-script og monitor.conf er uændrede. (Udsnit af uploadet screenshot.)](../evidence/06-scripting/figur-6-13.png)
+![Figur 6.13: UFW-kildereglen findes allerede; kun TCP/22 fra 10.0.2.2 står som eksplicit brugerregel. Monitor-script og monitor.conf er uændrede. (Udsnit af terminal-screenshot.)](../evidence/06-scripting/figur-6-13.png)
 
-*Figur 6.13. UFW-kildereglen findes allerede; kun TCP/22 fra 10.0.2.2 står som eksplicit brugerregel. Monitor-script og monitor.conf er uændrede. (Udsnit af uploadet screenshot.)*
+*Figur 6.13. UFW-kildereglen findes allerede; kun TCP/22 fra 10.0.2.2 står som eksplicit brugerregel. Monitor-script og monitor.conf er uændrede. (Udsnit af terminal-screenshot.)*
 
 <a id="figur-6-14"></a>
 
-![Figur 6.14: Cronfilen er uændret; cron, logrotate og rsyslog er aktive. En ny monitor-måling tilføjes uden at slette loghistorik. (Udsnit af uploadet screenshot.)](../evidence/06-scripting/figur-6-14.png)
+![Figur 6.14: Cronfilen er uændret; cron, logrotate og rsyslog er aktive. En ny monitor-måling tilføjes uden at slette loghistorik. (Udsnit af terminal-screenshot.)](../evidence/06-scripting/figur-6-14.png)
 
-*Figur 6.14. Cronfilen er uændret; cron, logrotate og rsyslog er aktive. En ny monitor-måling tilføjes uden at slette loghistorik. (Udsnit af uploadet screenshot.)*
+*Figur 6.14. Cronfilen er uændret; cron, logrotate og rsyslog er aktive. En ny monitor-måling tilføjes uden at slette loghistorik. (Udsnit af terminal-screenshot.)*
 
 <a id="figur-6-15"></a>
 
-![Figur 6.15: Netplan er allerede konfigureret og genindlæses ikke. Den installerede healthcheck og dens konfiguration er også uændrede. (Udsnit af uploadet screenshot.)](../evidence/06-scripting/figur-6-15.png)
+![Figur 6.15: Netplan er allerede konfigureret og genindlæses ikke. Den installerede healthcheck og dens konfiguration er også uændrede. (Udsnit af terminal-screenshot.)](../evidence/06-scripting/figur-6-15.png)
 
-*Figur 6.15. Netplan er allerede konfigureret og genindlæses ikke. Den installerede healthcheck og dens konfiguration er også uændrede. (Udsnit af uploadet screenshot.)*
+*Figur 6.15. Netplan er allerede konfigureret og genindlæses ikke. Den installerede healthcheck og dens konfiguration er også uændrede. (Udsnit af terminal-screenshot.)*
 
 De lange Logrotate-udskrifter i råmaterialet er debug-validering, ikke tvungne rotationer. De er ikke gengivet i fuld længde, fordi de gentager kontrol af systemets øvrige logregler. I genkørslen vises også, at SecureBase-rotationsfilen er uændret.
 
@@ -794,9 +794,9 @@ Monitoren skriver en ny datalinje ved apply. Det er forventet driftsoutput og ik
 
 <a id="figur-6-16"></a>
 
-![Figur 6.16: Anden kørsel afsluttes med 19 OK, 1 WARN, 0 FAIL og Aendrede administrerede filer i denne koersel: 0. En ny deployment-log er oprettet; førstegangsbackups bevares. (Udsnit af uploadet screenshot.)](../evidence/06-scripting/figur-6-16.png)
+![Figur 6.16: Anden kørsel afsluttes med 19 OK, 1 WARN, 0 FAIL og Aendrede administrerede filer i denne koersel: 0. En ny deployment-log er oprettet; førstegangsbackups bevares. (Udsnit af terminal-screenshot.)](../evidence/06-scripting/figur-6-16.png)
 
-*Figur 6.16. Anden kørsel afsluttes med 19 OK, 1 WARN, 0 FAIL og Aendrede administrerede filer i denne koersel: 0. En ny deployment-log er oprettet; førstegangsbackups bevares. (Udsnit af uploadet screenshot.)*
+*Figur 6.16. Anden kørsel afsluttes med 19 OK, 1 WARN, 0 FAIL og Aendrede administrerede filer i denne koersel: 0. En ny deployment-log er oprettet; førstegangsbackups bevares. (Udsnit af terminal-screenshot.)*
 
 #### Idempotensbevisets rækkevidde
 
@@ -859,13 +859,13 @@ sudo /usr/local/sbin/securebase-healthcheck
 
 Healthcheck: 0 = PASS, 1 = WARN, 2 = FAIL. I denne test er WARN vurderet ud fra who/utmp-linjen og logind-outputtet. Private nøgler/passwords må ikke lægges i konfigurationen.
 
-Dette historiske afsnit beskriver den oprindelige test fra 17. september. Den nyere verifikation fra 18. september står i afsnittet om v1.2 ovenfor. Aktuelle website- og kodetests står i [TESTRESULTATER.md](TESTRESULTATER.md).
+Dette historiske afsnit beskriver den oprindelige test fra 17. september. Den nyere verifikation fra 18. september står i afsnittet om v1.2 ovenfor. Supplerende kontroller beskrives i [testplanen](TESTPLAN.md).
 
 ### 17. Kildekode og scriptoversigt
 
 Alle Modul 6-scripts afleveres som kildefiler under `scripts/`. De er kommenteret i selve kildekoden, og den eksplicitte kørselsvejledning står både i afsnittet ovenfor og i [scripts/README.md](../scripts/README.md). Rapportens kodeudsnit erstatter ikke kildefilerne.
 
-Leverancen omfatter orkestrator, healthcheck, monitor, fælles bibliotek, ni moduler, fire hjælpeværktøjer og den historiske Modul 5-monitor. Interne moduler er bevidst dokumenteret som **ikke-direkte**: de får konfiguration, fejlhåndtering og rækkefølge fra `scripts/setup.sh`.
+Koden omfatter orkestrator, healthcheck, monitor, fælles bibliotek, ni moduler, fire hjælpeværktøjer og den historiske Modul 5-monitor. Interne moduler er bevidst dokumenteret som **ikke-direkte**: de får konfiguration, fejlhåndtering og rækkefølge fra `scripts/setup.sh`.
 
 Kildehenvisninger i Modul 6 angiver filnavne og funktioner. Figurer 6.1–6.18 og de 16 v1.2-beviser henviser til faktiske terminalkørsler og slutkontroller.
 
@@ -890,7 +890,7 @@ Healthcheckets ene advarsel er ikke fjernet fra materialet. Den viser begrænsni
 
 Genkørslen gælder samme labkonfiguration. Der er ikke vist en separat hash-diff af hele systemet, en ny fuld genstartstest eller drift på andre Ubuntu-/netværksmodeller. Projektets eksisterende filer migreres ikke rekursivt; pakken understøtter ikke generelt alle serveropsætninger.
 
-Grundlag for kravene: Linux 101.pdf, Modul 6, side 7–8. Den inkluderede lokale testsuite-rapport dokumenterer 20 tidligere container-tests; VM-beviserne i dette modul er en anden og efterfølgende testfase.
+Kravgrundlag: Linux 101.pdf, Modul 6, side 7–8. Lokale kodetests og de dokumenterede VM-kørsler er forskellige kontroller.
 
 ### 19. Afsluttende konklusion – Modul 1–6
 
@@ -919,7 +919,7 @@ Den manuelle opsætning og deploymentet er ikke identiske i alle implementerings
 
 #### Aflevering
 
-Aflever denne samlede Word-rapport sammen med deployment-arkivet. Rapporten dokumenterer forløbet og resultaterne; arkivet indeholder de kommenterede scripts, konfigurationseksempel, public key og kørselsvejledning. Den private SSH-nøgle indgår ikke i materialet.
+Afleveringen samler rapport, kommenterede scripts, konfigurationsskabelon og testbeviser. Den private SSH-nøgle indgår ikke.
 
 Endelig status: De planlagte moduler og de viste tests er gennemført. Den dokumenterede who/utmp-advarsel og løsningens lab-afgrænsninger er bevaret som en del af en præcis beskrivelse af, hvad kontrollen viser.
 
@@ -932,10 +932,10 @@ ISO-installation og VirtualBox-forwarding ligger uden for serverens Bash-script.
 - [`scripts/modules/00-preflight.sh`](../scripts/modules/00-preflight.sh)
 
 - [Orkestrator](../scripts/setup.sh) · [Healthcheck](../scripts/healthcheck.sh) · [Monitor](../scripts/monitor.sh)
-- [Kørselsvejledning](DEPLOYMENT.md) · [Testplan](TESTPLAN.md) · [Historisk VM-test](VM_TEST_REPORT.md) · [Lokale tests](TESTRESULTATER.md)
+- [Kørselsvejledning](DEPLOYMENT.md) · [Testplan](TESTPLAN.md) · [VM-testrapport](VM_TEST_REPORT.md)
 
 ### Kildegrundlag
 
-[Samlet Word-rapport, uændret kopi](../reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx). Figurnumrene svarer til rapporten; i Modul 1–2 er modulnummeret tilføjet for entydighed. Kommandoer er dokumentation af det viste forløb, ikke en opfordring til at genkøre alle historiske trin på den færdige server.
+[Samlet Word-rapport](../reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx). Figurnumrene svarer til rapporten; i Modul 1–2 er modulnummeret tilføjet for entydighed. Kommandoerne dokumenterer de viste testtrin; ved en ny installation bruges deploymentvejledningen.
 
 [← Overblik](../README.md) · [Forrige modul](05-monitorering.md)

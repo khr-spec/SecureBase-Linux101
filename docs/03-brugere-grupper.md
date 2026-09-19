@@ -45,9 +45,9 @@ getent group admins developers guests
 
 <a id="figur-3-2"></a>
 
-![Figur 3.2: Rollegrupperne admins, developers og guests er oprettet med GID 1004, 1005 og 1006. Udsnit af det uploadede terminalbillede.](../evidence/03-brugere-grupper/figur-3-02.png)
+![Figur 3.2: Rollegrupperne admins, developers og guests er oprettet med GID 1004, 1005 og 1006. Udsnit af terminalbilledet.](../evidence/03-brugere-grupper/figur-3-02.png)
 
-*Figur 3.2. Rollegrupperne admins, developers og guests er oprettet med GID 1004, 1005 og 1006. Udsnit af det uploadede terminalbillede.*
+*Figur 3.2. Rollegrupperne admins, developers og guests er oprettet med GID 1004, 1005 og 1006. Udsnit af terminalbilledet.*
 
 De to brugere developer1 og guest1 blev oprettet med adduser. Derefter blev kontiene tilknyttet deres respektive rollegrupper; resultatet er dokumenteret med id og et uddrag af /etc/group nedenfor.
 
@@ -182,9 +182,9 @@ sudo -u guest1 cat /srv/securebase/rolletest.txt
 
 <a id="figur-3-9"></a>
 
-![Figur 3.9: Gæsten læser begge linjer. Skrivning til rolletest.txt og oprettelse af guest-test.txt afvises. Den afsluttende læsning viser uændret indhold. Udsnit af det uploadede billede.](../evidence/03-brugere-grupper/figur-3-09.png)
+![Figur 3.9: Gæsten læser begge linjer. Skrivning til rolletest.txt og oprettelse af guest-test.txt afvises. Den afsluttende læsning viser uændret indhold. Udsnit af terminalbilledet.](../evidence/03-brugere-grupper/figur-3-09.png)
 
-*Figur 3.9. Gæsten læser begge linjer. Skrivning til rolletest.txt og oprettelse af guest-test.txt afvises. Den afsluttende læsning viser uændret indhold. Udsnit af det uploadede billede.*
+*Figur 3.9. Gæsten læser begge linjer. Skrivning til rolletest.txt og oprettelse af guest-test.txt afvises. Den afsluttende læsning viser uændret indhold. Udsnit af terminalbilledet.*
 
 | Handling som guest1 | Faktisk resultat | Hvad testen dokumenterer |
 | --- | --- | --- |
@@ -376,6 +376,6 @@ Eksisterende projektgruppe og SGID blev bevaret frem for at flytte alt til en ny
 
 ### Kildegrundlag
 
-[Samlet Word-rapport, uændret kopi](../reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx). Figurnumrene svarer til rapporten; i Modul 1–2 er modulnummeret tilføjet for entydighed. Kommandoer er dokumentation af det viste forløb, ikke en opfordring til at genkøre alle historiske trin på den færdige server.
+[Samlet Word-rapport](../reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx). Figurnumrene svarer til rapporten; i Modul 1–2 er modulnummeret tilføjet for entydighed. Kommandoerne dokumenterer de viste testtrin; ved en ny installation bruges deploymentvejledningen.
 
 [← Overblik](../README.md) · [Forrige modul](02-filsystem.md) · [Næste modul](04-firewall.md)

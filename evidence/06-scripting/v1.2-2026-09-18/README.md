@@ -4,7 +4,7 @@
 
 Denne mappe indeholder **16 nye screenshots** fra v1.2-testen. De oprindelige 18 Modul 6-figurer fra 17. september og de øvrige Word-figurer ligger fortsat på deres eksisterende stier.
 
-Billederne er kopieret uændret fra de uploads, der indgik i det nye testforløb: ingen beskæring, sammenskrivning eller ændring af terminaloutput. [index.json](index.json) registrerer kildefilnavn, dimensioner og SHA-256 for hvert billede. Det er filproveniens, ikke en signeret attest fra VM'en.
+Billederne er kopieret uændret fra screenshots fra VM-testen: ingen beskæring, sammenskrivning eller ændring af terminaloutput. [index.json](index.json) registrerer kildefilnavn, dimensioner og SHA-256 for hvert billede. Det er filproveniens, ikke en signeret attest fra VM'en.
 
 **Testgrundlag:** repo-udgave 1.2.0, Git-reference `54734b9` fra arbejdsforløbet; arkivet hed `SecureBase-Linux101-v1.2-test.zip`. VM'en modtog et arkiv uden `.git`. En særskilt sammenligning af arkivets hash med Git-committen er ikke vist i screenshots.
 

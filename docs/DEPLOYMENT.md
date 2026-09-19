@@ -1,8 +1,8 @@
-# Deployment — SecureBase 1.3.1
+# Deployment — SecureBase 1.3.2
 
 [Overblik](../README.md) · [Modul 6 og VM-beviser](06-scripting.md) · [Testplan](TESTPLAN.md)
 
-Afleveringsudgave **1.3.1** bevarer den testede **repo 1.2-scriptstruktur**, som blev afprøvet på en frisk Ubuntu Server 26.04.1-VM den 18. september 2026. Programmerne ligger under scripts/, mens lokal config.env og keys/ ligger i repo-roden. De [nye testbeviser](VM_TEST_REPORT.md) er adskilt fra de historiske Modul 6-billeder med setup.sh i roden.
+Programmerne ligger under `scripts/`; lokal `config.env` og `keys/` ligger i repo-roden. Det verificerede servergrundlag og dets begrænsninger fremgår af [VM-testrapporten](VM_TEST_REPORT.md).
 
 ## 1. Forudsætninger og ansvar
 
@@ -23,7 +23,7 @@ Bootstrap-kontoen skal allerede eksistere, have fungerende lokalt password og v�
 
 Forwarding konfigureres på Windows-værten, ikke inde i Ubuntu. Kører den gamle VM samtidig med samme hostport, bruges eksempelvis 2223 til test-VM'en; ret SSH-klientkommandoen tilsvarende. Guest-porten er stadig 22.
 
-keys/secureadmin.pub indeholder Kaspers **offentlige** Ed25519-nøgle. Udskift den med den ønskede administrators public key før et nyt deployment. Den private nøgle må aldrig lægges i repoet eller overføres til serveren.
+keys/secureadmin.pub indeholder den **offentlige** Ed25519-nøgle anvendt i labbet. Udskift den med den ønskede administrators public key før et nyt deployment. Den private nøgle må aldrig lægges i repoet eller overføres til serveren.
 
 Setup administrerer hele admin-kontoens authorized_keys. Eksisterende indhold sikkerhedskopieres første gang og kan blive erstattet. Det er ikke automatisk multi-key-rotation. Serverens egne hostnøgler er en anden kategori; eksisterende hostidentitet bevares.
 
@@ -32,18 +32,18 @@ Setup administrerer hele admin-kontoens authorized_keys. Eksisterende indhold si
 Websitets downloadsektion tilbyder en komplet kildepakke uden `.git` eller lokal `config.env`. På en frisk Ubuntu-konsol med internet kan den hentes uden eksisterende SSH:
 
 ```bash
-wget https://khr-spec.github.io/SecureBase-Linux101/downloads/SecureBase-1.3.1.zip
+wget https://khr-spec.github.io/SecureBase-Linux101/downloads/SecureBase-1.3.2.zip
 # Installer unzip, hvis det ikke allerede findes:
 sudo apt-get update
 sudo apt-get install -y unzip
-unzip SecureBase-1.3.1.zip
+unzip SecureBase-1.3.2.zip
 cd SecureBase-Linux101
 sha256sum -c SHA256SUMS
 ```
 
-Downloadadressen bliver først aktiv, når 1.3.1-websitet er publiceret. Dette er en ny overførselsvejledning, ikke et ekstra historisk VM-testbevis. De dokumenterede tests brugte midlertidig HTTP fra Windows. Indholdet i source-arkivet vælges eksplicit af websitebyggeren; lokal konfiguration og `.git` følger ikke med.
+Kildearkivet indeholder ikke `.git` eller lokal `config.env`. De dokumenterede VM-tests anvendte HTTP-overførsel fra Windows; HTTPS-downloaden ovenfor er vejledning til nye installationer.
 
-En alternativ vej er at klone repoet, når det er offentligt, med Git installeret:
+Med Git installeret kan projektet også hentes som et klon:
 
 ```bash
 git clone https://github.com/khr-spec/SecureBase-Linux101.git
@@ -149,23 +149,16 @@ diff -u ~/securebase-before.txt ~/securebase-after.txt
 
 Denne manifestdiff er en foreslået test, ikke en påstået historisk VM-kørsel. Logs og målinger ændres normalt; pakkeversioner er ikke pinned. Idempotens gælder den ønskede konfiguration, ikke en bit-identisk disk.
 
-## 7. Monitor og lokale tests
-
-Kør nedenstående tests på Linux med Bash og Python 3. Websitekontroller kræver desuden pakkerne i requirements-site.txt. Windows kan køre dokumentationskontrollerne; Linux-/root-specifikke tests kan blive sprunget over.
+## 7. Monitor og efterprøvning
 
 ```bash
-# Læsende måling; ingen produktionslog eller warning:
+# Læsende måling uden logskrivning eller journal-warning:
 bash scripts/monitor.sh --sample
-# Isolerede grænseværdier:
+# Isoleret kontrol af grænseværdier:
 bash scripts/monitor.sh --self-test
-# Tests af kode, stier og repo (ingen apply mod /etc):
-python3 -m pip install -r requirements-site.txt
-python3 -m unittest discover -s tests -v
 ```
 
-To af de eksisterende filmetadata-tests kræver root på Linux og bliver ellers sprunget over. Kørslen med root er kun til et kontrolleret testmiljø; den udfører ikke deploymentet. De øvrige tests skal stadig bestå. Websitetests udfører ingen ændring af den installerede server.
-
-Den aktive monitor bruger /proc/stat-delta over cirka ét sekund, MemAvailable fra /proc/meminfo og df på /. Den manuelle top/free-version fra Modul 5 ligger kun som historik og installeres ikke.
+Den aktive monitor bruger `/proc/stat`-delta over cirka ét sekund, `MemAvailable` fra `/proc/meminfo` og `df` på `/`. Den tidligere `top`/`free`-version er kun historisk dokumentation og installeres ikke. Se [testplanen](TESTPLAN.md) for den samlede efterprøvning.
 
 ## 8. Backup og afgrænsning
 
@@ -173,4 +166,4 @@ Fejlstop er ikke en fuld transaktion. Tidligere moduler kan være udført, hvis 
 
 UFW bevarer sine indbyggede regler og accepterer kun den specificerede SSH-brugerregel; ukendte regler stoppes til manuel vurdering. Eksisterende projektfiler omskrives ikke rekursivt. Logrotate gælder monitorloggen, ikke en ny størrelsespolitik for hele journalen.
 
-[Aktuelle v1.2-VM-resultater](VM_TEST_REPORT.md), [historisk VM-test](VM_TEST_REPORT_2026-09-17.md) og [lokale tests](TESTRESULTATER.md) holdes adskilt. Brug regressionstestplanen efter fremtidige kodeændringer.
+[Aktuelle v1.2-VM-resultater](VM_TEST_REPORT.md), [historisk VM-test](VM_TEST_REPORT_2026-09-17.md) beskriver gennemførte kørsler. [Testplanen](TESTPLAN.md) bruges ved efterfølgende ændringer.

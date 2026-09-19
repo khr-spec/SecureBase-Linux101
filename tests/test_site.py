@@ -83,7 +83,7 @@ class SiteTests(unittest.TestCase):
         self.assertIn('19 OK   1 WARN   0 FAIL',module)
         self.assertIn('19 OK   1 WARN   0 FAIL',guide)
 
-    def test_word_download_is_original(self):
+    def test_word_download_matches_release(self):
         original=ROOT/'reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx'
         download=self.output/'downloads/SecureBase-Linux101-Dokumentation.docx'
         self.assertEqual(original.read_bytes(),download.read_bytes())
@@ -131,7 +131,7 @@ class SiteTests(unittest.TestCase):
         self.assertIn('ikke en sikkerhedscertificering',text(self.output/'index.html'))
 
     def test_version_and_source_date_are_distinct(self):
-        self.assertEqual(text(ROOT/'VERSION').strip(),'1.3.1')
+        self.assertEqual(text(ROOT/'VERSION').strip(),'1.3.2')
         self.assertIn('SecureBase 1.2',text(ROOT/'scripts/setup.sh'))
         self.assertIn('1.3',text(ROOT/'docs/GRUNDLAG.md'))
 

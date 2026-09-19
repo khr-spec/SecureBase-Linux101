@@ -313,7 +313,7 @@ Kontrollen skelner mellem en firewallregel og en kørende service. Sletningen fj
 | --- | --- |
 | Python på TCP/8080 | Ingen lytter på testporten i den afsluttende ss-kontrol. |
 | UFW-undtagelsen til 8080 | Slettet; kun SSH-reglen vises i status numbered. |
-| VirtualBox WEB-test-forward | Der er ikke uploadet bevis for sletning af denne værtsregel. Rapporten markerer derfor ikke dette som udført. |
+| VirtualBox WEB-test-forward | Sletning af denne værtsregel er ikke dokumenteret. |
 
 **Sikkerhedsbegrundelse:** En midlertidig tjeneste skal ikke efterlade en permanent UFW-undtagelse. Oprydningen er dokumenteret på Ubuntu-siden; den midlertidige VirtualBox-forward bør også fjernes, hvis den stadig findes og ikke længere skal bruges.
 
@@ -380,6 +380,6 @@ En webservice var kun nødvendig til testen. Den blev ikke gjort til en permanen
 
 ### Kildegrundlag
 
-[Samlet Word-rapport, uændret kopi](../reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx). Figurnumrene svarer til rapporten; i Modul 1–2 er modulnummeret tilføjet for entydighed. Kommandoer er dokumentation af det viste forløb, ikke en opfordring til at genkøre alle historiske trin på den færdige server.
+[Samlet Word-rapport](../reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx). Figurnumrene svarer til rapporten; i Modul 1–2 er modulnummeret tilføjet for entydighed. Kommandoerne dokumenterer de viste testtrin; ved en ny installation bruges deploymentvejledningen.
 
 [← Overblik](../README.md) · [Forrige modul](03-brugere-grupper.md) · [Næste modul](05-monitorering.md)

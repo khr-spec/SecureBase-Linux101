@@ -1,6 +1,6 @@
 # Primære tekniske referencer
 
-Design og kildekode er skrevet til dette SecureBase-forløb. Kravgrundlag: den i samtalen udleverede Linux 101-opgave, Modul 6, side 7–8. De følgende offentlige manualer blev konsulteret ved implementeringen; de dokumenterer værktøjernes mekanismer. Den aktuelle v1.2-teststatus fra 18. september 2026 dokumenteres i [VM_TEST_REPORT.md](VM_TEST_REPORT.md) med [nye screenshots](../evidence/06-scripting/v1.2-2026-09-18/README.md). Word-rapportens Modul 6 og [den historiske testrapport](VM_TEST_REPORT_2026-09-17.md) dokumenterer det oprindelige forløb fra 17. september.
+Kravgrundlag: den udleverede Linux 101-opgave, Modul 6, side 7–8. De følgende offentlige manualer blev konsulteret ved implementeringen; de dokumenterer værktøjernes mekanismer. Den aktuelle v1.2-teststatus fra 18. september 2026 dokumenteres i [VM_TEST_REPORT.md](VM_TEST_REPORT.md) med [nye screenshots](../evidence/06-scripting/v1.2-2026-09-18/README.md). Word-rapportens Modul 6 og [den historiske testrapport](VM_TEST_REPORT_2026-09-17.md) dokumenterer det oprindelige forløb fra 17. september.
 
 - OpenSSH sshd: konfigurationstest, effektiv konfiguration og hostnøgler. https://man.openbsd.org/sshd
 - OpenSSH sshd_config: public key, UsePAM, direktivernes prioritet og Includes. https://man.openbsd.org/sshd_config
@@ -15,13 +15,4 @@ Design og kildekode er skrevet til dette SecureBase-forløb. Kravgrundlag: den i
 
 Pakke- og kommandoversioner kan variere mellem Ubuntu-udgivelser. Deploymentet stopper derfor uden for 26.04 og validerer den installerede servers konfiguration med dens egne værktøjer. Et korrekt svar fra en valideringskommando er ikke i sig selv et end-to-end-loginbevis.
 
-
-## GitHub-omstrukturering (18. september 2026)
-
-De følgende referencer vedrører kun de nye Git-/Markdown-valg, ikke historiske VM-beviser:
-
-- [GitHub: README, relative links og billedstier](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes)
-- [Git: .gitattributes og linjeskift](https://git-scm.com/docs/gitattributes)
-- [Git: update-index og --chmod](https://git-scm.com/docs/git-update-index)
-
-Kilde-/versionsafgrænsning og billedproveniens findes i [GRUNDLAG.md](GRUNDLAG.md).
+[Kilde- og testgrundlag](GRUNDLAG.md).

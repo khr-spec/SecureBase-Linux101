@@ -2,72 +2,45 @@
 
 ## [Åbn den visuelle aflevering →](https://khr-spec.github.io/SecureBase-Linux101/)
 
-**Seks moduler. Én dokumenteret server. Fra manuel opsætning til reproducerbart deployment.**
+**Kasper · Ubuntu Server 26.04.1 LTS · Modul 1–6**
 
-Afleveringen kan læses direkte på GitHub Pages: alle moduler, 103 screenshots, VM-verifikation og download af den samlede Word-rapport. Dette repo indeholder kildekoden og den Markdown-dokumentation, som websitet bygges fra.
+SecureBase dokumenterer en Linux-server fra manuel grundopsætning til reproducerbart deployment. Projektet omfatter nøglebaseret SSH, rollebaseret adgang, firewall, monitorering og Bash-automatisering.
 
-| Dokumentation | Fokus |
+## Dokumentation
+
+| Modul | Indhold |
 |---|---|
 | [01 · VM og netværk](docs/01-vm-netvaerk.md) | Ubuntu Server, statisk IP og nøglebaseret SSH |
 | [02 · Filsystem og adgang](docs/02-filsystem.md) | Filrettigheder, SGID og midlertidig ACL |
 | [03 · Brugere og grupper](docs/03-brugere-grupper.md) | Adskilte roller og begrænset sudo |
 | [04 · Firewall](docs/04-firewall.md) | Default deny, kildebegrænsning og HTTP-test |
-| [05 · Monitorering](docs/05-monitorering.md) | Cron, logrotation, loginanalyse og thresholds |
-| [06 · Shell og Bash](docs/06-scripting.md) | Fresh-install-test, healthcheck og idempotens |
+| [05 · Monitorering](docs/05-monitorering.md) | Cron, logrotation, loginanalyse og grænseværdier |
+| [06 · Shell og Bash](docs/06-scripting.md) | Scripts, kørselsvejledning, healthcheck og idempotens |
 
-## Verificeret servergrundlag
+## Verificeret resultat
 
-Ubuntu Server 26.04.1 LTS blev testet i VirtualBox den **18. september 2026** med deployment-koden fra 1.2. Første apply rapporterede **12 ændrede administrerede filer**, anden apply **0**. Healthcheck kaldt af setup viste **19 OK / 1 WARN / 0 FAIL**. Advarslen vedrører `who`/utmp; logind viste sessionerne. Det er en vurderet WARN, ikke et ubetinget PASS.
+Deploymentet blev afprøvet på en frisk Ubuntu Server-VM den **18. september 2026**. Første kørsel rapporterede **12 ændrede administrerede filer**; genkørslen rapporterede **0**. Healthcheck viste **19 OK / 1 WARN / 0 FAIL**. Advarslen skyldes tomt `who`/utmp-output; `systemd-logind` viste de aktive sessioner.
 
-**1.3.1 er afleveringsudgaven med eksplicit Modul 6-scriptdokumentation.** Alle 18 scriptfiler under `scripts/` har nu topkommentarer med formål og kørsel, og Modul 6 indeholder en fil-for-fil-kørselsoversigt samt faktisk eksempeloutput fra `healthcheck.sh`. Kun kommentarlinjer er tilføjet til de verificerede deployment-scripts; den eksekverbare logik matcher fortsat den afprøvede 1.2-reference. [Scriptvejledning](scripts/README.md) · [Testgrundlag](docs/VM_TEST_REPORT.md) · [Versionsafgrænsning](docs/GRUNDLAG.md).
+[VM-testrapport](docs/VM_TEST_REPORT.md) · [103 billedbeviser](evidence/README.md) · [Samlet Word-rapport](reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx)
 
-## Deployment
+## Kørsel
 
-Læs [deploymentvejledningen](docs/DEPLOYMENT.md) først. Brug en understøttet test-VM, lokal bootstrap-/sudo-adgang og et snapshot. Tilpas `config.env` og **udskift eksempel-public-key med din egen** før apply.
+Læs [deploymentvejledningen](docs/DEPLOYMENT.md) først. Brug en understøttet test-VM, lokal bootstrap-/sudo-adgang og et snapshot. Tilpas konfigurationen og den offentlige SSH-nøgle før installation.
 
 ```bash
-# Fra repo-roden; overskriv ikke en eksisterende lokal konfiguration.
+# Fra repo-roden. Bevar en eksisterende lokal konfiguration.
 cp -n config/config.env.example config.env
 nano config.env
 sudo bash scripts/setup.sh --check
-# Først efter kontrolleret konsoladgang og gennemgang af planen:
+# Først efter gennemgang af planen og kontrol af konsoladgang:
 sudo bash scripts/setup.sh --apply --console-confirmed
 sudo bash scripts/healthcheck.sh
 ```
 
-Public-key-testen og en eventuel Netplan-test bekræftes i den oprindelige konsol. Ingen privat nøgle, password eller lokal `config.env` skal i Git. Bootstrap-kontoen bevarer fuld sudo; den daglige admin får kun tre eksakte SSH-driftskommandoer.
+[Scriptvejledningen](scripts/README.md) beskriver formål og kørsel for **alle 18 scripts**. Interne moduler køres gennem `setup.sh`, ikke enkeltvis. Private nøgler og lokal `config.env` hører ikke til i Git.
 
-## Kilder, drift og beviser
+## Videre drift og efterprøvning
 
-[VM-testrapport](docs/VM_TEST_REPORT.md) · [Regressionstestplan](docs/TESTPLAN.md) · [103 billedbeviser](evidence/README.md) · [Word-rapport](reports/SecureBase_Modul_1_2_3_4_5_6_DOKUMENTATION.docx) · [Tekniske kilder](docs/SOURCES.md)
+[Testplan](docs/TESTPLAN.md) · [Kilde- og testgrundlag](docs/GRUNDLAG.md) · [Tekniske referencer](docs/SOURCES.md) · [Ændringslog](CHANGELOG.md)
 
-Word-rapporten er den uændrede historiske rapport på 87 sider fra 17. september. Verifikationen fra 18. september står i Modul 6, VM-testrapporten og de 16 supplerende billeder.
-
-## Repository
-
-```text
-docs/       Faglig dokumentation og vejledninger — websitets indholdskilde
-evidence/   87 oprindelige figurer + 16 supplerende v1.2-beviser
-scripts/    Den testede Bash-deployment, monitor og healthcheck
-config/     Versioneret skabelon; config.env oprettes lokalt
-keys/       Eksempel på offentlig SSH-nøgle — ingen private nøgler
-reports/    Samlet historisk Word-rapport
-tests/      Isolerede kode-, dokumentations- og websitetests
-site/       Layout, CSS og JavaScript — ikke en kopi af moduldokumentationen
-tools/      Websitebygning, checksums og publiceringskontrol
-```
-
-## Website og vedligeholdelse
-
-GitHub Actions bygger alle sider fra Markdown og publicerer kun det genererede `_site/`. Dokumentationsændringer og nye screenshots kommer dermed med på websitet ved næste push. `START_HER.html` henviser til den publicerede aflevering.
-
-Brug et isoleret Python-miljø som beskrevet i websitevejledningen. Derefter:
-
-```bash
-python -m pip install -r requirements-site.txt
-python tools/build_site.py
-python tools/check_site.py
-python -m http.server 8000 --directory _site
-```
-
-[Websitevejledning](docs/WEBSITE.md) · [Publicering og privatliv](docs/PUBLICERING.md) · [Lokale testresultater](docs/TESTRESULTATER.md) · [Ændringslog](CHANGELOG.md)
+Version **1.3.2** samler den redigerede dokumentation; deploymentlogikken er uændret fra det verificerede servergrundlag.

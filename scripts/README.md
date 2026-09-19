@@ -11,7 +11,7 @@ Denne mappe er den komplette scriptleverance til Modul 6. **Alle 18 scriptfiler 
 | `scripts/setup.sh` | Orkestrerer preflight og deployment. | `sudo bash scripts/setup.sh --check` og efter gennemgang `sudo bash scripts/setup.sh --apply --console-confirmed` |
 | `scripts/healthcheck.sh` | Selvstændig, læsende slutkontrol. | `sudo bash scripts/healthcheck.sh` eller installeret `sudo /usr/local/sbin/securebase-healthcheck` |
 | `scripts/monitor.sh` | Ressourcemåling, thresholds og journal-warning. | Test: `bash scripts/monitor.sh --sample` og `bash scripts/monitor.sh --self-test`. Normal drift køres automatisk af cron efter installation. |
-| `scripts/tools/evidence.sh` | Valgfrit læsende konfigurationsmanifest. | `sudo bash scripts/tools/evidence.sh | tee securebase-evidence.txt` |
+| `scripts/tools/evidence.sh` | Valgfrit læsende konfigurationsmanifest. | `sudo bash scripts/tools/evidence.sh \| tee securebase-evidence.txt` |
 
 ## Interne deploymentmoduler
 
